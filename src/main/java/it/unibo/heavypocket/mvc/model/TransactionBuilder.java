@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import it.unibo.heavypocket.mvc.model.Tag;
-
 public interface TransactionBuilder {
 
     TransactionBuilder withId(UUID id);

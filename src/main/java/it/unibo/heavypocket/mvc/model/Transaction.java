@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import it.unibo.heavypocket.mvc.model.Tag;
-import it.unibo.heavypocket.mvc.model.TransactionBuilder;
-
 // @TODO updatte dopo aver creato TransactionBuilderImpl
 public interface Transaction {
 
