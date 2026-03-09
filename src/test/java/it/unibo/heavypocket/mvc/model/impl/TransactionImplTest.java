@@ -7,10 +7,15 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionBuilder;
+import main.java.it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
 
 public class TransactionImplTest {
 
@@ -19,8 +24,8 @@ public class TransactionImplTest {
     private static final BigDecimal NEGATIVE_AMOUNT = AMOUNT.negate();
     private static final String DESCRIPTION = "Test transaction";
     private static final LocalDate DATE = LocalDate.of(2026, 1, 1);
-    // private static final Tag TAG = new TagImpl("Test tag", "#000000");
-    private static final Tag TAG = "";
+    private static final Tag TAG_EXPENSE = TagEnumImpl.FOOD;
+    private static final Tag TAG_INCOME = TagEnumImpl.SALARY;
 
     private Transaction transaction;
 
@@ -31,7 +36,7 @@ public class TransactionImplTest {
                 .withDate(DATE)
                 .withDescription(DESCRIPTION)
                 .IsExpense(true)
-                .withTag(TAG)
+                .withTag(TAG_EXPENSE)
                 .build();
     }
 
@@ -43,7 +48,7 @@ public class TransactionImplTest {
         assertEquals(DATE, transaction.getDate());
         assertEquals(DESCRIPTION, transaction.getDescription());
         assertTrue(transaction.isExpense());
-        assertEquals(TAG, transaction.getTag());
+        assertEquals(TAG_EXPENSE, transaction.getTag());
     }
 
     @Test
@@ -54,7 +59,7 @@ public class TransactionImplTest {
                     .withDate(DATE)
                     .withDescription(DESCRIPTION)
                     .IsExpense(false)
-                    .withTag(TAG)
+                    .withTag(TAG_INCOME)
                     .build();
         });
     }
