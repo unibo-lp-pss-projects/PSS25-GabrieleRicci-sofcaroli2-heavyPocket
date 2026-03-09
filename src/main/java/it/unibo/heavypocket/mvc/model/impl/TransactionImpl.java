@@ -9,6 +9,8 @@ import it.unibo.heavypocket.mvc.model.Tag;
 
 public class TransactionImpl implements Transaction {
 
+    private static final String AMOUNT_ERROR_MESSAGE = "Amount must be positive and non-zero";
+
     private final UUID id;
     private final BigDecimal amount;
     private final LocalDate date;
@@ -25,6 +27,9 @@ public class TransactionImpl implements Transaction {
             final Tag tag) {
         // @TODO: validazione dei parametri
         this.id = id;
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException(AMOUNT_ERROR_MESSAGE);
+        }
         this.amount = amount;
         this.date = date;
         this.description = description;

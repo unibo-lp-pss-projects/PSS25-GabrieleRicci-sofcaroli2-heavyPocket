@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionBuilder;
-import main.java.it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
+import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
 
 public class TransactionImplTest {
 
@@ -32,6 +32,7 @@ public class TransactionImplTest {
     @BeforeEach
     public void setUp() {
         this.transaction = Transaction.builder()
+                .withId(ID)
                 .withAmount(AMOUNT)
                 .withDate(DATE)
                 .withDescription(DESCRIPTION)
@@ -55,6 +56,7 @@ public class TransactionImplTest {
     public void testTransactionAmountShouldBePositive() {
         assertThrows(IllegalArgumentException.class, () -> {
             Transaction.builder()
+                    .withId(ID)
                     .withAmount(BigDecimal.ZERO)
                     .withDate(DATE)
                     .withDescription(DESCRIPTION)
