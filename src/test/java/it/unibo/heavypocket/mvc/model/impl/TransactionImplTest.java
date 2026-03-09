@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import it.unibo.heavypocket.mvc.model.Tag;
@@ -19,7 +20,8 @@ import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
 
 public class TransactionImplTest {
 
-    private static final UUID ID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+    private static final UUID ID_EXPENSE = UUID.randomUUID();
+    private static final UUID ID_INCOME = UUID.randomUUID();
     private static final BigDecimal AMOUNT = new BigDecimal("100.00");
     private static final BigDecimal NEGATIVE_AMOUNT = AMOUNT.negate();
     private static final String DESCRIPTION = "Test transaction";
@@ -27,12 +29,21 @@ public class TransactionImplTest {
     private static final Tag TAG_EXPENSE = TagEnumImpl.FOOD;
     private static final Tag TAG_INCOME = TagEnumImpl.SALARY;
 
-    private Transaction transaction;
+    private Transaction income;
+    private Transaction expense;
 
     @BeforeEach
     public void setUp() {
-        this.transaction = Transaction.builder()
-                .withId(ID)
+        this.income = Transaction.builder()
+                .withId(ID_INCOME)
+                .withAmount(AMOUNT)
+                .withDate(DATE)
+                .withDescription(DESCRIPTION)
+                .IsExpense(false)
+                .withTag(TAG_INCOME)
+                .build();
+        this.expense = Transaction.builder()
+                .withId(ID_EXPENSE)
                 .withAmount(AMOUNT)
                 .withDate(DATE)
                 .withDescription(DESCRIPTION)
@@ -42,21 +53,32 @@ public class TransactionImplTest {
     }
 
     @Test
+    public void testExpenseAmount() {
+        assertEquals(NEGATIVE_AMOUNT, expense.getSignedAmount());
+    }
+
+    @Test
+    public void testIncomeAmount() {
+        assertEquals(AMOUNT, income.getSignedAmount());
+    }
+
+    @Test
     public void testTransactionCreation() {
-        assertNotNull(transaction);
-        assertEquals(ID, transaction.getId());
-        assertEquals(AMOUNT, transaction.getAmount());
-        assertEquals(DATE, transaction.getDate());
-        assertEquals(DESCRIPTION, transaction.getDescription());
-        assertTrue(transaction.isExpense());
-        assertEquals(TAG_EXPENSE, transaction.getTag());
+        assertNotNull(income);
+        assertEquals(ID_INCOME, income.getId());
+        assertEquals(AMOUNT, income.getAmount());
+        assertEquals(DATE, income.getDate());
+        assertEquals(DESCRIPTION, income.getDescription());
+        assertFalse(income.isExpense());
+        assertTrue(expense.isExpense());
+        assertEquals(TAG_INCOME, income.getTag());
     }
 
     @Test
     public void testTransactionAmountShouldBePositive() {
         assertThrows(IllegalArgumentException.class, () -> {
             Transaction.builder()
-                    .withId(ID)
+                    .withId(ID_INCOME)
                     .withAmount(BigDecimal.ZERO)
                     .withDate(DATE)
                     .withDescription(DESCRIPTION)
@@ -64,10 +86,5 @@ public class TransactionImplTest {
                     .withTag(TAG_INCOME)
                     .build();
         });
-    }
-
-    @Test
-    public void testExpenseAmount() {
-        assertEquals(NEGATIVE_AMOUNT, transaction.getSignedAmount());
     }
 }

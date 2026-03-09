@@ -3,13 +3,19 @@ package it.unibo.heavypocket.mvc.model.impl;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
+import static java.util.Objects.requireNonNull;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
 
 public class TransactionImpl implements Transaction {
 
-    private static final String AMOUNT_ERROR_MESSAGE = "Amount must be positive and non-zero";
+    private static final String ID_ERROR_MESSAGE = "ID cannot be null";
+    private static final String NULL_AMOUNT_ERROR_MESSAGE = "Amount cannot be null";
+    private static final String NEGATIVE_AMOUNT_ERROR_MESSAGE = "Amount must be positive and non-zero";
+    private static final String DATE_ERROR_MESSAGE = "Date cannot be null";
+    private static final String DESCRIPTION_ERROR_MESSAGE = "Description cannot be null or blank";
+    private static final String TAG_ERROR_MESSAGE = "Tag cannot be null";
 
     private final UUID id;
     private final BigDecimal amount;
@@ -25,16 +31,19 @@ public class TransactionImpl implements Transaction {
             final String description,
             final boolean expense,
             final Tag tag) {
-        // @TODO: validazione dei parametri
-        this.id = id;
+        this.id = requireNonNull(id, ID_ERROR_MESSAGE);
+        requireNonNull(amount, NULL_AMOUNT_ERROR_MESSAGE);
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException(AMOUNT_ERROR_MESSAGE);
+            throw new IllegalArgumentException(NEGATIVE_AMOUNT_ERROR_MESSAGE);
         }
         this.amount = amount;
-        this.date = date;
+        this.date = requireNonNull(date, DATE_ERROR_MESSAGE);
+        if(description == null || description.isBlank()) {
+            throw new IllegalArgumentException(DESCRIPTION_ERROR_MESSAGE);
+        }
         this.description = description;
         this.expense = expense;
-        this.tag = tag;
+        this.tag = requireNonNull(tag, TAG_ERROR_MESSAGE);
     }
 
     @Override
