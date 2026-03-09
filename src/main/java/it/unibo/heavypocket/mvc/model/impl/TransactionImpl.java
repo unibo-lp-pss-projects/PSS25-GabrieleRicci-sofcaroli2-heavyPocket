@@ -8,7 +8,7 @@ import static java.util.Objects.requireNonNull;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
 
-public class TransactionImpl implements Transaction {
+public final class TransactionImpl implements Transaction {
 
     private static final String ID_ERROR_MESSAGE = "ID cannot be null";
     private static final String NULL_AMOUNT_ERROR_MESSAGE = "Amount cannot be null";
@@ -38,7 +38,7 @@ public class TransactionImpl implements Transaction {
         }
         this.amount = amount;
         this.date = requireNonNull(date, DATE_ERROR_MESSAGE);
-        if(description == null || description.isBlank()) {
+        if (description == null || description.isBlank()) {
             throw new IllegalArgumentException(DESCRIPTION_ERROR_MESSAGE);
         }
         this.description = description;

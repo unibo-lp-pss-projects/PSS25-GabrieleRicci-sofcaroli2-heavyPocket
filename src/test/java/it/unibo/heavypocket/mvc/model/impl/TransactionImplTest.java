@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,10 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.model.TransactionBuilder;
-import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
 
-public class TransactionImplTest {
+public final class TransactionImplTest {
 
     private static final UUID ID_EXPENSE = UUID.randomUUID();
     private static final UUID ID_INCOME = UUID.randomUUID();
@@ -39,7 +36,7 @@ public class TransactionImplTest {
                 .withAmount(AMOUNT)
                 .withDate(DATE)
                 .withDescription(DESCRIPTION)
-                .IsExpense(false)
+                .isExpense(false)
                 .withTag(TAG_INCOME)
                 .build();
         this.expense = Transaction.builder()
@@ -47,7 +44,7 @@ public class TransactionImplTest {
                 .withAmount(AMOUNT)
                 .withDate(DATE)
                 .withDescription(DESCRIPTION)
-                .IsExpense(true)
+                .isExpense(true)
                 .withTag(TAG_EXPENSE)
                 .build();
     }
@@ -82,7 +79,7 @@ public class TransactionImplTest {
                     .withAmount(BigDecimal.ZERO)
                     .withDate(DATE)
                     .withDescription(DESCRIPTION)
-                    .IsExpense(false)
+                    .isExpense(false)
                     .withTag(TAG_INCOME)
                     .build();
         });

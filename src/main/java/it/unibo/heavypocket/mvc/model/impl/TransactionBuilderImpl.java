@@ -8,7 +8,7 @@ import it.unibo.heavypocket.mvc.model.TransactionBuilder;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 
-public class TransactionBuilderImpl implements TransactionBuilder {
+public final class TransactionBuilderImpl implements TransactionBuilder {
 
     private UUID id;
     private BigDecimal amount;
@@ -45,7 +45,7 @@ public class TransactionBuilderImpl implements TransactionBuilder {
     }
 
     @Override
-    public TransactionBuilder IsExpense(final boolean expense) {
+    public TransactionBuilder isExpense(final boolean expense) {
         this.expense = expense;
         return this;
     }
@@ -57,8 +57,8 @@ public class TransactionBuilderImpl implements TransactionBuilder {
     }
 
     @Override
-    public TransactionImpl build() {
-        var transaction = new TransactionImpl(
+    public Transaction build() {
+        final Transaction transaction = new TransactionImpl(
                 this.id,
                 this.amount,
                 this.date,
