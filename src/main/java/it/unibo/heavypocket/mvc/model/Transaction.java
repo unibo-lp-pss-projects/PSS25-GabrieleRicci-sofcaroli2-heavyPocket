@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-// @TODO updatte dopo aver creato TransactionBuilderImpl
+import it.unibo.heavypocket.mvc.model.impl.TransactionBuilderImpl;
+
 public interface Transaction {
 
     UUID getId();
@@ -21,7 +22,7 @@ public interface Transaction {
 
     Tag getTag();
 
-    // static TransactionBuilder builder() {
-    //     return new TransactionBuilderImpl();
-    // }
+    static TransactionBuilder builder() {
+        return new TransactionBuilderImpl();
+    }
 }

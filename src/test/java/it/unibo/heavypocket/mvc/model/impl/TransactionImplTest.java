@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
+import it.unibo.heavypocket.mvc.model.TransactionBuilder;
 
 public class TransactionImplTest {
 
@@ -18,18 +19,18 @@ public class TransactionImplTest {
     private static final BigDecimal NEGATIVE_AMOUNT = AMOUNT.negate();
     private static final String DESCRIPTION = "Test transaction";
     private static final LocalDate DATE = LocalDate.of(2026, 1, 1);
-    private static final Tag TAG = new TagImpl("Test tag", "#000000");
+    // private static final Tag TAG = new TagImpl("Test tag", "#000000");
+    private static final Tag TAG = "";
 
     private Transaction transaction;
 
     @BeforeEach
     public void setUp() {
-        this.transaction = new TransactionBuilderImpl()
-                .withId(ID)
+        this.transaction = Transaction.builder()
                 .withAmount(AMOUNT)
                 .withDate(DATE)
                 .withDescription(DESCRIPTION)
-                .withIsExpense(true)
+                .IsExpense(true)
                 .withTag(TAG)
                 .build();
     }
@@ -48,12 +49,11 @@ public class TransactionImplTest {
     @Test
     public void testTransactionAmountShouldBePositive() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new TransactionBuilderImpl()
-                    .withId(ID)
+            Transaction.builder()
                     .withAmount(BigDecimal.ZERO)
                     .withDate(DATE)
                     .withDescription(DESCRIPTION)
-                    .withIsExpense(false)
+                    .IsExpense(false)
                     .withTag(TAG)
                     .build();
         });
@@ -63,5 +63,4 @@ public class TransactionImplTest {
     public void testExpenseAmount() {
         assertEquals(NEGATIVE_AMOUNT, transaction.getSignedAmount());
     }
-
 }
