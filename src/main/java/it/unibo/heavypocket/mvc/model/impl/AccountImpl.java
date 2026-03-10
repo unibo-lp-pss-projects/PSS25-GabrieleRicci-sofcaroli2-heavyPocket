@@ -10,9 +10,9 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Account;
 
 //@TODO controllare le eccezioni se sono da lanciare o no, se si quali
-public class AccountImpl implements Account {
+public final class AccountImpl implements Account {
 
-    private final List<Transaction> transactions;
+    private List<Transaction> transactions;
 
     public AccountImpl(final List<Transaction> transactions) {
         this.transactions = transactions;

@@ -5,9 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import it.unibo.heavypocket.mvc.model.Tag;
-import it.unibo.heavypocket.mvc.model.Transaction;
-
 public interface Account {
 
     List<Transaction> getTransactions();
@@ -16,7 +13,7 @@ public interface Account {
 
     void addTransaction(Transaction transaction);
 
-    void editTransaction(final UUID id, final Transaction newTransaction);
+    void editTransaction(UUID id, Transaction newTransaction);
 
     void deleteTransaction(Transaction transaction);
 

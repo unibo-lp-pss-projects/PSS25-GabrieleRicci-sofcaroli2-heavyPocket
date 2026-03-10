@@ -9,7 +9,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.model.Transaction;
 
-public class AccountControllerImpl implements AccountController {
+public final class AccountControllerImpl implements AccountController {
 
     // @TODO
     @Override
