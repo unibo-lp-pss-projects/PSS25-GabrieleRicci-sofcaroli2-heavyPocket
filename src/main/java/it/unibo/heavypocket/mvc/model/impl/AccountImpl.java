@@ -9,6 +9,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Account;
 
+//@TODO controllare le eccezioni se sono da lanciare o no, se si quali
 public class AccountImpl implements Account {
 
     private final List<Transaction> transactions;
@@ -29,23 +30,20 @@ public class AccountImpl implements Account {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // // @TODO
-    // @Override
-    // public void addTransaction(final Transaction transaction) {
-    // return;
-    // }
+    @Override
+    public void addTransaction(final Transaction transaction) {
+        transactions.add(transaction);
+    }
 
-    // // @TODO
-    // @Override
-    // public void editTransaction(final Transaction transaction) {
-    // return;
-    // }
+    @Override
+    public void editTransaction(UUID id, Transaction transaction) {
+        transactions.set(index, transaction);
+    }
 
-    // // @TODO
-    // @Override
-    // public void deleteTransaction(final Transaction transaction) {
-    // return;
-    // }
+    @Override
+    public void deleteTransaction(final Transaction transaction) {
+        transactions.remove(transaction);
+    }
 
     @Override
     public List<Transaction> searchByType(final boolean expense) {
