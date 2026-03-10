@@ -39,7 +39,7 @@ public class AccountImpl implements Account {
     public void editTransaction(final UUID id, final Transaction newTransaction) {
         this.transactions = transactions.stream()
                 .map(t -> t.getId().equals(id) ? newTransaction : t)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
