@@ -13,51 +13,58 @@ public class AccountImpl implements Account {
 
     private final List<Transaction> transactions;
 
-    // @TODO NB. ricordare di tornare una copia della lista, MAI l'originale!!
-    @Override
-    public void getTransactions() {
-        return;
+    public AccountImpl(final List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
-    // @TODO
     @Override
-    public void getTotalBalance() {
-        return;
+    public List<Transaction> getTransactions() {
+        return List.copyOf(this.transactions);
     }
 
-    // @TODO
     @Override
-    public void addTransaction(final Transaction transaction) {
-        return;
+    public BigDecimal getTotalBalance() {
+        return transactions.stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // @TODO
+    // // @TODO
+    // @Override
+    // public void addTransaction(final Transaction transaction) {
+    // return;
+    // }
+
+    // // @TODO
+    // @Override
+    // public void editTransaction(final Transaction transaction) {
+    // return;
+    // }
+
+    // // @TODO
+    // @Override
+    // public void deleteTransaction(final Transaction transaction) {
+    // return;
+    // }
+
     @Override
-    public void editTransaction(final Transaction transaction) {
-        return;
+    public List<Transaction> searchByType(final boolean expense) {
+        return transactions.stream()
+                .filter(t -> t.isExpense() == expense)
+                .toList();
     }
 
-    // @TODO
     @Override
-    public void deleteTransaction(final Transaction transaction) {
-        return;
+    public List<Transaction> searchByDate(final LocalDate date) {
+        return transactions.stream()
+                .filter(t -> t.getDate().equals(date))
+                .toList();
     }
 
-    // @TODO
     @Override
-    public void searchByType() {
-        return;
-    }
-
-    // @TODO
-    @Override
-    public void searchByDate() {
-        return;
-    }
-
-    // @TODO
-    @Override
-    public void searchByTag() {
-        return;
+    public List<Transaction> searchByTag(final Tag tag) {
+        return transactions.stream()
+                .filter(t -> t.getTag().equals(tag))
+                .toList();
     }
 }
