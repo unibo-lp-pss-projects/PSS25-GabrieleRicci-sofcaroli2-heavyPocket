@@ -9,16 +9,16 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 
 public interface Account {
-    
+
     List<Transaction> getTransactions();
 
     BigDecimal getTotalBalance();
 
     void addTransaction(Transaction transaction);
 
-    void editTransaction(UUID id, Transaction transaction);
+    void editTransaction(final UUID id, final Transaction newTransaction);
 
-    void deleteTransaction(UUID id);
+    void deleteTransaction(Transaction transaction);
 
     List<Transaction> searchByType(boolean expense);
 

@@ -1,4 +1,4 @@
-package main.java.it.unibo.heavypocket.mvc.controller;
+package it.unibo.heavypocket.mvc.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -36,8 +36,10 @@ public class AccountImpl implements Account {
     }
 
     @Override
-    public void editTransaction(UUID id, Transaction transaction) {
-        transactions.set(index, transaction);
+    public void editTransaction(final UUID id, final Transaction newTransaction) {
+        this.transactions = transactions.stream()
+                .map(t -> t.getId().equals(id) ? newTransaction : t)
+                .collect(Collectors.toList());
     }
 
     @Override
