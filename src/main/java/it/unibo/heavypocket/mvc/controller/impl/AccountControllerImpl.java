@@ -5,11 +5,14 @@ import java.time.LocalDate;
 import java.util.UUID;
 import java.util.List;
 
+import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Tag;
-import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.model.Transaction;
+import it.unibo.heavypocket.mvc.controller.AccountController;
 
 public final class AccountControllerImpl implements AccountController {
+
+    private final Account model;
 
     // @TODO
     @Override
@@ -30,7 +33,13 @@ public final class AccountControllerImpl implements AccountController {
             final String description,
             final boolean expense,
             final Tag tag) {
-        return;
+        final Transaction transaction = new TransactionImpl(
+                amount,
+                date,
+                description,
+                expense,
+                tag);
+        model.addTransaction(transaction);
     }
 
     @Override
@@ -41,12 +50,18 @@ public final class AccountControllerImpl implements AccountController {
             final String description,
             final boolean expense,
             final Tag tag) {
-        return;
+        final Transaction newTransaction = new TransactionImpl(
+                amount,
+                date,
+                description,
+                expense,
+                tag);
+        model.editTransaction(id, newTransaction);
     }
 
     @Override
     public void deleteTransaction(final UUID id) {
-        return;
+        model.deleteTransaction(id);
     }
 
     // @TODO
