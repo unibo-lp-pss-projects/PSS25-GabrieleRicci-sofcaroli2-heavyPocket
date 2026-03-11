@@ -13,6 +13,7 @@ import java.util.List;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 
+// @TODO estendere panel
 public class TransactionListPanelImpl implements TransactionListPanel {
 
     private final VBox panelRoot = new VBox();
@@ -25,25 +26,67 @@ public class TransactionListPanelImpl implements TransactionListPanel {
     private Consumer<String> searchListener;
 
     public TransactionListPanelImpl() {
-        initilizaSearchBarFields();
+        initializeSearchBar();
+        initializeListView();
+        panelRoot.getChildren().addAll(populateSearchBar(), transactionListView);
     }
 
     // TODO
     @Override
     public void setTransactions(List<Transaction> transactions) {
+        return;
     }
 
     // TODO
     @Override
     public void updateTransactions(List<Transaction> transactions) {
+        return;
     }
 
     // TODO
     @Override
     public void setOnSearch(Consumer<String> listener) {
+        return;
     }
 
-    private void initilizaSearchBarFields() {
+    @Override
+    public void clearFilters() {
+        filterType.setValue(null);
+        filterDate.setValue(null);
+        filterTag.setValue(null);
+        if (searchListener != null) {
+            searchListener.accept("");
+        }
+    }
+
+    //@TODO controllare il tipo %s
+    private void initializeListView() {
+        listView.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Transaction transaction, boolean empty) {
+                super.updateItem(transaction, empty);
+                if (empty || transaction == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("%s - %s - %s - %s - %s",
+                            transaction.isExpense() ? "-" : "+",
+                            transaction.getAmount(),
+                            transaction.getDate(),
+                            transaction.getDescription(),
+                            transaction.getTag()));
+                }
+            }
+        });
+    }
+    
+    private HBox populateSearchBar() {
+        final HBox searchBar = new HBox();
+        searchBar.getChildren().addAll(filterType, filterDate, filterTag, searchButton, clearFiltersButton);
+        return searchBar;
+    }
+
+    //@TODO aggiungere valori alle choice box
+    private void initializeSearchBar() {
         filterType.setPlaceholder("Select a type");
         filterDate.setPromptText("Choose a date");
         filterTag.setPlaceholder("Select a Tag");
@@ -61,13 +104,4 @@ public class TransactionListPanelImpl implements TransactionListPanel {
         }
     }
 
-    @Override
-    private void clearFilters() {
-        filterType.setValue(null);
-        filterDate.setValue(null);
-        filterTag.setValue(null);
-        if (searchListener != null) {
-            searchListener.accept("");
-        }
-    }
 }
