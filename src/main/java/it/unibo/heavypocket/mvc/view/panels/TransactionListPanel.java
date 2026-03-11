@@ -1,6 +1,7 @@
 package it.unibo.heavypocket.mvc.view.panels;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 
@@ -11,8 +12,7 @@ public interface TransactionListPanel {
 
     void updateTransactions(List<Transaction> transactions);
 
-    // @TODO
-    void setOnSearch();
+    void setOnSearch(Consumer<String> listener);
 
     void clearFilters();
 }
