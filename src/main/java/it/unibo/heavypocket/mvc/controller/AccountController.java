@@ -28,11 +28,11 @@ public interface AccountController {
             boolean expense,
             Tag tag);
 
-    void deleteTransaction(UUID id);
+    void deleteTransaction(Transaction transaction);
 
-    void searchByType(boolean expense);
+    List<Transaction> searchByType(boolean expense);
 
-    void searchByDate(LocalDate date);
+    List<Transaction> searchByDate(LocalDate date);
 
-    void searchByTag(Tag tag);
+    List<Transaction> searchByTag(Tag tag);
 }

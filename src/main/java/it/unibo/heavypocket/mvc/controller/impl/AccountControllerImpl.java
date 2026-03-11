@@ -13,17 +13,24 @@ import it.unibo.heavypocket.mvc.controller.AccountController;
 public final class AccountControllerImpl implements AccountController {
 
     private final Account model;
+    //private final AccountView view;
 
-    // @TODO
-    @Override
-    public List<Transaction> getTransactions() {
-        return null;
+    public AccountControllerImpl(
+        final Account model 
+        //final AccountView view
+    ) {
+        this.model = model;
+        //this.view = view;
     }
 
-    // @TODO
+    @Override
+    public List<Transaction> getTransactions() {
+        return model.getTransactions();
+    }
+
     @Override
     public BigDecimal getTotalBalance() {
-        return null;
+        return model.getTotalBalance();
     }
 
     @Override
@@ -33,12 +40,14 @@ public final class AccountControllerImpl implements AccountController {
             final String description,
             final boolean expense,
             final Tag tag) {
-        final Transaction transaction = new TransactionImpl(
-                amount,
-                date,
-                description,
-                expense,
-                tag);
+        final Transaction transaction = Transaction.builder()
+                .withId(UUID.randomUUID())
+                .withAmount(amount)
+                .withDate(date)
+                .withDescription(description)
+                .isExpense(expense)
+                .withTag(tag)
+                .build();
         model.addTransaction(transaction);
     }
 
@@ -50,35 +59,34 @@ public final class AccountControllerImpl implements AccountController {
             final String description,
             final boolean expense,
             final Tag tag) {
-        final Transaction newTransaction = new TransactionImpl(
-                amount,
-                date,
-                description,
-                expense,
-                tag);
+        final Transaction newTransaction = Transaction.builder()
+                .withId(id)
+                .withAmount(amount)
+                .withDate(date)
+                .withDescription(description)
+                .isExpense(expense)
+                .withTag(tag)
+                .build();
         model.editTransaction(id, newTransaction);
     }
 
     @Override
-    public void deleteTransaction(final UUID id) {
-        model.deleteTransaction(id);
+    public void deleteTransaction(final Transaction transaction) {
+        model.deleteTransaction(transaction);
     }
 
-    // @TODO
     @Override
-    public void searchByType(final boolean expense) {
-        return;
+    public List<Transaction> searchByType(final boolean expense) {
+        return model.searchByType(expense);
     }
 
-    // @TODO
     @Override
-    public void searchByDate(final LocalDate date) {
-        return;
+    public List<Transaction> searchByDate(final LocalDate date) {
+        return model.searchByDate(date);
     }
 
-    // @TODO
     @Override
-    public void searchByTag(final Tag tag) {
-        return;
+    public List<Transaction> searchByTag(final Tag tag) {
+        return model.searchByTag(tag);
     }
 }
