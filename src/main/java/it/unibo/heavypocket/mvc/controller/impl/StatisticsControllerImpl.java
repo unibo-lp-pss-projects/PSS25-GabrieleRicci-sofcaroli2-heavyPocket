@@ -10,7 +10,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
 
-public class StatisticsControllerImpl implements StatisticsController {
+public final class StatisticsControllerImpl implements StatisticsController {
 
     private final List<Transaction> transactions;
     private final List<Transaction> expenses;
