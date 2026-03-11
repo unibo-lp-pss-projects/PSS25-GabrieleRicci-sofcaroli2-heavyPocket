@@ -6,6 +6,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 
 import java.util.function.Consumer;
 import java.util.List;
@@ -31,22 +34,18 @@ public class TransactionListPanelImpl implements TransactionListPanel {
         panelRoot.getChildren().addAll(populateSearchBar(), transactionListView);
     }
 
-    // TODO
+    public Region getPanelRoot(){
+        return this.panelRoot;
+    }
+
     @Override
     public void setTransactions(List<Transaction> transactions) {
-        return;
+        transactionListView.getItems().setAll(transactions);
     }
 
-    // TODO
-    @Override
-    public void updateTransactions(List<Transaction> transactions) {
-        return;
-    }
-
-    // TODO
     @Override
     public void setOnSearch(Consumer<String> listener) {
-        return;
+        this.searchListener = listener;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class TransactionListPanelImpl implements TransactionListPanel {
 
     //@TODO controllare il tipo %s
     private void initializeListView() {
-        listView.setCellFactory(param -> new ListCell<>() {
+        transactionListView.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Transaction transaction, boolean empty) {
                 super.updateItem(transaction, empty);
@@ -78,7 +77,7 @@ public class TransactionListPanelImpl implements TransactionListPanel {
             }
         });
     }
-    
+
     private HBox populateSearchBar() {
         final HBox searchBar = new HBox();
         searchBar.getChildren().addAll(filterType, filterDate, filterTag, searchButton, clearFiltersButton);
@@ -87,9 +86,7 @@ public class TransactionListPanelImpl implements TransactionListPanel {
 
     //@TODO aggiungere valori alle choice box
     private void initializeSearchBar() {
-        filterType.setPlaceholder("Select a type");
         filterDate.setPromptText("Choose a date");
-        filterTag.setPlaceholder("Select a Tag");
         searchButton.setOnAction(e -> handleSearch());
         clearFiltersButton.setOnAction(e -> clearFilters());
     }

@@ -10,8 +10,6 @@ public interface TransactionListPanel {
     
     void setTransactions(List<Transaction> transactions);
 
-    void updateTransactions(List<Transaction> transactions);
-
     void setOnSearch(Consumer<String> listener);
 
     void clearFilters();
