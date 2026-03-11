@@ -13,18 +13,13 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 
 public final class StatisticsImpl implements Statistics {
 
-    private List<Transaction> transactions;
-    private List<Transaction> expenses;
-    private BigDecimal expensesCount;
+    public StatisticsImpl() {
 
-    public StatisticsImpl(final List<Transaction> transactions) {
-        this.transactions = transactions;
-        this.expenses = transactions.stream().filter(Transaction::isExpense).toList();
-        this.expensesCount = new BigDecimal(this.expenses.size());
     }
 
     @Override
-    public BigDecimal getAverageExpense() {
+    public BigDecimal getAverageExpense(final List<Transaction> expenses) {
+        final BigDecimal expensesCount = new BigDecimal(expenses.size());
         final BigDecimal averageExpense = expenses.stream()
                 .map(Transaction::getAmount) // so già che sono tutte negative, quindi non serve signedAmout
                 .reduce(BigDecimal.ZERO, BigDecimal::add) // somma tutti i valori insieme
@@ -33,7 +28,7 @@ public final class StatisticsImpl implements Statistics {
     }
 
     @Override
-    public Map<Tag, BigDecimal> getExpenseByTag() {
+    public Map<Tag, BigDecimal> getExpenseByTag(final List<Transaction> expenses) {
         final Map<Tag, BigDecimal> expenseByTag = expenses.stream()
                 .collect(Collectors.toMap(
                         Transaction::getTag,
@@ -43,7 +38,7 @@ public final class StatisticsImpl implements Statistics {
     }
 
     @Override
-    public Map<LocalDate, BigDecimal> getStatisticsByMonth() {
+    public Map<LocalDate, BigDecimal> getStatisticsByMonth(final List<Transaction> transactions) {
         final LocalDate todayDate = LocalDate.now(); // data di oggi per sapere il mese corrente
         final Map<LocalDate, BigDecimal> statisticsByMonth = transactions.stream()
                 .filter(t -> t.getDate().getMonth() == todayDate.getMonth()
