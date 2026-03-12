@@ -9,26 +9,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.function.Consumer;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.function.BiConsumer;
 
-import it.unibo.heavypocket.mvc.view.panels.impl.TransactionData;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 import it.unibo.heavypocket.mvc.model.Tag;
 
 // @TODO estendere panel
-public class TransactionListPanelImpl implements TransactionListPanel {
+public final class TransactionListPanelImpl implements TransactionListPanel {
+
+    private static final String ALL_TAGS = "All tags";
+    private static final String ALL = "All";
+    private static final String EXPENSE = "Expense";
+    private static final String INCOME = "Income";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private final VBox rootPanel = new VBox();
     private final ListView<Transaction> transactionListView = new ListView<>();
@@ -52,30 +50,30 @@ public class TransactionListPanelImpl implements TransactionListPanel {
     }
 
     @Override
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(final List<Transaction> transactions) {
         this.transactionListView.getItems().setAll(transactions);
     }
 
     @Override
-    public void setTagList(List<Tag> tags) {
+    public void setTagList(final List<Tag> tags) {
         this.tagsName = tags.stream().map(Tag::getName).toList();
     }
 
     @Override
-    public void setOnDelete(Consumer<UUID> listener) {
+    public void setOnDelete(final Consumer<UUID> listener) {
         this.deleteListener = listener;
     }
 
     @Override
-    public void setOnSearch(Consumer<String> listener) {
+    public void setOnSearch(final Consumer<String> listener) {
         this.searchListener = listener;
     }
 
     @Override
     public void clearFilters() {
-        filterType.setValue("All");
+        filterType.setValue(ALL);
         filterDate.setValue(null);
-        filterTag.setValue("All Tags");
+        filterTag.setValue(ALL_TAGS);
         if (searchListener != null) {
             searchListener.accept("");
         }
@@ -85,7 +83,7 @@ public class TransactionListPanelImpl implements TransactionListPanel {
     private void initializeListView() {
         transactionListView.setCellFactory(param -> new ListCell<>() {
             @Override
-            protected void updateItem(Transaction transaction, boolean empty) {
+            protected void updateItem(final Transaction transaction, final boolean empty) {
                 super.updateItem(transaction, empty);
                 if (empty || transaction == null) {
                     setText(null);
@@ -108,12 +106,12 @@ public class TransactionListPanelImpl implements TransactionListPanel {
     }
 
     private void initializeSearchBar() {
-        filterType.getItems().addAll("All", "Expense", "Income");
-        filterType.setValue("All");
-        filterDate.setPromptText("Choose a date");
-        filterTag.getItems().add("All Tags");
+        filterType.getItems().addAll(ALL, EXPENSE, INCOME);
+        filterType.setValue(ALL);
+        filterDate.setPromptText(DATE_FORMAT);
+        filterTag.getItems().add(ALL_TAGS);
         filterTag.getItems().addAll(tagsName);
-        filterTag.setValue("All Tags");
+        filterTag.setValue(ALL_TAGS);
         searchButton.setOnAction(e -> handleSearch());
         clearFiltersButton.setOnAction(e -> clearFilters());
     }

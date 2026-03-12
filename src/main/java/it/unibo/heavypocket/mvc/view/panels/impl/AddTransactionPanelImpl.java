@@ -15,12 +15,10 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
-import it.unibo.heavypocket.mvc.view.panels.impl.TransactionData;
 import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.model.Tag;
 
 // @TODO estendere panel
-public class AddTransactionPanelImpl implements AddTransactionPanel {
+public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     private final VBox rootPanel = new VBox();
     private final TextField amountField = new TextField();
@@ -42,12 +40,12 @@ public class AddTransactionPanelImpl implements AddTransactionPanel {
     }
 
     @Override
-    public void setTagList(List<String> tags) {
+    public void setTagList(final List<String> tags) {
         this.tagComboBox.getItems().setAll(tags);
     }
 
     @Override
-    public void showTransaction(Transaction transaction) {
+    public void showTransaction(final Transaction transaction) {
         amountField.setText(String.valueOf(transaction.getAmount()));
         datePicker.setValue(transaction.getDate());
         descriptionField.setText(transaction.getDescription());
@@ -56,12 +54,12 @@ public class AddTransactionPanelImpl implements AddTransactionPanel {
     }
 
     @Override
-    public void setOnAdd(Consumer<TransactionData> listener) {
+    public void setOnAdd(final Consumer<TransactionData> listener) {
         this.addListener = listener;
     }
 
     @Override
-    public void setOnEdit(BiConsumer<UUID, TransactionData> listener) {
+    public void setOnEdit(final BiConsumer<UUID, TransactionData> listener) {
         this.editListenrer = listener;
     }
 
