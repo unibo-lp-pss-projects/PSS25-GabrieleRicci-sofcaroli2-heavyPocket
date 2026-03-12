@@ -21,7 +21,7 @@ import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
 import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 
-public class AccountViewImpl extends Application implements AccountView {
+public final class AccountViewImpl extends Application implements AccountView {
 
     private AccountController controller;
     private TransactionListPanel transactionListPanel;
@@ -53,7 +53,7 @@ public class AccountViewImpl extends Application implements AccountView {
     }
 
     @Override
-    public void setController(AccountController controller) {
+    public void setController(final AccountController controller) {
         this.controller = controller;
     }
 
@@ -63,7 +63,7 @@ public class AccountViewImpl extends Application implements AccountView {
     }
 
     @Override
-    public void showTransactionList(List<Transaction> transactions) {
+    public void showTransactionList(final List<Transaction> transactions) {
         transactionListPanel.setTransactions(transactions);
     }
 
