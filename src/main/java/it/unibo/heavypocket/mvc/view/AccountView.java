@@ -3,6 +3,7 @@ package it.unibo.heavypocket.mvc.view;
 import java.util.List;
 
 import it.unibo.heavypocket.mvc.controller.AccountController;
+import it.unibo.heavypocket.mvc.model.Transaction;
 
 public interface AccountView {
 
