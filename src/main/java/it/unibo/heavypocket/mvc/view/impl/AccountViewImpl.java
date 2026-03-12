@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -18,10 +19,12 @@ import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
 import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
+import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 
 public class AccountViewImpl extends Application implements AccountView {
 
     private AccountController controller;
+    private TransactionListPanel transactionListPanel;
     // @TODO: implementare panel
 
     @Override
@@ -42,6 +45,10 @@ public class AccountViewImpl extends Application implements AccountView {
 
         final AccountController controller = new AccountControllerImpl(model, this);
 
+        // transactionListPanel.setOnSearch(controller::searchByType);
+        // transactionListPanel.setOnSearch(controller::searchByTag);
+        // transactionListPanel.setOnSearch(controller::searchByDate);
+
         primaryStage.show();
     }
 
@@ -57,16 +64,16 @@ public class AccountViewImpl extends Application implements AccountView {
 
     @Override
     public void showTransactionList(List<Transaction> transactions) {
-        // Implementazione per mostrare la lista di transazioni
-        // Ad esempio, potresti stampare le transazioni sulla console o utilizzare
-        // un'interfaccia grafica
+        transactionListPanel.setTransactions(transactions);
     }
 
     @Override
-    public void showError(String error) {
-        // Implementazione per mostrare gli errori
-        // Ad esempio, potresti stampare l'errore sulla console o utilizzare
-        // un'interfaccia grafica
+    public void showError(final String error) {
+        final Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(null);
+        alert.setContentText(error);
+        alert.showAndWait();
     }
 
 }
