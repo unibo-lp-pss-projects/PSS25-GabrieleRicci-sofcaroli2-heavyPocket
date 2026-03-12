@@ -1,48 +1,40 @@
-// package it.unibo.heavypocket;
+package it.unibo.heavypocket;
 
-// import javafx.application.Application;
-// import javafx.scene.Scene;
-// import javafx.scene.control.Label;
-// import javafx.scene.text.Font;
-// import javafx.stage.Stage;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
 
-// /**
-//  * Sample JavaFX application.
-//  */
-// public final class JavaFXApp extends Application {
+import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
+import it.unibo.heavypocket.mvc.view.panels.impl.AddTransactionPanelImpl;
+import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
 
-//     @Override
-//     public void start(final Stage primaryStage) {
-//         final Label message = new Label("Hello, JavaFX!");
-//         message.setFont(new Font(100));
-//         primaryStage.setScene(new Scene(message));
-//         primaryStage.setTitle("Hello");
-//         primaryStage.show();
-//     }
+public final class JavaFXApp extends Application {
 
-//     /**
-//      * Entry point's class.
-//      */
-//     public static final class Main {
-//         private Main() {
-//             // the constructor will never be called directly.
-//         }
+    @Override
+    public void start(final Stage primaryStage) {
 
-//         /**
-//          * Program's entry point.
-//          *
-//          * @param args ignored
-//          */
-//         public static void main(final String... args) {
-//             launch(JavaFXApp.class, args);
-//             /*
-//             The following line raises: Error: class it.unibo.heavypocket.JavaFXApp$Main
-//             is not a subclass of javafx.application.Application
-//             Because if you do not provide the Application subclass to launch() it will consider the enclosing class)
-//             */
-//             // JavaFXApp.launch(args);
-//             // Whereas the following would do just fine:
-//             // JavaFXApp.run(args)
-//         }
-//     }
-// }
+        // @TEST
+        final TransactionListPanelImpl panel1 = new TransactionListPanelImpl();
+        final AddTransactionPanelImpl panel2 = new AddTransactionPanelImpl();
+        final HBox root = new HBox();
+        root.getChildren().addAll(panel1.getRootPanel(), panel2.getRootPanel());
+        final Scene scene = new Scene(root, 800, 600);
+
+        primaryStage.setTitle("Hello");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static final class Main {
+        private Main() {
+            // the constructor will never be called directly.
+        }
+
+        public static void main(final String... args) {
+            launch(JavaFXApp.class, args);
+        }
+    }
+}
