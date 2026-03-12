@@ -11,16 +11,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.StringConverter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.function.Consumer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
+import java.util.function.BiConsumer;
 
+import it.unibo.heavypocket.mvc.view.panels.impl.TransactionData;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 import it.unibo.heavypocket.mvc.model.Tag;
@@ -28,7 +30,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 // @TODO estendere panel
 public class TransactionListPanelImpl implements TransactionListPanel {
 
-    private final VBox panelRoot = new VBox();
+    private final VBox rootPanel = new VBox();
     private final ListView<Transaction> transactionListView = new ListView<>();
     private List<String> tagsName = new ArrayList<>();
     private final ChoiceBox<String> filterType = new ChoiceBox<>();
@@ -36,16 +38,17 @@ public class TransactionListPanelImpl implements TransactionListPanel {
     private final ComboBox<String> filterTag = new ComboBox<>();
     private final Button searchButton = new Button("Search");
     private final Button clearFiltersButton = new Button("Clear Filters");
+    private Consumer<UUID> deleteListener;
     private Consumer<String> searchListener;
 
     public TransactionListPanelImpl() {
         initializeSearchBar();
         initializeListView();
-        panelRoot.getChildren().addAll(populateSearchBar(), transactionListView);
+        rootPanel.getChildren().addAll(populateSearchBar(), transactionListView);
     }
 
-    public Region getPanelRoot() {
-        return this.panelRoot;
+    public Region getRootPanel() {
+        return this.rootPanel;
     }
 
     @Override
@@ -56,6 +59,11 @@ public class TransactionListPanelImpl implements TransactionListPanel {
     @Override
     public void setTagList(List<Tag> tags) {
         this.tagsName = tags.stream().map(Tag::getName).toList();
+    }
+
+    @Override
+    public void setOnDelete(Consumer<UUID> listener) {
+        this.deleteListener = listener;
     }
 
     @Override
