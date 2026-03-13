@@ -16,7 +16,7 @@ import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 
 public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
-    private final static String SELECT_TAG = "Select Tag";
+    private static final String SELECT_TAG = "Select Tag";
 
     private final HBox rootPanel = new HBox();
     private final CheckBox expenseCheckBox = new CheckBox();

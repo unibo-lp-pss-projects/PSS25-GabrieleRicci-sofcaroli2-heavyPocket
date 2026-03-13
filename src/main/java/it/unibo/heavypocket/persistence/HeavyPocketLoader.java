@@ -1,14 +1,5 @@
 package it.unibo.heavypocket.persistence;
 
-import com.google.gson.Gson;
-import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.model.impl.TransactionImpl;
-import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
-import it.unibo.heavypocket.mvc.model.Account;
-import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -16,9 +7,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import com.google.gson.Gson;
+
+import it.unibo.heavypocket.mvc.model.Transaction;
+import it.unibo.heavypocket.mvc.model.impl.TransactionImpl;
+import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
+import it.unibo.heavypocket.mvc.model.Account;
+import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
 
 //@TODO: mettere il builder?
-
 public final class HeavyPocketLoader {
 
         private static final String DATA_PATH = "/persistence/data.json";
