@@ -52,7 +52,7 @@ public final class HeavyPocketLoader {
                 final AccountJsonData data = gson.fromJson(new InputStreamReader(this.inputStream), AccountJsonData.class);
 
                 final List<Transaction> transactions = data.transactions().stream()
-                                .map(this::createTransaction)
+                                .map(t -> createTransaction(t))
                                 .collect(Collectors.toList());
 
                 return new AccountImpl(
