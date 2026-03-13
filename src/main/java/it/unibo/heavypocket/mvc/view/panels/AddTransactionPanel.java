@@ -8,14 +8,15 @@ import java.util.function.BiConsumer;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.view.panels.impl.TransactionData;
 
-//@TODO estendere panel
-public interface AddTransactionPanel {
+public interface AddTransactionPanel extends Panel {
 
-    void setTagList(List<String> tags);
+    // void setTagList(List<String> tags);
 
-    void showTransaction(Transaction transaction);
+    // void showTransaction(Transaction transaction);
 
-    void setOnAdd(Consumer<TransactionData> listener);
+    // void setOnAdd(Consumer<TransactionData> listener);
 
-    void setOnEdit(BiConsumer<UUID, TransactionData> listener);
+    // void setOnEdit(BiConsumer<UUID, TransactionData> listener);
+
+    void resetFields();
 }
