@@ -9,23 +9,36 @@ import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.controller.AccountController;
+import it.unibo.heavypocket.mvc.view.AccountView;
 
 public final class AccountControllerImpl implements AccountController {
 
     private final Account model;
-    //private final AccountView view;
+    private final AccountView view;
 
-    public AccountControllerImpl(
-        final Account model 
-        //final AccountView view
-    ) {
+    public AccountControllerImpl(final Account model, final AccountView view) {
         this.model = model;
-        //this.view = view;
+        this.view = view;
+        this.view.setController(this);
+        showTransactions();
+        showTags();
     }
 
     @Override
     public List<Transaction> getTransactions() {
         return model.getTransactions();
+    }
+
+    @Override
+    public void showTransactions() {
+        final List<Transaction> transactions = model.getTransactions();
+        view.showTransactionList(transactions);
+    }
+
+    @Override
+    public void showTags() {
+        final List<Tag> tags = model.getTags().stream().toList();
+        view.showTagList(tags);
     }
 
     @Override
