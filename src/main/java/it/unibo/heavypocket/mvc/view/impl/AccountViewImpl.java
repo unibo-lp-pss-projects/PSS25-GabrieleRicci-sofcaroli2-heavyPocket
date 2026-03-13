@@ -26,6 +26,7 @@ import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 import it.unibo.heavypocket.mvc.view.panels.impl.AddTransactionPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
+import it.unibo.heavypocket.persistence.HeavyPocketLoader;
 
 public final class AccountViewImpl extends Application implements AccountView {
 
@@ -37,25 +38,27 @@ public final class AccountViewImpl extends Application implements AccountView {
     // @TODO implementare il loader
     @Override
     public void start(final Stage primaryStage) {
-        final List<Transaction> transactions = List.of(Transaction.builder()
-                .withId(UUID.randomUUID())
-                .withAmount(BigDecimal.valueOf(50.0))
-                .withDate(LocalDate.now())
-                .withDescription("description")
-                .isExpense(true)
-                .withTag(TagEnumImpl.FOOD)
-                .build(),
-                Transaction.builder()
-                        .withId(UUID.randomUUID())
-                        .withAmount(BigDecimal.valueOf(150.0))
-                        .withDate(LocalDate.now())
-                        .withDescription("description 2")
-                        .isExpense(false)
-                        .withTag(TagEnumImpl.SALARY)
-                        .build());
-        final Set<Tag> tags = Set.of(TagEnumImpl.FOOD, TagEnumImpl.ENTERTAINMENT, TagEnumImpl.SALARY);
+        // final List<Transaction> transactions = List.of(Transaction.builder()
+        //         .withId(UUID.randomUUID())
+        //         .withAmount(BigDecimal.valueOf(50.0))
+        //         .withDate(LocalDate.now())
+        //         .withDescription("description")
+        //         .isExpense(true)
+        //         .withTag(TagEnumImpl.FOOD)
+        //         .build(),
+        //         Transaction.builder()
+        //                 .withId(UUID.randomUUID())
+        //                 .withAmount(BigDecimal.valueOf(150.0))
+        //                 .withDate(LocalDate.now())
+        //                 .withDescription("description 2")
+        //                 .isExpense(false)
+        //                 .withTag(TagEnumImpl.SALARY)
+        //                 .build());
+        // final Set<Tag> tags = Set.of(TagEnumImpl.FOOD, TagEnumImpl.ENTERTAINMENT, TagEnumImpl.SALARY);
+        
 
-        final Account model = new AccountImpl(transactions, tags);
+        // final Account model = new AccountImpl(transactions, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, tags);
+        final Account model = HeavyPocketLoader.loadData();
 
         // inizializzazione pannelli
         this.transactionListPanel = new TransactionListPanelImpl();

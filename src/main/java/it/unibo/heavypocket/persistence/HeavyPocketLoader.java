@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public final class HeavyPocketLoader {
 
-        private static final String DEFAULT_DATA_PATH = "/it/unibo/heavypocket/persistence/data.json";
+        private static final String DATA_PATH = "/persistence/data.json";
 
         private final InputStream inputStream;
 
@@ -31,7 +31,7 @@ public final class HeavyPocketLoader {
 
         public static Account loadData() {
 
-                final InputStream is = HeavyPocketLoader.class.getResourceAsStream(DEFAULT_DATA_PATH);
+                final InputStream is = HeavyPocketLoader.class.getResourceAsStream(DATA_PATH);
 
                 if (is == null) {
                         System.err.println("Cannot find data.json");
@@ -39,7 +39,8 @@ public final class HeavyPocketLoader {
                                         Collections.emptyList(),
                                         BigDecimal.ZERO,
                                         BigDecimal.ZERO,
-                                        BigDecimal.ZERO);
+                                        BigDecimal.ZERO,
+                                        Collections.emptySet());
                 }
 
                 return new HeavyPocketLoader(is).loadHeavyPocket();
@@ -49,7 +50,8 @@ public final class HeavyPocketLoader {
 
                 final Gson gson = new Gson();
 
-                final AccountJsonData data = gson.fromJson(new InputStreamReader(this.inputStream), AccountJsonData.class);
+                final AccountJsonData data = gson.fromJson(new InputStreamReader(this.inputStream),
+                                AccountJsonData.class);
 
                 final List<Transaction> transactions = data.transactions().stream()
                                 .map(t -> createTransaction(t))
@@ -59,7 +61,10 @@ public final class HeavyPocketLoader {
                                 transactions,
                                 data.balance(),
                                 data.budget(),
-                                data.savingTarget());
+                                data.savingTarget(),
+                                transactions.stream()
+                                                .map(Transaction::getTag)
+                                                .collect(Collectors.toSet()));
         }
 
         private Transaction createTransaction(final TransactionJsonData data) {
@@ -77,8 +82,7 @@ public final class HeavyPocketLoader {
                         List<TransactionJsonData> transactions,
                         BigDecimal balance,
                         BigDecimal budget,
-                        BigDecimal savingTarget
-                ) {
+                        BigDecimal savingTarget) {
         }
 
         private record TransactionJsonData(
@@ -87,7 +91,6 @@ public final class HeavyPocketLoader {
                         String date,
                         String description,
                         boolean expense,
-                        String tag
-                ) {
+                        String tag) {
         }
 }
