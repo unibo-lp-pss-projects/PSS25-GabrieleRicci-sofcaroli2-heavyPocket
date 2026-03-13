@@ -10,15 +10,10 @@ import javafx.scene.layout.Region;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.UUID;
-import java.util.function.BiConsumer;
 
-import it.unibo.heavypocket.mvc.view.panels.impl.TransactionData;
+import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
-import it.unibo.heavypocket.mvc.model.Transaction;
 
-// @TODO estendere panel
 public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     private final HBox rootPanel = new HBox();
@@ -50,10 +45,13 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         return this.rootPanel;
     }
 
-    // @Override
-    // public void setTagList(final List<String> tags) {
-    // this.tagComboBox.getItems().setAll(tags);
-    // }
+    @Override
+    public void setTagList(final List<Tag> tags) {
+        final List<String> tagsName = tags.stream().map(Tag::getName).toList();
+        tagComboBox.getItems().add("Select Tag");
+        tagComboBox.getItems().addAll(tagsName);
+        tagComboBox.setPromptText("Select Tag");
+    }
 
     // @Override
     // public void showTransaction(final Transaction transaction) {
@@ -80,7 +78,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         datePicker.setValue(LocalDate.now());
         descriptionField.clear();
         expenseCheckBox.setSelected(false);
-        tagComboBox.getSelectionModel().clearSelection();
+        tagComboBox.setValue("Select Tag");
     }
 
     private void initializeFields() {
@@ -88,11 +86,10 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         amountField.setPromptText("0.00 €");
         datePicker.setValue(LocalDate.now());
         descriptionField.setPromptText("Short description...");
-        tagComboBox.setPromptText("Select Tag");
         addButton.setText("Add");
         resetButton.setText("Reset");
         addButton.setOnAction(e -> {
-            // @TODO implement add transaction logic
+            // @TODO
         });
         resetButton.setOnAction(e -> {
             resetFields();

@@ -1,16 +1,12 @@
 package it.unibo.heavypocket.mvc.view.panels;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.function.Consumer;
-import java.util.function.BiConsumer;
 
-import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.view.panels.impl.TransactionData;
+import it.unibo.heavypocket.mvc.model.Tag;
 
 public interface AddTransactionPanel extends Panel {
 
-    // void setTagList(List<String> tags);
+    void setTagList(List<Tag> tags);
 
     // void showTransaction(Transaction transaction);
 
