@@ -16,6 +16,8 @@ import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 
 public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
+    private final static String SELECT_TAG = "Select Tag";
+
     private final HBox rootPanel = new HBox();
     private final CheckBox expenseCheckBox = new CheckBox();
     private final TextField amountField = new TextField();
@@ -48,9 +50,9 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     @Override
     public void setTagList(final List<Tag> tags) {
         final List<String> tagsName = tags.stream().map(Tag::getName).toList();
-        tagComboBox.getItems().add("Select Tag");
+        tagComboBox.getItems().add(SELECT_TAG);
         tagComboBox.getItems().addAll(tagsName);
-        tagComboBox.setPromptText("Select Tag");
+        tagComboBox.setPromptText(SELECT_TAG);
     }
 
     // @Override
@@ -78,7 +80,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         datePicker.setValue(LocalDate.now());
         descriptionField.clear();
         expenseCheckBox.setSelected(false);
-        tagComboBox.setValue("Select Tag");
+        tagComboBox.setValue(SELECT_TAG);
     }
 
     private void initializeFields() {

@@ -1,8 +1,6 @@
 package it.unibo.heavypocket.mvc.view.panels;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.function.Consumer;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;

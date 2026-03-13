@@ -10,10 +10,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
-import java.util.ArrayList;
-import java.util.function.Consumer;
 import java.util.List;
-import java.util.UUID;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
@@ -29,8 +26,6 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
 
     private final VBox rootPanel = new VBox();
     private final ListView<Transaction> transactionList = new ListView<>();
-    private final ListView<Tag> tagList = new ListView<>();
-    // private final List<String> tagsName = new ArrayList<>();
     private final ChoiceBox<String> filterType = new ChoiceBox<>();
     private final DatePicker filterDate = new DatePicker();
     private final ComboBox<String> filterTag = new ComboBox<>();
@@ -42,7 +37,8 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     public TransactionListPanelImpl() {
         initializeSearchBar();
         initializeTransactionList();
-        rootPanel.getChildren().addAll(populateSearchBar(), transactionList, tagList);
+        rootPanel.setSpacing(10);
+        rootPanel.getChildren().addAll(populateSearchBar(), transactionList);
     }
 
     @Override
@@ -57,8 +53,10 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
 
     @Override
     public void setTagList(final List<Tag> tags) {
-        this.tagList.getItems().setAll(tags);
-        // this.tagsName = tags.stream().map(Tag::getName).toList();
+        final List<String> tagsName = tags.stream().map(Tag::getName).toList();
+        filterTag.getItems().add(ALL_TAGS);
+        filterTag.getItems().addAll(tagsName);
+        filterTag.setValue(ALL_TAGS);
     }
 
     // @Override
@@ -77,7 +75,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
         filterDate.setValue(null);
         filterTag.setValue(ALL_TAGS);
         // if (searchListener != null) {
-        //     searchListener.accept("");
+        // searchListener.accept("");
         // }
     }
 
@@ -103,6 +101,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
 
     private HBox populateSearchBar() {
         final HBox searchBar = new HBox();
+        searchBar.setSpacing(10);
         searchBar.getChildren().addAll(filterType, filterDate, filterTag,
                 searchButton, clearFiltersButton);
         return searchBar;
@@ -112,20 +111,18 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
         filterType.getItems().addAll(ALL, EXPENSE, INCOME);
         filterType.setValue(ALL);
         filterDate.setPromptText(DATE_FORMAT);
-        filterTag.getItems().add(ALL_TAGS);
-        // filterTag.getItems().addAll(tagsName);
-        filterTag.setValue(ALL_TAGS);
-        searchButton.setOnAction(e -> handleSearch());
+        // @TODO
+        // searchButton.setOnAction(e -> handleSearch());
         clearFiltersButton.setOnAction(e -> clearFilters());
     }
 
-    private void handleSearch() {
-        final String type = filterType.getValue();
-        final String date = filterDate.getValue() != null ? filterDate.getValue().toString() : "";
-        final String tag = filterTag.getValue();
-        final String searchQuery = String.format("type:%s date:%s tag:%s", type, date, tag);
-        // if (searchListener != null) {
-        //     searchListener.accept(searchQuery);
-        // }
-    }
+    // private void handleSearch() {
+    //     final String type = filterType.getValue();
+    //     final String date = filterDate.getValue() != null ? filterDate.getValue().toString() : "";
+    //     final String tag = filterTag.getValue();
+    //     final String searchQuery = String.format("type:%s date:%s tag:%s", type, date, tag);
+    //     // if (searchListener != null) {
+    //     // searchListener.accept(searchQuery);
+    //     // }
+    // }
 }
