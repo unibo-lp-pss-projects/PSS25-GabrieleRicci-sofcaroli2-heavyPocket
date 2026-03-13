@@ -7,16 +7,15 @@ import java.util.function.Consumer;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 
-//@TODO estendere panel
-public interface TransactionListPanel {
+public interface TransactionListPanel extends Panel {
 
     void setTransactions(List<Transaction> transactions);
 
     void setTagList(List<Tag> tags);
 
-    void setOnDelete(Consumer<UUID> listener);
+    // void setOnDelete(Consumer<UUID> listener);
 
-    void setOnSearch(Consumer<String> listener);
+    // void setOnSearch(Consumer<String> listener);
 
     void clearFilters();
 }
