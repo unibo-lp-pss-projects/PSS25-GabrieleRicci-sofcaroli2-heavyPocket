@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.model.Transaction;
+import it.unibo.heavypocket.mvc.model.Tag;
 
 public interface AccountView {
 
@@ -12,6 +13,8 @@ public interface AccountView {
     AccountController getController();
 
     void showTransactionList(List<Transaction> transactions); // mostra la lista di transazioni
+
+    void showTagList(List<Tag> tags); // mostra la lista di tag
 
     void showError(String error); // mostra gli errori
 }

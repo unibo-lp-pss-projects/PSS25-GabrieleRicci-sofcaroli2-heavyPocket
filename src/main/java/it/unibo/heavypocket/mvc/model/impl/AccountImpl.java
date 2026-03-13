@@ -1,6 +1,7 @@
 package it.unibo.heavypocket.mvc.model.impl;
 
 import java.util.List;
+import java.util.Set;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -13,14 +14,21 @@ import it.unibo.heavypocket.mvc.model.Account;
 public final class AccountImpl implements Account {
 
     private List<Transaction> transactions;
+    private Set<Tag> tags;
 
-    public AccountImpl(final List<Transaction> transactions) {
+    public AccountImpl(final List<Transaction> transactions, final Set<Tag> tags) {
         this.transactions = transactions;
+        this.tags = tags;
     }
 
     @Override
     public List<Transaction> getTransactions() {
         return List.copyOf(this.transactions);
+    }
+
+    @Override
+    public Set<Tag> getTags() {
+        return Set.copyOf(this.tags);
     }
 
     @Override

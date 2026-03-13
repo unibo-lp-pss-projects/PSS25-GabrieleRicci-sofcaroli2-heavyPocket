@@ -19,11 +19,26 @@ public final class AccountControllerImpl implements AccountController {
     public AccountControllerImpl(final Account model, final AccountView view) {
         this.model = model;
         this.view = view;
+        this.view.setController(this);
+        showTransactions();
+        showTags();
     }
 
     @Override
     public List<Transaction> getTransactions() {
         return model.getTransactions();
+    }
+
+    @Override
+    public void showTransactions() {
+        final List<Transaction> transactions = model.getTransactions();
+        view.showTransactionList(transactions);
+    }
+
+    @Override
+    public void showTags() {
+        final List<Tag> tags = model.getTags().stream().toList();
+        view.showTagList(tags);
     }
 
     @Override
