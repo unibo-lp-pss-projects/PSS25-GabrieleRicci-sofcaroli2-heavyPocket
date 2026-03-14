@@ -60,7 +60,7 @@ public final class TransactionImpl implements Transaction {
 
     @Override
     public BigDecimal getSignedAmount() {
-        return this.type.matches(this) ? this.amount.negate() : this.amount;
+        return this.type == TransactionType.EXPENSE ? this.amount.negate() : this.amount;
     }
 
     @Override
