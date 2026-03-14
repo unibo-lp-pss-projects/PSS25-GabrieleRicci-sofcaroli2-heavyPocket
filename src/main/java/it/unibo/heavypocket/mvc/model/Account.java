@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import it.unibo.heavypocket.mvc.model.TransactionType;
+
 public interface Account {
 
     List<Transaction> getTransactions();
@@ -20,7 +22,7 @@ public interface Account {
 
     void deleteTransaction(Transaction transaction);
 
-    List<Transaction> searchByType(boolean expense);
+    List<Transaction> searchByType(TransactionType type);
 
     List<Transaction> searchByDate(LocalDate date);
 

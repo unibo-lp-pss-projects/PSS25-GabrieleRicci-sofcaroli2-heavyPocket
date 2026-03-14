@@ -9,6 +9,7 @@ import java.util.UUID;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Account;
+import it.unibo.heavypocket.mvc.model.TransactionType;
 
 //@TODO controllare le eccezioni se sono da lanciare o no, se si quali
 public final class AccountImpl implements Account {
@@ -67,9 +68,9 @@ public final class AccountImpl implements Account {
     }
 
     @Override
-    public List<Transaction> searchByType(final boolean expense) {
+    public List<Transaction> searchByType(final TransactionType type) {
         return transactions.stream()
-                .filter(t -> t.isExpense() == expense)
+                .filter(t -> type.matches(t))
                 .toList();
     }
 

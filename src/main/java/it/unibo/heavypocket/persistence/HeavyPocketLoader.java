@@ -16,6 +16,7 @@ import it.unibo.heavypocket.mvc.model.impl.TransactionImpl;
 import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
+import it.unibo.heavypocket.mvc.model.TransactionType;
 
 //@TODO: mettere il builder?
 public final class HeavyPocketLoader {
@@ -73,7 +74,7 @@ public final class HeavyPocketLoader {
                                 data.amount(),
                                 LocalDate.parse(data.date()),
                                 data.description(),
-                                data.expense(),
+                                data.type(),
                                 TagEnumImpl.valueOf(data.tag()));
         }
 
@@ -89,7 +90,7 @@ public final class HeavyPocketLoader {
                         BigDecimal amount,
                         String date,
                         String description,
-                        boolean expense,
+                        TransactionType type,
                         String tag) {
         }
 }
