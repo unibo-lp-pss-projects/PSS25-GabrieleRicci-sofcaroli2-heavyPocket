@@ -14,7 +14,7 @@ public interface TransactionBuilder {
 
     TransactionBuilder withDescription(String description);
 
-    TransactionBuilder isExpense(boolean isExpense);
+    TransactionBuilder withType(TransactionType type);
 
     TransactionBuilder withTag(Tag tag);
 

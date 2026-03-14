@@ -18,7 +18,7 @@ public interface Transaction {
 
     String getDescription();
 
-    boolean isExpense();
+    TransactionType getType();
 
     Tag getTag();
 

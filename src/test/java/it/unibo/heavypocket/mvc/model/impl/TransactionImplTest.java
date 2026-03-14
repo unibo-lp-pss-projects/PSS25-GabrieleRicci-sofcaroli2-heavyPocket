@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
+import it.unibo.heavypocket.mvc.model.TransactionType;
 
 public final class TransactionImplTest {
 
@@ -36,7 +37,7 @@ public final class TransactionImplTest {
                 .withAmount(AMOUNT)
                 .withDate(DATE)
                 .withDescription(DESCRIPTION)
-                .isExpense(false)
+                .withType(TransactionType.INCOME)
                 .withTag(TAG_INCOME)
                 .build();
         this.expense = Transaction.builder()
@@ -44,7 +45,7 @@ public final class TransactionImplTest {
                 .withAmount(AMOUNT)
                 .withDate(DATE)
                 .withDescription(DESCRIPTION)
-                .isExpense(true)
+                .withType(TransactionType.EXPENSE)
                 .withTag(TAG_EXPENSE)
                 .build();
     }
@@ -66,8 +67,8 @@ public final class TransactionImplTest {
         assertEquals(AMOUNT, income.getAmount());
         assertEquals(DATE, income.getDate());
         assertEquals(DESCRIPTION, income.getDescription());
-        assertFalse(income.isExpense());
-        assertTrue(expense.isExpense());
+        assertEquals(TransactionType.INCOME, income.getType());
+        assertEquals(TransactionType.EXPENSE, expense.getType());
         assertEquals(TAG_INCOME, income.getTag());
     }
 
@@ -79,7 +80,7 @@ public final class TransactionImplTest {
                     .withAmount(BigDecimal.ZERO)
                     .withDate(DATE)
                     .withDescription(DESCRIPTION)
-                    .isExpense(false)
+                    .withType(TransactionType.INCOME)
                     .withTag(TAG_INCOME)
                     .build();
         });
