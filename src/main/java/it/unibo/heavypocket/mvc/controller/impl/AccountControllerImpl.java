@@ -1,7 +1,6 @@
 package it.unibo.heavypocket.mvc.controller.impl;
 
 import java.math.BigDecimal;
-import java.nio.file.DirectoryStream.Filter;
 import java.time.LocalDate;
 import java.util.UUID;
 import java.util.Comparator;
@@ -98,19 +97,18 @@ public final class AccountControllerImpl implements AccountController {
     @Override
     public void deleteTransaction(final UUID id) {
         model.getTransactionById(id).ifPresentOrElse(
-            model::deleteTransaction,
-            () -> view.showError(ERROR_CRUD)
-        );
+                model::deleteTransaction,
+                () -> view.showError(ERROR_CRUD));
         showTransactions();
     }
 
     @Override
-    public void search(FiltersData filters) {
+    public void search(final FiltersData filters) {
         if (filters == null) {
             showTransactions();
             return;
         }
-        List<Transaction> filteredTransactions = model.getTransactions().stream()
+        final List<Transaction> filteredTransactions = model.getTransactions().stream()
                 .filter(t -> filterByType(t, filters.type()))
                 .filter(t -> filterByDate(t, filters.date()))
                 .filter(t -> filterByTag(t, filters.tag()))
@@ -124,20 +122,23 @@ public final class AccountControllerImpl implements AccountController {
     }
 
     private boolean filterByType(final Transaction t, final TransactionType type) {
-        if (type == null)
+        if (type == null) {
             return true;
+        }
         return t.getType() == type;
     }
 
     private boolean filterByDate(final Transaction t, final LocalDate date) {
-        if (date == null)
+        if (date == null) {
             return true;
+        }
         return date.equals(t.getDate());
     }
 
     private boolean filterByTag(final Transaction t, final Tag tag) {
-        if (tag == null)
+        if (tag == null) {
             return true;
+        }
         return t.getTag().equals(tag);
     }
 }

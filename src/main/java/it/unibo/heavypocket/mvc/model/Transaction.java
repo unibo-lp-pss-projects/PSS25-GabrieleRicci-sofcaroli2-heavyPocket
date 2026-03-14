@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import it.unibo.heavypocket.mvc.model.impl.TransactionBuilderImpl;
-import it.unibo.heavypocket.mvc.model.TransactionType;
 
 public interface Transaction {
 

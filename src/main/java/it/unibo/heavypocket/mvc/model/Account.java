@@ -7,8 +7,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.Optional;
 
-import it.unibo.heavypocket.mvc.model.TransactionType;
-
 public interface Account {
 
     List<Transaction> getTransactions();
