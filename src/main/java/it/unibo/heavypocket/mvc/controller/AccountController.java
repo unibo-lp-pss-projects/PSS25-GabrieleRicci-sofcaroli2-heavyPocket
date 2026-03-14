@@ -33,7 +33,7 @@ public interface AccountController {
                         boolean expense,
                         Tag tag);
 
-        void deleteTransaction(Transaction transaction);
+        void deleteTransaction(UUID id);
 
         void search(FiltersData filters);
 }

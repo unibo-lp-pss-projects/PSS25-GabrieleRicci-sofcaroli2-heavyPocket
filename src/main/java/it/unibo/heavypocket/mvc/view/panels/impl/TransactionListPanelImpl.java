@@ -1,6 +1,8 @@
 package it.unibo.heavypocket.mvc.view.panels.impl;
 
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
 import javafx.scene.control.ChoiceBox;
@@ -8,15 +10,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
+import javafx.scene.control.ContentDisplay;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
+import java.util.UUID;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
@@ -39,6 +40,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     private final Button searchButton = new Button("Search");
     private final Button clearFiltersButton = new Button("Clear Filters");
     private Consumer<FiltersData> searchListener;
+    private Consumer<UUID> deleteListener;
 
     public TransactionListPanelImpl() {
         initializeSearchBar();
@@ -68,6 +70,11 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     }
 
     @Override
+    public void setOnDelete(final Consumer<UUID> deleteListener) {
+        this.deleteListener = deleteListener;
+    }
+
+    @Override
     public void clearFilters() {
         filterType.setValue(null);
         filterDate.setValue(null);
@@ -84,6 +91,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
                 super.updateItem(transaction, empty);
                 if (empty || transaction == null) {
                     setText(null);
+                    setGraphic(null);
                 } else {
                     setText(String.format("%s %s | %s | %s | %s",
                             transaction.getType() == TransactionType.EXPENSE ? "-" : "+",
@@ -91,9 +99,21 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
                             DATE_FORMATTER.format(transaction.getDate()),
                             transaction.getDescription(),
                             transaction.getTag()));
+                    final Button deleteButton = new Button("Delete");
+                    deleteButton.setOnAction(e -> {
+                        deleteTransaction(transaction.getId());
+                    });
+                    setGraphic(deleteButton);
+                    setContentDisplay(ContentDisplay.RIGHT);
                 }
             }
         });
+    }
+
+    private void deleteTransaction(final UUID transactionId) {
+        if (deleteListener != null) {
+            deleteListener.accept(transactionId);
+        }
     }
 
     private HBox populateSearchBar() {

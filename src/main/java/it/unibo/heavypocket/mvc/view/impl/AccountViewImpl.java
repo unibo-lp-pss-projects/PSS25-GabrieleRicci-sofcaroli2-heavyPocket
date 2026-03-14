@@ -60,6 +60,7 @@ public final class AccountViewImpl extends Application implements AccountView {
 
         this.controller = new AccountControllerImpl(model, this);
         transactionListPanel.setOnSearch(controller::search);
+        transactionListPanel.setOnDelete(controller::deleteTransaction);
 
         primaryStage.setTitle("HeavyPocket");
         primaryStage.setScene(scene);

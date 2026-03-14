@@ -19,6 +19,7 @@ import it.unibo.heavypocket.mvc.view.AccountView;
 public final class AccountControllerImpl implements AccountController {
 
     private static final String ERROR_FILTERS = "No transactions found";
+    private static final String ERROR_CRUD = "Transaction not found";
 
     private final Account model;
     private final AccountView view;
@@ -95,9 +96,12 @@ public final class AccountControllerImpl implements AccountController {
     }
 
     @Override
-    public void deleteTransaction(final Transaction transaction) {
-        // model.deleteTransaction(transaction);
-        return;
+    public void deleteTransaction(final UUID id) {
+        model.getTransactionById(id).ifPresentOrElse(
+            model::deleteTransaction,
+            () -> view.showError(ERROR_CRUD)
+        );
+        showTransactions();
     }
 
     @Override

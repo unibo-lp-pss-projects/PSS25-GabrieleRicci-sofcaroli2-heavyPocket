@@ -1,6 +1,7 @@
 package it.unibo.heavypocket.mvc.view.panels;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import it.unibo.heavypocket.mvc.model.Tag;
@@ -14,6 +15,8 @@ public interface TransactionListPanel extends Panel {
     void setTagList(List<Tag> tags);
 
     void setOnSearch(Consumer<FiltersData> searchListener);
+
+    void setOnDelete(Consumer<UUID> deleteListener);
 
     void clearFilters();
 }

@@ -1,10 +1,11 @@
 package it.unibo.heavypocket.mvc.model;
 
-import java.util.List;
-import java.util.Set;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.Optional;
 
 import it.unibo.heavypocket.mvc.model.TransactionType;
 
@@ -27,4 +28,6 @@ public interface Account {
     List<Transaction> searchByDate(LocalDate date);
 
     List<Transaction> searchByTag(Tag tag);
+
+    Optional<Transaction> getTransactionById(UUID id);
 }

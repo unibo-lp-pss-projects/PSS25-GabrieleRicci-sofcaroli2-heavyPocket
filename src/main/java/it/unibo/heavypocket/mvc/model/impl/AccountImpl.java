@@ -5,6 +5,7 @@ import java.util.Set;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.Optional;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
@@ -45,46 +46,53 @@ public final class AccountImpl implements Account {
 
     @Override
     public BigDecimal getTotalBalance() {
-        return transactions.stream()
+        return this.transactions.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
     public void addTransaction(final Transaction transaction) {
-        transactions.add(transaction);
+        this.transactions.add(transaction);
     }
 
     @Override
     public void editTransaction(final UUID id, final Transaction newTransaction) {
-        this.transactions = transactions.stream()
+        this.transactions = this.transactions.stream()
                 .map(t -> t.getId().equals(id) ? newTransaction : t)
                 .toList();
     }
 
     @Override
     public void deleteTransaction(final Transaction transaction) {
-        transactions.remove(transaction);
+        this.transactions.remove(transaction);
     }
 
     @Override
     public List<Transaction> searchByType(final TransactionType type) {
-        return transactions.stream()
+        return this.transactions.stream()
                 .filter(t -> type.matches(t))
                 .toList();
     }
 
     @Override
     public List<Transaction> searchByDate(final LocalDate date) {
-        return transactions.stream()
+        return this.transactions.stream()
                 .filter(t -> t.getDate().equals(date))
                 .toList();
     }
 
     @Override
     public List<Transaction> searchByTag(final Tag tag) {
-        return transactions.stream()
+        return this.transactions.stream()
                 .filter(t -> t.getTag().equals(tag))
                 .toList();
+    }
+
+    @Override
+    public Optional<Transaction> getTransactionById(final UUID id) {
+        return this.transactions.stream()
+                .filter(t -> t.getId().equals(id))
+                .findAny();
     }
 }
