@@ -2,11 +2,17 @@ package it.unibo.heavypocket.persistence;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import javax.swing.text.html.HTML.Tag;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import com.google.gson.Gson;
@@ -40,7 +46,8 @@ public final class HeavyPocketLoader {
                                         BigDecimal.ZERO,
                                         BigDecimal.ZERO,
                                         BigDecimal.ZERO,
-                                        Collections.emptySet());
+                                        Arrays.stream(TagEnumImpl.values())
+                                                        .collect(Collectors.toSet()));
                 }
 
                 return new HeavyPocketLoader(is).loadHeavyPocket();
@@ -62,13 +69,11 @@ public final class HeavyPocketLoader {
                                 data.balance(),
                                 data.budget(),
                                 data.savingTarget(),
-                                transactions.stream()
-                                                .map(Transaction::getTag)
+                                Arrays.stream(TagEnumImpl.values())
                                                 .collect(Collectors.toSet()));
         }
 
         private Transaction createTransaction(final TransactionJsonData data) {
-
                 return new TransactionImpl(
                                 UUID.fromString(data.id()),
                                 data.amount(),
