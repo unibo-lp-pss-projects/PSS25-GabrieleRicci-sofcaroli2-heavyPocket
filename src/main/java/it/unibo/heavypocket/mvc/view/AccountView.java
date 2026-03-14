@@ -15,6 +15,9 @@ public interface AccountView {
     void showTransactionList(List<Transaction> transactions); // mostra la lista di transazioni
 
     void showTagList(List<Tag> tags); // mostra la lista di tag
+    
+    // void showAverage();
 
     void showError(String error); // mostra gli errori
+
 }

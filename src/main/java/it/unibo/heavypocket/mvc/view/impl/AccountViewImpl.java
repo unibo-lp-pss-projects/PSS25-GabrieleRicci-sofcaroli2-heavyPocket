@@ -93,6 +93,10 @@ public final class AccountViewImpl extends Application implements AccountView {
         addTransactionListPanel.setTagList(tags);
     }
 
+    // @Override
+    // public void showAverage() {
+    // }
+
     @Override
     public void showError(final String error) {
         final Alert alert = new Alert(Alert.AlertType.WARNING);
