@@ -54,20 +54,14 @@ public final class AccountViewImpl extends Application implements AccountView {
         // inizializzazione pannelli
         this.transactionListPanel = new TransactionListPanelImpl();
         this.addTransactionListPanel = new AddTransactionPanelImpl();
-
-        // final Label message = new Label("Hello, JavaFX!");
-        // message.setFont(new Font(100));
-        // primaryStage.setScene(new Scene(message));
-        primaryStage.setTitle("HeavyPocket");
-        this.controller = new AccountControllerImpl(model, this);
-
-        // transactionListPanel.setOnSearch(controller::searchByType);
-        // transactionListPanel.setOnSearch(controller::searchByTag);
-        // transactionListPanel.setOnSearch(controller::searchByDate);
-
         final VBox root = new VBox();
         root.getChildren().addAll(transactionListPanel.getRoot(), addTransactionListPanel.getRoot());
         final Scene scene = new Scene(root, 800, 600);
+
+        this.controller = new AccountControllerImpl(model, this);
+        transactionListPanel.setOnSearch(controller::search);
+
+        primaryStage.setTitle("HeavyPocket");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

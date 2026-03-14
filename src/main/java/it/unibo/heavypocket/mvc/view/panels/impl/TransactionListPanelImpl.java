@@ -2,6 +2,7 @@ package it.unibo.heavypocket.mvc.view.panels.impl;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ComboBox;
@@ -22,14 +23,15 @@ import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 
 public final class TransactionListPanelImpl implements TransactionListPanel {
 
-    private static final String ALL = "ALL";
     private static final String DATE_FORMAT = "YYYY-MM-DD";
 
     private final VBox rootPanel = new VBox();
     private final ListView<Transaction> transactionList = new ListView<>();
+    private final Label filterTypeLabel = new Label("Type:");
     private final ChoiceBox<TransactionType> filterType = new ChoiceBox<>();
     private final DatePicker filterDate = new DatePicker();
-    private final ComboBox<String> filterTag = new ComboBox<>();
+    private final Label filterTagLabel = new Label("Tag:");
+    private final ComboBox<Tag> filterTag = new ComboBox<>();
     private final Button searchButton = new Button("Search");
     private final Button clearFiltersButton = new Button("Clear Filters");
     private Consumer<FiltersData> searchListener;
@@ -53,10 +55,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
 
     @Override
     public void setTagList(final List<Tag> tags) {
-        final List<String> tagsName = tags.stream().map(Tag::getName).toList();
-        filterTag.getItems().add(ALL);
-        filterTag.getItems().addAll(tagsName);
-        filterTag.setValue(ALL);
+        filterTag.getItems().addAll(tags);
     }
 
     @Override
@@ -66,9 +65,9 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
 
     @Override
     public void clearFilters() {
-        filterType.setValue(TransactionType.ALL);
+        filterType.setValue(null);
         filterDate.setValue(null);
-        filterTag.setValue(ALL);
+        filterTag.setValue(null);
         if (searchListener != null) {
             handleSearch();
         }
@@ -97,8 +96,10 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
         final HBox searchBar = new HBox();
         searchBar.setSpacing(10);
         searchBar.getChildren().addAll(
+                filterTypeLabel,
                 filterType,
                 filterDate,
+                filterTagLabel,
                 filterTag,
                 searchButton,
                 clearFiltersButton);
@@ -107,7 +108,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
 
     private void initializeSearchBar() {
         filterType.getItems().addAll(TransactionType.values());
-        filterType.setValue(TransactionType.ALL);
+        filterType.setValue(null);
         filterDate.setPromptText(DATE_FORMAT);
         searchButton.setOnAction(e -> handleSearch());
         clearFiltersButton.setOnAction(e -> clearFilters());

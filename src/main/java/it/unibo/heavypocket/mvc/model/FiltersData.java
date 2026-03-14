@@ -5,5 +5,5 @@ import java.time.LocalDate;
 public record FiltersData(
                 LocalDate date,
                 TransactionType type,
-                String tag) {
+                Tag tag) {
 }

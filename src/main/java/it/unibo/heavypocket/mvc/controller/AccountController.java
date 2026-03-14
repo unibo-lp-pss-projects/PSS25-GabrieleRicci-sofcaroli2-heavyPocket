@@ -7,36 +7,33 @@ import java.util.List;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
+import it.unibo.heavypocket.mvc.model.FiltersData;
 
 public interface AccountController {
 
-    List<Transaction> getTransactions();
+        List<Transaction> getTransactions();
 
-    void showTransactions(); // chiamato dalla view per mostrare la lista di transaction
+        void showTransactions(); // chiamato dalla view per mostrare la lista di transaction
 
-    void showTags(); // chiamato dalla view per mostrare la lista di tag
+        void showTags(); // chiamato dalla view per mostrare la lista di tag
 
-    BigDecimal getTotalBalance();
+        BigDecimal getTotalBalance();
 
-    void addTransaction(BigDecimal amount,
-            LocalDate date,
-            String description,
-            boolean expense,
-            Tag tag);
+        void addTransaction(BigDecimal amount,
+                        LocalDate date,
+                        String description,
+                        boolean expense,
+                        Tag tag);
 
-    void editTransaction(
-            UUID id,
-            BigDecimal amount,
-            LocalDate date,
-            String description,
-            boolean expense,
-            Tag tag);
+        void editTransaction(
+                        UUID id,
+                        BigDecimal amount,
+                        LocalDate date,
+                        String description,
+                        boolean expense,
+                        Tag tag);
 
-    void deleteTransaction(Transaction transaction);
+        void deleteTransaction(Transaction transaction);
 
-    List<Transaction> searchByType(boolean expense);
-
-    List<Transaction> searchByDate(LocalDate date);
-
-    List<Transaction> searchByTag(Tag tag);
+        void search(FiltersData filters);
 }
