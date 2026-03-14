@@ -38,7 +38,9 @@ public final class AccountControllerImpl implements AccountController {
 
     @Override
     public void showTransactions() {
-        final List<Transaction> transactions = model.getTransactions();
+        final List<Transaction> transactions = model.getTransactions().stream()
+                .sorted(Comparator.comparing(Transaction::getDate).reversed())
+                .toList();
         view.showTransactionList(transactions);
     }
 
@@ -108,6 +110,7 @@ public final class AccountControllerImpl implements AccountController {
                 .filter(t -> filterByType(t, filters.type()))
                 .filter(t -> filterByDate(t, filters.date()))
                 .filter(t -> filterByTag(t, filters.tag()))
+                .sorted(Comparator.comparing(Transaction::getDate).reversed())
                 .toList();
         if (filteredTransactions.isEmpty()) {
             view.showError(ERROR_FILTERS);

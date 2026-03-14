@@ -11,8 +11,11 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
@@ -23,7 +26,8 @@ import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 
 public final class TransactionListPanelImpl implements TransactionListPanel {
 
-    private static final String DATE_FORMAT = "YYYY-MM-DD";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
+    private static final String DATE_FORMAT = "DD/MM/YYYY";
 
     private final VBox rootPanel = new VBox();
     private final ListView<Transaction> transactionList = new ListView<>();
@@ -84,7 +88,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
                     setText(String.format("%s %s | %s | %s | %s",
                             transaction.getType() == TransactionType.EXPENSE ? "-" : "+",
                             transaction.getAmount(),
-                            transaction.getDate(),
+                            DATE_FORMATTER.format(transaction.getDate()),
                             transaction.getDescription(),
                             transaction.getTag()));
                 }
