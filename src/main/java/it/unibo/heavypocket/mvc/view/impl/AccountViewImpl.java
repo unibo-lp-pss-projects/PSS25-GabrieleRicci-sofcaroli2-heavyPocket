@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.mvc.controller.AccountController;
@@ -55,6 +57,9 @@ public final class AccountViewImpl extends Application implements AccountView {
         this.transactionListPanel = new TransactionListPanelImpl();
         this.addTransactionListPanel = new AddTransactionPanelImpl();
         final VBox root = new VBox();
+        root.setSpacing(10);
+        root.setPadding(new Insets(10));
+        root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(transactionListPanel.getRoot(), addTransactionListPanel.getRoot());
         final Scene scene = new Scene(root, 800, 600);
 

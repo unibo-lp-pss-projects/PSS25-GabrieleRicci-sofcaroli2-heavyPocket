@@ -8,11 +8,5 @@ public interface AddTransactionPanel extends Panel {
 
     void setTagList(List<Tag> tags);
 
-    // void showTransaction(Transaction transaction);
-
-    // void setOnAdd(Consumer<TransactionData> listener);
-
-    // void setOnEdit(BiConsumer<UUID, TransactionData> listener);
-
     void resetFields();
 }

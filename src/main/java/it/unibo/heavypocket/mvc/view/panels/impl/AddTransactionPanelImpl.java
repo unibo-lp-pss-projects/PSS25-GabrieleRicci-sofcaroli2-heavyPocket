@@ -5,25 +5,32 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
+import javafx.geometry.Pos;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import it.unibo.heavypocket.mvc.model.Tag;
+import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 
 public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     private static final String SELECT_TAG = "Select Tag";
 
-    private final HBox rootPanel = new HBox();
-    private final CheckBox expenseCheckBox = new CheckBox();
+    private final VBox rootPanel = new VBox();
+    private final Label typeLabel = new Label("Type:");
+    private final ChoiceBox<TransactionType> typeField = new ChoiceBox<>();
     private final TextField amountField = new TextField();
     private final DatePicker datePicker = new DatePicker();
     private final TextField descriptionField = new TextField();
-    private final ComboBox<String> tagComboBox = new ComboBox<>();
+    private final Label tagLabel = new Label("Tag:");
+    private final ComboBox<Tag> filterTag = new ComboBox<>();
     private final Button addButton = new Button();
     private final Button resetButton = new Button();
     // private Consumer<TransactionData> addListener;
@@ -31,15 +38,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     public AddTransactionPanelImpl() {
         initializeFields();
-        rootPanel.setSpacing(10);
-        rootPanel.getChildren().addAll(
-                expenseCheckBox,
-                amountField,
-                datePicker,
-                descriptionField,
-                tagComboBox,
-                addButton,
-                resetButton);
+        createLayout();
     }
 
     @Override
@@ -49,52 +48,45 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     @Override
     public void setTagList(final List<Tag> tags) {
-        final List<String> tagsName = tags.stream().map(Tag::getName).toList();
-        tagComboBox.getItems().add(SELECT_TAG);
-        tagComboBox.getItems().addAll(tagsName);
-        tagComboBox.setPromptText(SELECT_TAG);
+        filterTag.getItems().addAll(tags);
     }
-
-    // @Override
-    // public void showTransaction(final Transaction transaction) {
-    // amountField.setText(String.valueOf(transaction.getAmount()));
-    // datePicker.setValue(transaction.getDate());
-    // descriptionField.setText(transaction.getDescription());
-    // expenseCheckBox.setSelected(transaction.isExpense());
-    // // tagComboBox.setValue(transaction.getTag());
-    // }
-
-    // @Override
-    // public void setOnAdd(final Consumer<TransactionData> listener) {
-    // this.addListener = listener;
-    // }
-
-    // @Override
-    // public void setOnEdit(final BiConsumer<UUID, TransactionData> listener) {
-    // this.editListenrer = listener;
-    // }
 
     @Override
     public void resetFields() {
         amountField.clear();
         datePicker.setValue(LocalDate.now());
         descriptionField.clear();
-        expenseCheckBox.setSelected(false);
-        tagComboBox.setValue(SELECT_TAG);
+        typeField.setValue(null);
+        filterTag.setValue(null);
     }
 
     private void initializeFields() {
-        expenseCheckBox.setText("Is Expense");
-        amountField.setPromptText("0.00 €");
+        typeField.getItems().addAll(TransactionType.values());
+        typeField.setValue(null);
+        amountField.setPromptText("0.00");
         datePicker.setValue(LocalDate.now());
-        descriptionField.setPromptText("Short description...");
+        descriptionField.setPromptText("Short description");
         addButton.setText("Add");
         resetButton.setText("Reset");
-        addButton.setOnAction(e -> {
-            // @TODO
-        });
-        resetButton.setOnAction(e -> {
-            resetFields();
-        });
+        addButton.setOnAction(e -> handleAdd());
+        resetButton.setOnAction(e -> resetFields());
+    }
+
+    private void handleAdd() {
+        // TODO
+    }
+
+    private void createLayout() {
+        rootPanel.setSpacing(5);
+        rootPanel.setAlignment(Pos.CENTER);
+        final HBox typeAmountRow = new HBox(10, typeLabel, typeField, amountField);
+        typeAmountRow.setAlignment(Pos.CENTER);
+        final HBox dateTagRow = new HBox(10, datePicker, tagLabel, filterTag);
+        dateTagRow.setAlignment(Pos.CENTER);
+        final HBox descriptionRow = new HBox(10, descriptionField);
+        descriptionRow.setAlignment(Pos.CENTER);
+        final HBox buttonRow = new HBox(10, addButton, resetButton);
+        buttonRow.setAlignment(Pos.CENTER);
+        rootPanel.getChildren().addAll(typeAmountRow, dateTagRow, descriptionRow, buttonRow);
     }
 }

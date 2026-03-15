@@ -11,6 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ContentDisplay;
+import javafx.geometry.Pos;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -44,8 +45,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     public TransactionListPanelImpl() {
         initializeSearchBar();
         initializeTransactionList();
-        rootPanel.setSpacing(10);
-        rootPanel.getChildren().addAll(populateSearchBar(), transactionList);
+        createLayout();
     }
 
     @Override
@@ -118,6 +118,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     private HBox populateSearchBar() {
         final HBox searchBar = new HBox();
         searchBar.setSpacing(10);
+        searchBar.setAlignment(Pos.CENTER);
         searchBar.getChildren().addAll(
                 filterTypeLabel,
                 filterType,
@@ -145,5 +146,11 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
                             filterType.getValue(),
                             filterTag.getValue()));
         }
+    }
+
+    private void createLayout() {
+        rootPanel.setSpacing(10);
+        rootPanel.setAlignment(Pos.CENTER);
+        rootPanel.getChildren().addAll(populateSearchBar(), transactionList);
     }
 }
