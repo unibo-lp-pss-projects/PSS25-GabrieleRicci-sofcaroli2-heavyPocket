@@ -8,6 +8,7 @@ import java.util.List;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
+import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
 public interface AccountController {
 
@@ -19,19 +20,9 @@ public interface AccountController {
 
         BigDecimal getTotalBalance();
 
-        void addTransaction(BigDecimal amount,
-                        LocalDate date,
-                        String description,
-                        boolean expense,
-                        Tag tag);
+        void addTransaction(TransactionDTO transactionDTO);
 
-        void editTransaction(
-                        UUID id,
-                        BigDecimal amount,
-                        LocalDate date,
-                        String description,
-                        boolean expense,
-                        Tag tag);
+        void editTransaction(UUID id, TransactionDTO transactionDTO);
 
         void deleteTransaction(UUID id);
 

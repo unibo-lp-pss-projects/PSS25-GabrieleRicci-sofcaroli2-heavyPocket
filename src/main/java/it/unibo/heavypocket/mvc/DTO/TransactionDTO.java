@@ -2,10 +2,13 @@ package it.unibo.heavypocket.mvc.DTO;
 
 import java.time.LocalDate;
 
+import it.unibo.heavypocket.mvc.model.TransactionType;
+import it.unibo.heavypocket.mvc.model.Tag;
+
 public record TransactionDTO(
-        Double amount,
+        String amount,
         LocalDate date,
         String description,
-        Boolean isExpense,
-        String tag) {
+        TransactionType type,
+        Tag tag) {
 }

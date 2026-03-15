@@ -6,10 +6,11 @@ import java.util.UUID;
 import java.util.Comparator;
 import java.util.List;
 
+import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
+import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
@@ -19,6 +20,9 @@ public final class AccountControllerImpl implements AccountController {
 
     private static final String ERROR_FILTERS = "No transactions found";
     private static final String ERROR_CRUD = "Transaction not found";
+    private static final String ERROR_AMOUNT = "Amount must be greater than zero";
+    private static final String ERROR_FIELDS = "Please fill in all fields";
+    private static final String ERROR_AMOUNT_FORMAT = "Invalid amount format"; 
 
     private final Account model;
     private final AccountView view;
@@ -55,42 +59,31 @@ public final class AccountControllerImpl implements AccountController {
         return model.getTotalBalance();
     }
 
+    // @TODO il balance può andare in negativo?
+    // @TODO c'è una lunghezza massima nella descrizione?
+    // @TODO c'è un valore massimo per l'importo?
     @Override
-    public void addTransaction(
-            final BigDecimal amount,
-            final LocalDate date,
-            final String description,
-            final boolean expense,
-            final Tag tag) {
-        // final Transaction transaction = Transaction.builder()
-        // .withId(UUID.randomUUID())
-        // .withAmount(amount)
-        // .withDate(date)
-        // .withDescription(description)
-        // .withType(expense ? TransactionType.EXPENSE : TransactionType.INCOME)
-        // .withTag(tag)
-        // .build();
-        // model.addTransaction(transaction);
-        return;
+    public void addTransaction(final TransactionDTO transactionDTO) {
+        try {
+            validateTransactionDTO(transactionDTO);
+            final BigDecimal amount = validateAmount(transactionDTO.amount());
+            final Transaction transaction = Transaction.builder()
+                    .withId(UUID.randomUUID())
+                    .withAmount(amount)
+                    .withDate(transactionDTO.date())
+                    .withDescription(transactionDTO.description())
+                    .withType(transactionDTO.type())
+                    .withTag(transactionDTO.tag())
+                    .build();
+            model.addTransaction(transaction);
+            showTransactions();
+        } catch (final IllegalArgumentException | NullPointerException e) {
+            view.showError(e.getMessage());
+        }
     }
 
     @Override
-    public void editTransaction(
-            final UUID id,
-            final BigDecimal amount,
-            final LocalDate date,
-            final String description,
-            final boolean expense,
-            final Tag tag) {
-        // final Transaction newTransaction = Transaction.builder()
-        // .withId(id)
-        // .withAmount(amount)
-        // .withDate(date)
-        // .withDescription(description)
-        // .isExpense(expense)
-        // .withTag(tag)
-        // .build();
-        // model.editTransaction(id, newTransaction);
+    public void editTransaction(final UUID id, final TransactionDTO transactionDTO) {
         return;
     }
 
@@ -108,37 +101,45 @@ public final class AccountControllerImpl implements AccountController {
             showTransactions();
             return;
         }
-        final List<Transaction> filteredTransactions = model.getTransactions().stream()
-                .filter(t -> filterByType(t, filters.type()))
-                .filter(t -> filterByDate(t, filters.date()))
-                .filter(t -> filterByTag(t, filters.tag()))
-                .sorted(Comparator.comparing(Transaction::getDate).reversed())
-                .toList();
-        if (filteredTransactions.isEmpty()) {
-            view.showError(ERROR_FILTERS);
-        } else {
-            view.showTransactionList(filteredTransactions);
+        // final List<Transaction> filteredTransactions = model.getTransactions().stream()
+        //         .filter(t -> filters.type() == null || t.getType() == filters.type())
+        //         .filter(t -> filters.date() == null || t.getDate().equals(filters.date()))
+        //         .filter(t -> filters.tag() == null || t.getTag().equals(filters.tag()))
+        //         .sorted(Comparator.comparing(Transaction::getDate).reversed())
+        //         .toList();
+        // if (filteredTransactions.isEmpty()) {
+        //     view.showError(ERROR_FILTERS);
+        // } else {
+        //     view.showTransactionList(filteredTransactions);
+        // }
+    }
+
+    // @TODO capire se spostare la validazione in una classe apposita
+    private void validateTransactionDTO(final TransactionDTO transactionDTO) {
+        if (transactionDTO == null
+                || transactionDTO.type() == null
+                || transactionDTO.amount() == null
+                || transactionDTO.amount().isBlank()
+                || transactionDTO.date() == null
+                || transactionDTO.description() == null
+                || transactionDTO.description().isBlank()
+                || transactionDTO.tag() == null) {
+            throw new IllegalArgumentException(ERROR_FIELDS);
         }
     }
 
-    private boolean filterByType(final Transaction t, final TransactionType type) {
-        if (type == null) {
-            return true;
+    // @TODO capire se spostare la validazione in una classe apposita
+    private BigDecimal validateAmount(final String amountString) {
+        final String amount = amountString.trim().replace(',', '.');
+        final BigDecimal finalAmount;
+        try {
+            finalAmount = new BigDecimal(amount);
+        } catch (final NumberFormatException e) {
+            throw new IllegalArgumentException(ERROR_AMOUNT_FORMAT);
         }
-        return t.getType() == type;
-    }
-
-    private boolean filterByDate(final Transaction t, final LocalDate date) {
-        if (date == null) {
-            return true;
+        if (finalAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException(ERROR_AMOUNT);
         }
-        return date.equals(t.getDate());
-    }
-
-    private boolean filterByTag(final Transaction t, final Tag tag) {
-        if (tag == null) {
-            return true;
-        }
-        return t.getTag().equals(tag);
+        return finalAmount;
     }
 }

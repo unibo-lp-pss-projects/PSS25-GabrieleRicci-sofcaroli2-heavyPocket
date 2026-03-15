@@ -10,6 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.control.Label;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.text.Text;
 import javafx.geometry.Pos;
 
 import java.time.LocalDate;
@@ -29,6 +31,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     private final Label typeLabel = new Label("Type:");
     private final ChoiceBox<TransactionType> typeField = new ChoiceBox<>();
     private final TextField amountField = new TextField();
+    private final Text currency = new Text("€");
     private final DatePicker datePicker = new DatePicker();
     private final TextField descriptionField = new TextField();
     private final Label tagLabel = new Label("Tag:");
@@ -59,20 +62,18 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     @Override
     public void resetFields() {
-        amountField.clear();
+        amountField.setText(null);
         datePicker.setValue(LocalDate.now());
         descriptionField.clear();
         typeField.setValue(null);
         filterTag.setValue(null);
-        if (addListener != null) {
-            addListener.accept(null);
-        }
     }
 
     private void initializeFields() {
+        amountField.setPromptText("0.01");
         typeField.getItems().addAll(TransactionType.values());
         typeField.setValue(null);
-        amountField.setPromptText("0.00");
+        amountField.setEditable(true);
         datePicker.setValue(LocalDate.now());
         descriptionField.setPromptText("Short description");
         addButton.setText("Add");
@@ -82,16 +83,21 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     }
 
     private void handleAdd() {
-        // if (addListener != null) {
-        //     addListener.accept(// @TODO
-        // }
-        return;
+        if (addListener != null) {
+            addListener.accept(
+                    new TransactionDTO(
+                            amountField.getText(),
+                            datePicker.getValue(),
+                            descriptionField.getText(),
+                            typeField.getValue(),
+                            filterTag.getValue()));
+        }
     }
 
     private void createLayout() {
         rootPanel.setSpacing(5);
         rootPanel.setAlignment(Pos.CENTER);
-        final HBox typeAmountRow = new HBox(10, typeLabel, typeField, amountField);
+        final HBox typeAmountRow = new HBox(10, typeLabel, typeField, amountField, currency);
         typeAmountRow.setAlignment(Pos.CENTER);
         final HBox dateTagRow = new HBox(10, datePicker, tagLabel, filterTag);
         dateTagRow.setAlignment(Pos.CENTER);
