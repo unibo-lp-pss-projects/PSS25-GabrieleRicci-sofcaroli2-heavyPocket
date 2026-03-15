@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
-import it.unibo.heavypocket.mvc.model.FiltersData;
+import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 
@@ -39,7 +39,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     private final ComboBox<Tag> filterTag = new ComboBox<>();
     private final Button searchButton = new Button("Search");
     private final Button clearFiltersButton = new Button("Clear Filters");
-    private Consumer<FiltersData> searchListener;
+    private Consumer<FiltersDTO> searchListener;
     private Consumer<UUID> deleteListener;
 
     public TransactionListPanelImpl() {
@@ -64,7 +64,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     }
 
     @Override
-    public void setOnSearch(final Consumer<FiltersData> searchListener) {
+    public void setOnSearch(final Consumer<FiltersDTO> searchListener) {
         this.searchListener = searchListener;
     }
 
@@ -141,7 +141,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     private void handleSearch() {
         if (searchListener != null) {
             searchListener.accept(
-                    new FiltersData(
+                    new FiltersDTO(
                             filterDate.getValue(),
                             filterType.getValue(),
                             filterTag.getValue()));

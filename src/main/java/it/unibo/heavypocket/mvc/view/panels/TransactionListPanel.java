@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.model.FiltersData;
+import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 
 public interface TransactionListPanel extends Panel {
 
@@ -14,7 +14,7 @@ public interface TransactionListPanel extends Panel {
 
     void setTagList(List<Tag> tags);
 
-    void setOnSearch(Consumer<FiltersData> searchListener);
+    void setOnSearch(Consumer<FiltersDTO> searchListener);
 
     void setOnDelete(Consumer<UUID> deleteListener);
 

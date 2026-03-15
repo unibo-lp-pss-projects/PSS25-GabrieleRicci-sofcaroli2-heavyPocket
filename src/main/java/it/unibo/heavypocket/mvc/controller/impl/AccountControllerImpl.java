@@ -9,7 +9,7 @@ import java.util.List;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.model.FiltersData;
+import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
@@ -103,7 +103,7 @@ public final class AccountControllerImpl implements AccountController {
     }
 
     @Override
-    public void search(final FiltersData filters) {
+    public void search(final FiltersDTO filters) {
         if (filters == null) {
             showTransactions();
             return;

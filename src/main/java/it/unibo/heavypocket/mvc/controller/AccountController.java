@@ -7,7 +7,7 @@ import java.util.List;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
-import it.unibo.heavypocket.mvc.model.FiltersData;
+import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 
 public interface AccountController {
 
@@ -35,5 +35,5 @@ public interface AccountController {
 
         void deleteTransaction(UUID id);
 
-        void search(FiltersData filters);
+        void search(FiltersDTO filters);
 }
