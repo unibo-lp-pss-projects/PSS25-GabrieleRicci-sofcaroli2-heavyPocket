@@ -1,8 +1,8 @@
-package it.unibo.heavypocket.mvc.view.panels.impl;
+package it.unibo.heavypocket.mvc.DTO;
 
 import java.time.LocalDate;
 
-public record TransactionData(
+public record TransactionDTO(
         Double amount,
         LocalDate date,
         String description,

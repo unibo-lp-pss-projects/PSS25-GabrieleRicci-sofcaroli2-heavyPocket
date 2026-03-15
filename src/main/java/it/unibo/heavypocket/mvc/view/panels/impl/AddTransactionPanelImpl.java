@@ -14,7 +14,9 @@ import javafx.geometry.Pos;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Consumer;
 
+import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
@@ -33,8 +35,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     private final ComboBox<Tag> filterTag = new ComboBox<>();
     private final Button addButton = new Button();
     private final Button resetButton = new Button();
-    // private Consumer<TransactionData> addListener;
-    // private BiConsumer<UUID, TransactionData> editListenrer;
+    private Consumer<TransactionDTO> addListener;
 
     public AddTransactionPanelImpl() {
         initializeFields();
@@ -52,12 +53,20 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     }
 
     @Override
+    public void setOnAdd(final Consumer<TransactionDTO> addListener) {
+        this.addListener = addListener;
+    }
+
+    @Override
     public void resetFields() {
         amountField.clear();
         datePicker.setValue(LocalDate.now());
         descriptionField.clear();
         typeField.setValue(null);
         filterTag.setValue(null);
+        if (addListener != null) {
+            addListener.accept(null);
+        }
     }
 
     private void initializeFields() {
@@ -73,7 +82,10 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     }
 
     private void handleAdd() {
-        // TODO
+        // if (addListener != null) {
+        //     addListener.accept(// @TODO
+        // }
+        return;
     }
 
     private void createLayout() {
