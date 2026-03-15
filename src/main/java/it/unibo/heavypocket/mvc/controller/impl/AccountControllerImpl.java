@@ -18,11 +18,10 @@ import it.unibo.heavypocket.mvc.view.AccountView;
 // @TODO ordinamento transazioni
 public final class AccountControllerImpl implements AccountController {
 
-    private static final String ERROR_FILTERS = "No transactions found";
     private static final String ERROR_CRUD = "Transaction not found";
     private static final String ERROR_AMOUNT = "Amount must be greater than zero";
     private static final String ERROR_FIELDS = "Please fill in all fields";
-    private static final String ERROR_AMOUNT_FORMAT = "Invalid amount format"; 
+    private static final String ERROR_AMOUNT_FORMAT = "Invalid amount format";
 
     private final Account model;
     private final AccountView view;
@@ -101,17 +100,13 @@ public final class AccountControllerImpl implements AccountController {
             showTransactions();
             return;
         }
-        // final List<Transaction> filteredTransactions = model.getTransactions().stream()
-        //         .filter(t -> filters.type() == null || t.getType() == filters.type())
-        //         .filter(t -> filters.date() == null || t.getDate().equals(filters.date()))
-        //         .filter(t -> filters.tag() == null || t.getTag().equals(filters.tag()))
-        //         .sorted(Comparator.comparing(Transaction::getDate).reversed())
-        //         .toList();
-        // if (filteredTransactions.isEmpty()) {
-        //     view.showError(ERROR_FILTERS);
-        // } else {
-        //     view.showTransactionList(filteredTransactions);
-        // }
+        final List<Transaction> filteredTransactions = model.getTransactions().stream()
+            .filter(t -> filters.type() == null || model.searchByType(filters.type()).contains(t))
+            .filter(t -> filters.date() == null || model.searchByDate(filters.date()).contains(t))
+            .filter(t -> filters.tag() == null || model.searchByTag(filters.tag()).contains(t))
+            .sorted(Comparator.comparing(Transaction::getDate).reversed())
+            .toList();
+        view.showTransactionList(filteredTransactions);
     }
 
     // @TODO capire se spostare la validazione in una classe apposita
