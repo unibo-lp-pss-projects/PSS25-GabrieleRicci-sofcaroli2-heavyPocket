@@ -36,7 +36,7 @@ public final class TransactionImpl implements Transaction {
             final TransactionType type,
             final Tag tag) {
         this.id = requireNonNull(id, ID_ERROR_MESSAGE);
-        if(amount == null) {
+        if (amount == null) {
             throw new IllegalArgumentException(NULL_AMOUNT_ERROR_MESSAGE);
         }
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {

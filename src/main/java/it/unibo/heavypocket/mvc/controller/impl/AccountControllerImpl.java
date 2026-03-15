@@ -1,7 +1,6 @@
 package it.unibo.heavypocket.mvc.controller.impl;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.UUID;
 import java.util.Comparator;
 import java.util.List;
@@ -11,7 +10,6 @@ import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
 

@@ -2,7 +2,6 @@ package it.unibo.heavypocket.mvc.view.panels.impl;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -10,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.control.Label;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Spinner;
 import javafx.scene.text.Text;
 import javafx.geometry.Pos;
 

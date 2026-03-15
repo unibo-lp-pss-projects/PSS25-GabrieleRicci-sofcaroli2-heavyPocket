@@ -1,12 +1,10 @@
 package it.unibo.heavypocket.mvc.controller;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.UUID;
 import java.util.List;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
