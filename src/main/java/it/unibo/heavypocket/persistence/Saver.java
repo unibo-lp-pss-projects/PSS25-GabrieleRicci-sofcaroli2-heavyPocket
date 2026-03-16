@@ -5,6 +5,6 @@ import java.io.IOException;
 import it.unibo.heavypocket.mvc.model.Account;
 
 public interface Saver {
-    
-    void saveAccount(final Account account) throws IOException;
+
+    void saveAccount(Account account) throws IOException;
 }

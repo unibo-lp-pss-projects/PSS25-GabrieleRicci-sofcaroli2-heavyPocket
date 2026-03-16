@@ -18,7 +18,6 @@ import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
 import it.unibo.heavypocket.mvc.model.Account;
-import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Budget;
 import it.unibo.heavypocket.mvc.model.impl.BudgetImpl;
 

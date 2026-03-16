@@ -11,8 +11,7 @@ import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.persistence.AccountJsonData;
 import it.unibo.heavypocket.persistence.Saver;
-import it.unibo.heavypocket.mvc.model.Budget;
-import it.unibo.heavypocket.mvc.model.impl.BudgetImpl;
+import it.unibo.heavypocket.persistence.TransactionJsonData;
 
 public final class SaverImpl implements Saver {
 
@@ -31,7 +30,7 @@ public final class SaverImpl implements Saver {
     }
 
     public void saveData(final AccountJsonData data) throws IOException {
-        try (final FileWriter writer = new FileWriter(FILE_PATH)) {
+        try (FileWriter writer = new FileWriter(FILE_PATH)) {
             this.gson.toJson(data, writer);
         }
     }

@@ -36,12 +36,9 @@ import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
 import it.unibo.heavypocket.mvc.view.panels.impl.GraphsPanelImpl;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
-import it.unibo.heavypocket.mvc.model.impl.BudgetImpl;
 import it.unibo.heavypocket.persistence.HeavyPocketLoader;
-import it.unibo.heavypocket.persistence.AccountJsonData;
 import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.persistence.impl.SaverImpl;
-import it.unibo.heavypocket.persistence.impl.TransactionJsonData;
 
 public final class AccountViewImpl extends Application implements AccountView {
 
