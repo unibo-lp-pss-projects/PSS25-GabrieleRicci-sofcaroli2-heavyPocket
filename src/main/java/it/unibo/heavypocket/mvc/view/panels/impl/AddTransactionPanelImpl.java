@@ -14,6 +14,8 @@ import javafx.geometry.Pos;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
@@ -36,7 +38,9 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     private final ComboBox<Tag> filterTag = new ComboBox<>();
     private final Button addButton = new Button();
     private final Button resetButton = new Button();
+    private UUID editTransactionId = null;
     private Consumer<TransactionDTO> addListener;
+    private BiConsumer<UUID, TransactionDTO> editListener;
 
     public AddTransactionPanelImpl() {
         initializeFields();
@@ -50,6 +54,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     @Override
     public void setTagList(final List<Tag> tags) {
+        filterTag.getItems().clear();
         filterTag.getItems().addAll(tags);
     }
 
@@ -59,12 +64,28 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     }
 
     @Override
+    public void editTransaction(final UUID id, final TransactionDTO transactionDTO) {
+        this.editTransactionId = id;
+        this.amountField.setText(transactionDTO.amount());
+        this.datePicker.setValue(transactionDTO.date());
+        this.descriptionField.setText(transactionDTO.description());
+        this.typeField.setValue(transactionDTO.type());
+        this.filterTag.setValue(transactionDTO.tag());
+    }
+
+    @Override
+    public void setOnEdit(final BiConsumer<UUID, TransactionDTO> editListener) {
+        this.editListener = editListener;
+    }
+
+    @Override
     public void resetFields() {
         amountField.setText(null);
         datePicker.setValue(LocalDate.now());
         descriptionField.clear();
         typeField.setValue(null);
         filterTag.setValue(null);
+        this.editTransactionId = null;
     }
 
     private void initializeFields() {
@@ -74,15 +95,37 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         amountField.setEditable(true);
         datePicker.setValue(LocalDate.now());
         descriptionField.setPromptText("Short description");
-        addButton.setText("Add");
+        addButton.setText("Save");
         resetButton.setText("Reset");
-        addButton.setOnAction(e -> handleAdd());
+        addButton.setOnAction(e -> handleAction());
         resetButton.setOnAction(e -> resetFields());
+    }
+
+    private void handleAction() {
+        if (this.editTransactionId != null) {
+            handleEdit(this.editTransactionId);
+            this.editTransactionId = null;
+        } else {
+            handleAdd();
+        }
+        resetFields();
     }
 
     private void handleAdd() {
         if (addListener != null) {
             addListener.accept(
+                    new TransactionDTO(
+                            amountField.getText(),
+                            datePicker.getValue(),
+                            descriptionField.getText(),
+                            typeField.getValue(),
+                            filterTag.getValue()));
+        }
+    }
+
+    private void handleEdit(final UUID id) {
+        if (editListener != null) {
+            editListener.accept(id,
                     new TransactionDTO(
                             amountField.getText(),
                             datePicker.getValue(),

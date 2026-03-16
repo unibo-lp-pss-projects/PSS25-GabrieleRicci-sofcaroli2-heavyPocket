@@ -16,6 +16,8 @@ public interface TransactionListPanel extends Panel {
 
     void setOnSearch(Consumer<FiltersDTO> searchListener);
 
+    void setOnEdit(Consumer<UUID> editListener);
+
     void setOnDelete(Consumer<UUID> deleteListener);
 
     void clearFilters();

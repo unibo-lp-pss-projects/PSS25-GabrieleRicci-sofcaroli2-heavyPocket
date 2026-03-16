@@ -1,7 +1,5 @@
 package it.unibo.heavypocket.mvc.view.impl;
 
-import java.util.List;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -9,6 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+
+import java.util.List;
+import java.util.UUID;
 
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.mvc.controller.AccountController;
@@ -20,53 +21,37 @@ import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 import it.unibo.heavypocket.mvc.view.panels.impl.AddTransactionPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
+import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 import it.unibo.heavypocket.persistence.HeavyPocketLoader;
 
 public final class AccountViewImpl extends Application implements AccountView {
 
     private AccountController controller;
     private TransactionListPanel transactionListPanel;
-    private AddTransactionPanel addTransactionListPanel;
+    private AddTransactionPanel addTransactionPanel;
 
     // @TODO: implementare panel
     // @TODO implementare il loader
     @Override
     public void start(final Stage primaryStage) {
-        // final List<Transaction> transactions = List.of(Transaction.builder()
-        //         .withId(UUID.randomUUID())
-        //         .withAmount(BigDecimal.valueOf(50.0))
-        //         .withDate(LocalDate.now())
-        //         .withDescription("description")
-        //         .isExpense(true)
-        //         .withTag(TagEnumImpl.FOOD)
-        //         .build(),
-        //         Transaction.builder()
-        //                 .withId(UUID.randomUUID())
-        //                 .withAmount(BigDecimal.valueOf(150.0))
-        //                 .withDate(LocalDate.now())
-        //                 .withDescription("description 2")
-        //                 .isExpense(false)
-        //                 .withTag(TagEnumImpl.SALARY)
-        //                 .build());
-        // final Set<Tag> tags = Set.of(TagEnumImpl.FOOD, TagEnumImpl.ENTERTAINMENT, TagEnumImpl.SALARY);
-        // final Account model = new AccountImpl(transactions, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, tags);
-
         final Account model = HeavyPocketLoader.loadData();
 
         // inizializzazione pannelli
         this.transactionListPanel = new TransactionListPanelImpl();
-        this.addTransactionListPanel = new AddTransactionPanelImpl();
+        this.addTransactionPanel = new AddTransactionPanelImpl();
         final VBox root = new VBox();
         root.setSpacing(10);
         root.setPadding(new Insets(10));
         root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(transactionListPanel.getRoot(), addTransactionListPanel.getRoot());
+        root.getChildren().addAll(transactionListPanel.getRoot(), addTransactionPanel.getRoot());
         final Scene scene = new Scene(root, 800, 600);
 
         this.controller = new AccountControllerImpl(model, this);
         transactionListPanel.setOnSearch(controller::search);
         transactionListPanel.setOnDelete(controller::deleteTransaction);
-        addTransactionListPanel.setOnAdd(controller::addTransaction);
+        transactionListPanel.setOnEdit(controller::callToEditTransaction);
+        addTransactionPanel.setOnAdd(controller::addTransaction);
+        addTransactionPanel.setOnEdit(controller::editTransaction);
 
         primaryStage.setTitle("HeavyPocket");
         primaryStage.setScene(scene);
@@ -91,7 +76,12 @@ public final class AccountViewImpl extends Application implements AccountView {
     @Override
     public void showTagList(final List<Tag> tags) {
         transactionListPanel.setTagList(tags);
-        addTransactionListPanel.setTagList(tags);
+        addTransactionPanel.setTagList(tags);
+    }
+
+    @Override
+    public void showEditTransaction(final UUID id, final TransactionDTO transactionDTO) {
+        addTransactionPanel.editTransaction(id, transactionDTO);
     }
 
     @Override

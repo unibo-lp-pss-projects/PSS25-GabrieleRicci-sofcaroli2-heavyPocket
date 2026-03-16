@@ -32,10 +32,10 @@ public final class AccountControllerImpl implements AccountController {
         showTags();
     }
 
-    @Override
-    public List<Transaction> getTransactions() {
-        return model.getTransactions();
-    }
+    // @Override
+    // public List<Transaction> getTransactions() {
+    // return model.getTransactions();
+    // }
 
     @Override
     public void showTransactions() {
@@ -63,10 +63,9 @@ public final class AccountControllerImpl implements AccountController {
     public void addTransaction(final TransactionDTO transactionDTO) {
         try {
             validateTransactionDTO(transactionDTO);
-            final BigDecimal amount = validateAmount(transactionDTO.amount());
             final Transaction transaction = Transaction.builder()
                     .withId(UUID.randomUUID())
-                    .withAmount(amount)
+                    .withAmount(validateAmount(transactionDTO.amount()))
                     .withDate(transactionDTO.date())
                     .withDescription(transactionDTO.description())
                     .withType(transactionDTO.type())
@@ -80,8 +79,38 @@ public final class AccountControllerImpl implements AccountController {
     }
 
     @Override
+    public void callToEditTransaction(final UUID id) {
+        model.getTransactionById(id).ifPresentOrElse(
+                transaction -> {
+                    final TransactionDTO transactionDTO = new TransactionDTO(
+                            String.valueOf(transaction.getAmount()),
+                            transaction.getDate(),
+                            transaction.getDescription(),
+                            transaction.getType(),
+                            transaction.getTag());
+                    view.showEditTransaction(id, transactionDTO);
+                },
+                () -> view.showError(ERROR_CRUD));
+    }
+
+    // @TODO
+    @Override
     public void editTransaction(final UUID id, final TransactionDTO transactionDTO) {
-        return;
+        try {
+            validateTransactionDTO(transactionDTO);
+            final Transaction transaction = Transaction.builder()
+                    .withId(id)
+                    .withAmount(validateAmount(transactionDTO.amount()))
+                    .withDate(transactionDTO.date())
+                    .withDescription(transactionDTO.description())
+                    .withType(transactionDTO.type())
+                    .withTag(transactionDTO.tag())
+                    .build();
+            model.editTransaction(id, transaction);
+            showTransactions();
+        } catch (final IllegalArgumentException | NullPointerException e) {
+            view.showError(e.getMessage());
+        }
     }
 
     @Override
@@ -99,11 +128,11 @@ public final class AccountControllerImpl implements AccountController {
             return;
         }
         final List<Transaction> filteredTransactions = model.getTransactions().stream()
-            .filter(t -> filters.type() == null || model.searchByType(filters.type()).contains(t))
-            .filter(t -> filters.date() == null || model.searchByDate(filters.date()).contains(t))
-            .filter(t -> filters.tag() == null || model.searchByTag(filters.tag()).contains(t))
-            .sorted(Comparator.comparing(Transaction::getDate).reversed())
-            .toList();
+                .filter(t -> filters.type() == null || model.searchByType(filters.type()).contains(t))
+                .filter(t -> filters.date() == null || model.searchByDate(filters.date()).contains(t))
+                .filter(t -> filters.tag() == null || model.searchByTag(filters.tag()).contains(t))
+                .sorted(Comparator.comparing(Transaction::getDate).reversed())
+                .toList();
         view.showTransactionList(filteredTransactions);
     }
 

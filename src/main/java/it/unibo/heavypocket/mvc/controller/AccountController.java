@@ -10,7 +10,7 @@ import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
 public interface AccountController {
 
-        List<Transaction> getTransactions();
+        // List<Transaction> getTransactions();
 
         void showTransactions(); // chiamato dalla view per mostrare la lista di transaction
 
@@ -19,6 +19,8 @@ public interface AccountController {
         BigDecimal getTotalBalance();
 
         void addTransaction(TransactionDTO transactionDTO);
+
+        void callToEditTransaction(UUID id);
 
         void editTransaction(UUID id, TransactionDTO transactionDTO);
 

@@ -15,6 +15,8 @@ import it.unibo.heavypocket.mvc.model.TransactionType;
 //@TODO controllare le eccezioni se sono da lanciare o no, se si quali
 public final class AccountImpl implements Account {
 
+    private static final String ERROR_CRUD = "Transaction not found";
+
     private List<Transaction> transactions;
     private BigDecimal balance;
     private BigDecimal budget;
@@ -58,9 +60,11 @@ public final class AccountImpl implements Account {
 
     @Override
     public void editTransaction(final UUID id, final Transaction newTransaction) {
-        this.transactions = this.transactions.stream()
-                .map(t -> t.getId().equals(id) ? newTransaction : t)
-                .toList();
+        int index = java.util.stream.IntStream.range(0, transactions.size())
+                .filter(i -> transactions.get(i).getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(ERROR_CRUD));
+        this.transactions.set(index, newTransaction);
     }
 
     @Override

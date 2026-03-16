@@ -40,6 +40,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     private final Button searchButton = new Button("Search");
     private final Button clearFiltersButton = new Button("Clear Filters");
     private Consumer<FiltersDTO> searchListener;
+    private Consumer<UUID> editListener;
     private Consumer<UUID> deleteListener;
 
     public TransactionListPanelImpl() {
@@ -60,12 +61,18 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
 
     @Override
     public void setTagList(final List<Tag> tags) {
+        filterTag.getItems().clear();
         filterTag.getItems().addAll(tags);
     }
 
     @Override
     public void setOnSearch(final Consumer<FiltersDTO> searchListener) {
         this.searchListener = searchListener;
+    }
+
+    @Override
+    public void setOnEdit(final Consumer<UUID> editListener) {
+        this.editListener = editListener;
     }
 
     @Override
@@ -98,21 +105,28 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
                             DATE_FORMATTER.format(transaction.getDate()),
                             transaction.getDescription(),
                             transaction.getTag()));
-                    final Button deleteButton = new Button("Delete");
-                    deleteButton.setOnAction(e -> {
-                        deleteTransaction(transaction.getId());
-                    });
-                    setGraphic(deleteButton);
-                    setContentDisplay(ContentDisplay.RIGHT);
+                    final HBox buttonBox = createButtons(transaction.getId());
+                    setGraphic(buttonBox);
+                    setContentDisplay(ContentDisplay.LEFT);
                 }
             }
         });
     }
 
-    private void deleteTransaction(final UUID transactionId) {
-        if (deleteListener != null) {
-            deleteListener.accept(transactionId);
-        }
+    private HBox createButtons(final UUID transactionId) {
+        final Button editButton = new Button("Edit");
+        editButton.setOnAction(e -> {
+            if (editListener != null) {
+                editListener.accept(transactionId);
+            }
+        });
+        final Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(e -> {
+            if (deleteListener != null) {
+                deleteListener.accept(transactionId);
+            }
+        });
+        return new HBox(5, editButton, deleteButton);
     }
 
     private HBox populateSearchBar() {
