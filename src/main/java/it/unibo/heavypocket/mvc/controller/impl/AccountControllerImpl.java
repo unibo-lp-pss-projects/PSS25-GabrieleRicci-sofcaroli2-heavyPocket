@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.Comparator;
 import java.util.List;
+import java.time.LocalDate;
 
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
@@ -14,6 +15,7 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.mvc.controller.StatisticsController;
+import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
 
 public final class AccountControllerImpl implements AccountController, StatisticsController {
@@ -170,15 +172,15 @@ public final class AccountControllerImpl implements AccountController, Statistic
     public void setAverageValue() {
         final LocalDate todayDate = LocalDate.now(); // data di oggi per sapere il mese corrente
         final List<Transaction> transactionsFiltered = model.getTransactions().stream()
-            .filter(t -> t.getDate().getMonth() == todayDate.getMonth()
-                && t.getDate().getYear() == todayDate.getYear())
-            .toList();
+                .filter(t -> t.getDate().getMonth() == todayDate.getMonth()
+                        && t.getDate().getYear() == todayDate.getYear())
+                .toList();
         final List<Transaction> expenses = transactionsFiltered.stream()
-            .filter(Transaction::isExpense)
-            .toList();
+                .filter(t -> t.getType() == TransactionType.EXPENSE)
+                .toList();
         final List<Transaction> incomes = transactionsFiltered.stream()
-            .filter(t -> !t.isExpense())
-            .toList();
+                .filter(t -> t.getType() == TransactionType.INCOME)
+                .toList();
         final String avarageExpense = statistics.getAverage(expenses).toString();
         final String avarageIncome = statistics.getAverage(incomes).toString();
         this.view.showAverage(avarageExpense, avarageIncome);

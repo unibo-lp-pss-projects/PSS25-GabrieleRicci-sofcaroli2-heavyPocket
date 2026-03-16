@@ -14,7 +14,7 @@ public interface AccountController {
 
         void showTags(); // chiamato dalla view per mostrare la lista di tag
     
-        void showTotalBalance();
+        void showTotalBalance(); // chiamato dalla view per mostrare il bilancio totale
 
         void addTransaction(TransactionDTO transactionDTO);
 
