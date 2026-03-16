@@ -5,6 +5,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+
+import java.util.List;
+import java.util.UUID;
 
 import java.util.List;
 
@@ -22,13 +27,14 @@ import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 import it.unibo.heavypocket.mvc.view.panels.impl.AddTransactionPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.impl.StatisticsBalancePanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
+import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 import it.unibo.heavypocket.persistence.HeavyPocketLoader;
 
 public final class AccountViewImpl extends Application implements AccountView {
 
     private AccountController controller;
     private TransactionListPanel transactionListPanel;
-    private AddTransactionPanel addTransactionListPanel;
+    private AddTransactionPanel addTransactionPanel;
     private StatisticsBalancePanel statisticsBalancePanel;
 
     @Override
@@ -37,17 +43,27 @@ public final class AccountViewImpl extends Application implements AccountView {
 
         // inizializzazione pannelli
         this.transactionListPanel = new TransactionListPanelImpl();
-        this.addTransactionListPanel = new AddTransactionPanelImpl();
+        this.addTransactionPanel = new AddTransactionPanelImpl();
         this.statisticsBalancePanel = new StatisticsBalancePanelImpl();
 
-        primaryStage.setTitle("HeavyPocket");
-        this.controller = new AccountControllerImpl(model, this);
         final VBox root = new VBox();
+        root.setSpacing(10);
+        root.setPadding(new Insets(10));
+        root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(
                 statisticsBalancePanel.getRoot(),
                 transactionListPanel.getRoot(),
-                addTransactionListPanel.getRoot());
+                addTransactionPanel.getRoot());
+
+        this.controller = new AccountControllerImpl(model, this);
+        transactionListPanel.setOnSearch(controller::search);
+        transactionListPanel.setOnDelete(controller::deleteTransaction);
+        transactionListPanel.setOnEdit(controller::callToEditTransaction);
+        addTransactionPanel.setOnAdd(controller::addTransaction);
+        addTransactionPanel.setOnEdit(controller::editTransaction);
+
         final Scene scene = new Scene(root, 800, 600);
+        primaryStage.setTitle("HeavyPocket");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -70,7 +86,12 @@ public final class AccountViewImpl extends Application implements AccountView {
     @Override
     public void showTagList(final List<Tag> tags) {
         transactionListPanel.setTagList(tags);
-        addTransactionListPanel.setTagList(tags);
+        addTransactionPanel.setTagList(tags);
+    }
+
+    @Override
+    public void showEditTransaction(final UUID id, final TransactionDTO transactionDTO) {
+        addTransactionPanel.editTransaction(id, transactionDTO);
     }
 
     @Override

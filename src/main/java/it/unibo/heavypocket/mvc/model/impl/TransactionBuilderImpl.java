@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.TransactionBuilder;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
@@ -14,7 +15,7 @@ public final class TransactionBuilderImpl implements TransactionBuilder {
     private BigDecimal amount;
     private LocalDate date;
     private String description;
-    private boolean expense;
+    private TransactionType type;
     private Tag tag;
 
     public TransactionBuilderImpl() {
@@ -45,8 +46,8 @@ public final class TransactionBuilderImpl implements TransactionBuilder {
     }
 
     @Override
-    public TransactionBuilder isExpense(final boolean expense) {
-        this.expense = expense;
+    public TransactionBuilder withType(final TransactionType type) {
+        this.type = type;
         return this;
     }
 
@@ -63,7 +64,7 @@ public final class TransactionBuilderImpl implements TransactionBuilder {
                 this.amount,
                 this.date,
                 this.description,
-                this.expense,
+                this.type,
                 this.tag);
         return transaction;
     }

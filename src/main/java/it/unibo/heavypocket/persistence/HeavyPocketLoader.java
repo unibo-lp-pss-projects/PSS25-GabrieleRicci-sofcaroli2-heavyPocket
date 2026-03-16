@@ -2,11 +2,13 @@ package it.unibo.heavypocket.persistence;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import com.google.gson.Gson;
@@ -16,6 +18,7 @@ import it.unibo.heavypocket.mvc.model.impl.TransactionImpl;
 import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
+import it.unibo.heavypocket.mvc.model.TransactionType;
 
 //@TODO: mettere il builder?
 public final class HeavyPocketLoader {
@@ -39,7 +42,8 @@ public final class HeavyPocketLoader {
                                         BigDecimal.ZERO,
                                         BigDecimal.ZERO,
                                         BigDecimal.ZERO,
-                                        Collections.emptySet());
+                                        Arrays.stream(TagEnumImpl.values())
+                                                        .collect(Collectors.toSet()));
                 }
 
                 return new HeavyPocketLoader(is).loadHeavyPocket();
@@ -61,19 +65,17 @@ public final class HeavyPocketLoader {
                                 data.balance(),
                                 data.budget(),
                                 data.savingTarget(),
-                                transactions.stream()
-                                                .map(Transaction::getTag)
+                                Arrays.stream(TagEnumImpl.values())
                                                 .collect(Collectors.toSet()));
         }
 
         private Transaction createTransaction(final TransactionJsonData data) {
-
                 return new TransactionImpl(
                                 UUID.fromString(data.id()),
                                 data.amount(),
                                 LocalDate.parse(data.date()),
                                 data.description(),
-                                data.expense(),
+                                data.type(),
                                 TagEnumImpl.valueOf(data.tag()));
         }
 
@@ -89,7 +91,7 @@ public final class HeavyPocketLoader {
                         BigDecimal amount,
                         String date,
                         String description,
-                        boolean expense,
+                        TransactionType type,
                         String tag) {
         }
 }
