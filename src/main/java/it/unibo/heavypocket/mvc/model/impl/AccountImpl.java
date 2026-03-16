@@ -45,7 +45,7 @@ public final class AccountImpl implements Account {
     @Override
     public BigDecimal getTotalBalance() {
         return transactions.stream()
-                .map(Transaction::getAmount)
+                .map(Transaction::getSignedAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

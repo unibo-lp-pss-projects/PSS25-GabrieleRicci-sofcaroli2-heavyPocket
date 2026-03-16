@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface Statistics {
 
-    // sotto il conto --> media totale delle uscite
-    BigDecimal getAverageExpense(List<Transaction> expenses);
+    // sotto il conto --> media totale
+    BigDecimal getAverage(List<Transaction> transactions);
 
     // piechart --> soldi spesi divisi per categoria: con tag invece di string per
     // passare anche il colore

@@ -16,8 +16,14 @@ public interface AccountView {
 
     void showTagList(List<Tag> tags); // mostra la lista di tag
     
-    // void showAverage();
+    void showBalance(String balance);
 
     void showError(String error); // mostra gli errori
+
+    void showAverage(String averageExpense, String averageIncome); 
+
+    // void showPieChartData(Map<Tag, BigDecimal> data);
+
+    // void showLineChartData(Map<LocalDate, BigDecimal> data);
 
 }

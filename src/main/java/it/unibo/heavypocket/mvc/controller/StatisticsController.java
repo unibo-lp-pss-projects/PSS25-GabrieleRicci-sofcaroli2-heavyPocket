@@ -8,12 +8,12 @@ import it.unibo.heavypocket.mvc.model.Tag;
 
 public interface StatisticsController {
 
-    BigDecimal getAverageValue(); // --> si usa una Label, quind cast a String
+    void setAverageValue(); // --> si usa una Label, quind cast a String
 
-    Map<Tag, BigDecimal> getPieChartData(); // --> lista di oggetti Piechart.data con String, double
+    // Map<Tag, BigDecimal> getPieChartData(); // --> lista di oggetti Piechart.data con String, double
 
-    Map<LocalDate, BigDecimal> getLineChartData();
-    // XYChart.Data<X,Y> sono i dati: String asse Z e Double asse X, BigDecimal asse
-    // Y XYChart.Series<X,Y>
+    // Map<LocalDate, BigDecimal> getLineChartData();
+    // // XYChart.Data<X,Y> sono i dati: String asse Z e Double asse X, BigDecimal asse
+    // // Y XYChart.Series<X,Y>
 
 }

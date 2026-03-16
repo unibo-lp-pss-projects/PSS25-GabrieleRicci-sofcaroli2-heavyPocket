@@ -14,17 +14,16 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 public final class StatisticsImpl implements Statistics {
 
     public StatisticsImpl() {
-
     }
 
     @Override
-    public BigDecimal getAverageExpense(final List<Transaction> expenses) {
-        final BigDecimal expensesCount = new BigDecimal(expenses.size());
-        final BigDecimal averageExpense = expenses.stream()
+    public BigDecimal getAverage(final List<Transaction> transactions) {
+        final BigDecimal transactionsCount = new BigDecimal(transactions.size());
+        final BigDecimal averageTransactions = transactions.stream()
                 .map(Transaction::getAmount) // so già che sono tutte negative, quindi non serve signedAmout
                 .reduce(BigDecimal.ZERO, BigDecimal::add) // somma tutti i valori insieme
-                .divide(expensesCount, 2, RoundingMode.HALF_UP); // dividi per il numero di spese per ottenere la media
-        return averageExpense;
+                .divide(transactionsCount, 2, RoundingMode.HALF_UP); // dividi per il numero di spese per ottenere la media
+        return averageTransactions;
     }
 
     @Override

@@ -6,15 +6,19 @@ import java.util.UUID;
 import java.util.List;
 
 import it.unibo.heavypocket.mvc.model.Account;
+import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
+import it.unibo.heavypocket.mvc.controller.StatisticsController;
+import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
 
-public final class AccountControllerImpl implements AccountController {
+public final class AccountControllerImpl implements AccountController, StatisticsController {
 
     private final Account model;
     private final AccountView view;
+    private final Statistics statistics = new StatisticsImpl();
 
     public AccountControllerImpl(final Account model, final AccountView view) {
         this.model = model;
@@ -22,11 +26,8 @@ public final class AccountControllerImpl implements AccountController {
         this.view.setController(this);
         showTransactions();
         showTags();
-    }
-
-    @Override
-    public List<Transaction> getTransactions() {
-        return model.getTransactions();
+        showTotalBalance();
+        setAverageValue();
     }
 
     @Override
@@ -42,8 +43,9 @@ public final class AccountControllerImpl implements AccountController {
     }
 
     @Override
-    public BigDecimal getTotalBalance() {
-        return model.getTotalBalance();
+    public void showTotalBalance() {
+        final String balance = model.getTotalBalance().toString(); // cast a stringa del balance
+        view.showBalance(balance);
     }
 
     @Override
@@ -102,4 +104,32 @@ public final class AccountControllerImpl implements AccountController {
     public List<Transaction> searchByTag(final Tag tag) {
         return model.searchByTag(tag);
     }
+
+    @Override
+    public void setAverageValue() {
+        final LocalDate todayDate = LocalDate.now(); // data di oggi per sapere il mese corrente
+        final List<Transaction> transactionsFiltered = model.getTransactions().stream()
+            .filter(t -> t.getDate().getMonth() == todayDate.getMonth()
+                && t.getDate().getYear() == todayDate.getYear())
+            .toList();
+        final List<Transaction> expenses = transactionsFiltered.stream()
+            .filter(Transaction::isExpense)
+            .toList();
+        final List<Transaction> incomes = transactionsFiltered.stream()
+            .filter(t -> !t.isExpense())
+            .toList();
+        final String avarageExpense = statistics.getAverage(expenses).toString();
+        final String avarageIncome = statistics.getAverage(incomes).toString();
+        this.view.showAverage(avarageExpense, avarageIncome);
+    }
+
+    // @Override
+    // public Map<Tag, BigDecimal> getPieChartData() {
+    // return statistics.getExpenseByTag(this.expenses);
+    // }
+
+    // @Override
+    // public Map<LocalDate, BigDecimal> getLineChartData() {
+    // return statistics.getStatisticsByMonth(this.transactions);
+    // }
 }
