@@ -2,6 +2,8 @@ package it.unibo.heavypocket.mvc.view;
 
 import java.util.List;
 import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.Map;
 
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.model.Transaction;
@@ -26,7 +28,7 @@ public interface AccountView {
 
     void showAverage(String averageExpense, String averageIncome); 
 
-    // void showPieChartData(Map<Tag, BigDecimal> data);
+    void showPieChartData(Map<Tag, BigDecimal> pieChartData);
 
     // void showLineChartData(Map<LocalDate, BigDecimal> data);
 

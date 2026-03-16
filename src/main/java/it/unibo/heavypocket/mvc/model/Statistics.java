@@ -10,6 +10,10 @@ public interface Statistics {
     // sotto il conto --> media totale
     BigDecimal getAverage(List<Transaction> transactions);
 
+    List<Transaction> getExpenses(List<Transaction> transactions);
+
+    List<Transaction> getIncomes(List<Transaction> transactions);
+
     // piechart --> soldi spesi divisi per categoria: con tag invece di string per
     // passare anche il colore
     Map<Tag, BigDecimal> getExpenseByTag(List<Transaction> expenses);

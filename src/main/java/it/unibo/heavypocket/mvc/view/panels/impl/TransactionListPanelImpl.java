@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ContentDisplay;
 import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -106,6 +107,11 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
                             transaction.getDescription(),
                             transaction.getTag()));
                     final HBox buttonBox = createButtons(transaction.getId());
+                    if (transaction.getType() == TransactionType.EXPENSE) {
+                        setTextFill(Color.RED);
+                    } else {
+                        setTextFill(Color.GREEN);
+                    }
                     setGraphic(buttonBox);
                     setContentDisplay(ContentDisplay.LEFT);
                 }

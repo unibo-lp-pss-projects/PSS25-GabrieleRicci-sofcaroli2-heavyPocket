@@ -5,9 +5,11 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 
 import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
@@ -18,11 +20,15 @@ public class StatisticsBalancePanelImpl implements StatisticsBalancePanel {
     private final Text balanceText = new Text();
     private final Text averageText = new Text();
 
+    private final Text yourBalance = new Text ("Your balance:");
+
     public StatisticsBalancePanelImpl() {
-        rootPanel.setSpacing(10);
+        rootPanel.setSpacing(7);
+        rootPanel.setAlignment(Pos.CENTER);
         rootPanel.getChildren().addAll(
-                averageText,
-                balanceText);
+                yourBalance,
+                balanceText,
+                averageText);
     }
 
     @Override
@@ -39,6 +45,7 @@ public class StatisticsBalancePanelImpl implements StatisticsBalancePanel {
 
     @Override
     public void setBalance(final String balance) {
-        this.balanceText.setText("Your balance: " + balance);
+        this.balanceText.setText(balance);
+        balanceText.setFont(new Font(25));
     }
 }

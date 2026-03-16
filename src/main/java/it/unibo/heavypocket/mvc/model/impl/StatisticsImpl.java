@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.model.Transaction;
+import it.unibo.heavypocket.mvc.model.TransactionType;
 
 public final class StatisticsImpl implements Statistics {
 
@@ -42,11 +43,25 @@ public final class StatisticsImpl implements Statistics {
         final Map<LocalDate, BigDecimal> statisticsByMonth = transactions.stream()
                 .filter(t -> t.getDate().getMonth() == todayDate.getMonth()
                         && t.getDate().getYear() == todayDate.getYear())
-                // filtra solo le tranzazioni che sono nle mese e anno della data corrente;
+                // filtra solo le tranzazioni che sono nel mese e anno della data corrente;
                 .collect(Collectors.toMap(
                         Transaction::getDate,
                         Transaction::getAmount,
                         BigDecimal::add));
         return statisticsByMonth;
+    }
+
+    @Override
+    public List<Transaction> getExpenses(final List<Transaction> transactions) { // ritorna una lista di expense, riutilizzabile per gli altri metodi
+        return transactions.stream()
+                .filter(t -> t.getType() == TransactionType.EXPENSE)
+                .toList();
+    }
+
+    @Override
+    public List<Transaction> getIncomes(final List<Transaction> transactions) { // ritorna una lista di income
+        return transactions.stream()
+                .filter(t -> t.getType() == TransactionType.INCOME)
+                .toList();
     }
 }

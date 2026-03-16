@@ -5,6 +5,8 @@ import java.util.UUID;
 import java.util.Comparator;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
@@ -27,16 +29,18 @@ public final class AccountControllerImpl implements AccountController, Statistic
 
     private final Account model;
     private final AccountView view;
-    private final Statistics statistics = new StatisticsImpl();
+    private final Statistics statistics;
 
-    public AccountControllerImpl(final Account model, final AccountView view) {
+    public AccountControllerImpl(final Account model, final AccountView view, final Statistics statistics) {
         this.model = model;
         this.view = view;
+        this.statistics = statistics;
         this.view.setController(this);
         showTransactions();
         showTags();
         showTotalBalance();
         setAverageValue();
+        setPieChartData();
     }
 
     @Override
@@ -175,21 +179,19 @@ public final class AccountControllerImpl implements AccountController, Statistic
                 .filter(t -> t.getDate().getMonth() == todayDate.getMonth()
                         && t.getDate().getYear() == todayDate.getYear())
                 .toList();
-        final List<Transaction> expenses = transactionsFiltered.stream()
-                .filter(t -> t.getType() == TransactionType.EXPENSE)
-                .toList();
-        final List<Transaction> incomes = transactionsFiltered.stream()
-                .filter(t -> t.getType() == TransactionType.INCOME)
-                .toList();
+        final List<Transaction> expenses = statistics.getExpenses(transactionsFiltered);
+        final List<Transaction> incomes = statistics.getIncomes(transactionsFiltered);
         final String avarageExpense = statistics.getAverage(expenses).toString();
         final String avarageIncome = statistics.getAverage(incomes).toString();
         this.view.showAverage(avarageExpense, avarageIncome);
     }
 
-    // @Override
-    // public Map<Tag, BigDecimal> getPieChartData() {
-    // return statistics.getExpenseByTag(this.expenses);
-    // }
+    @Override
+    public void setPieChartData() {
+        final List<Transaction> expenses = statistics.getExpenses(model.getTransactions());
+        final Map<Tag, BigDecimal> expenseByTag = this.statistics.getExpenseByTag(expenses);
+        this.view.showPieChartData(expenseByTag);           
+    }
 
     // @Override
     // public Map<LocalDate, BigDecimal> getLineChartData() {

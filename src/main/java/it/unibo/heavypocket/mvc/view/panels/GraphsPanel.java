@@ -1,8 +1,12 @@
 package it.unibo.heavypocket.mvc.view.panels;
 
+import javafx.collections.ObservableList;
+
+import javafx.scene.chart.PieChart;
+
 public interface GraphsPanel extends Panel {
     
-    void setPieChartData(); 
+    void setPieChartData(ObservableList<PieChart.Data> pieChartData); 
 
     void setLineChartData();
 }
