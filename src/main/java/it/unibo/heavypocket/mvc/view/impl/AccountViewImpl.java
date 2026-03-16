@@ -35,6 +35,11 @@ import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
 import it.unibo.heavypocket.mvc.view.panels.impl.GraphsPanelImpl;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 import it.unibo.heavypocket.persistence.HeavyPocketLoader;
+import it.unibo.heavypocket.persistence.AccountJsonData;
+import it.unibo.heavypocket.persistence.Saver;
+import it.unibo.heavypocket.persistence.impl.SaverImpl;
+import it.unibo.heavypocket.persistence.impl.TransactionJsonData;
+import it.unibo.heavypocket.mvc.model.TransactionType;
 
 public final class AccountViewImpl extends Application implements AccountView {
 
@@ -48,6 +53,7 @@ public final class AccountViewImpl extends Application implements AccountView {
     public void start(final Stage primaryStage) {
         final Account model = HeavyPocketLoader.loadData();
         final Statistics statistics = new StatisticsImpl();
+        final Saver saver = new SaverImpl();
 
         // inizializzazione pannelli
         this.transactionListPanel = new TransactionListPanelImpl();
@@ -63,10 +69,9 @@ public final class AccountViewImpl extends Application implements AccountView {
                 statisticsBalancePanel.getRoot(),
                 transactionListPanel.getRoot(),
                 addTransactionPanel.getRoot(),
-                graphsPanel.getRoot()
-            );
+                graphsPanel.getRoot());
 
-        this.controller = new AccountControllerImpl(model, this, statistics);
+        this.controller = new AccountControllerImpl(model, this, statistics, saver);
         transactionListPanel.setOnSearch(controller::search);
         transactionListPanel.setOnDelete(controller::deleteTransaction);
         transactionListPanel.setOnEdit(controller::callToEditTransaction);
@@ -127,11 +132,10 @@ public final class AccountViewImpl extends Application implements AccountView {
     @Override
     public void showPieChartData(final Map<Tag, BigDecimal> expenseByTag) {
         final ObservableList<PieChart.Data> pieChartData = expenseByTag.entrySet().stream()
-            .map(entry -> new PieChart.Data(
-                entry.getKey().getName(),
-                entry.getValue().doubleValue()
-            ))
-            .collect(Collectors.toCollection(FXCollections::observableArrayList));
+                .map(entry -> new PieChart.Data(
+                        entry.getKey().getName(),
+                        entry.getValue().doubleValue()))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
         graphsPanel.setPieChartData(pieChartData);
     }
 }

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
+import java.io.IOException;
 
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
@@ -15,7 +16,9 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
+import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.mvc.controller.StatisticsController;
+
 
 public final class AccountControllerImpl implements AccountController, StatisticsController {
 
@@ -27,11 +30,17 @@ public final class AccountControllerImpl implements AccountController, Statistic
     private final Account model;
     private final AccountView view;
     private final Statistics statistics;
+    private final Saver saver;
 
-    public AccountControllerImpl(final Account model, final AccountView view, final Statistics statistics) {
+    public AccountControllerImpl(
+            final Account model, 
+            final AccountView view, 
+            final Statistics statistics,
+            final Saver saver) {
         this.model = model;
         this.view = view;
         this.statistics = statistics;
+        this.saver = saver;
         this.view.setController(this);
         showTransactions();
         showTags();
@@ -77,6 +86,7 @@ public final class AccountControllerImpl implements AccountController, Statistic
                     .build();
             model.addTransaction(transaction);
             showTransactions();
+            persistState();
         } catch (final IllegalArgumentException | NullPointerException e) {
             view.showError(e.getMessage());
         }
@@ -112,6 +122,7 @@ public final class AccountControllerImpl implements AccountController, Statistic
                     .build();
             model.editTransaction(id, transaction);
             showTransactions();
+            persistState();
         } catch (final IllegalArgumentException | NullPointerException e) {
             view.showError(e.getMessage());
         }
@@ -123,6 +134,7 @@ public final class AccountControllerImpl implements AccountController, Statistic
                 model::deleteTransaction,
                 () -> view.showError(ERROR_CRUD));
         showTransactions();
+        persistState();
     }
 
     @Override
@@ -194,4 +206,12 @@ public final class AccountControllerImpl implements AccountController, Statistic
     // public Map<LocalDate, BigDecimal> getLineChartData() {
     // return statistics.getStatisticsByMonth(this.transactions);
     // }
+
+    private void persistState() {
+        try {
+            saver.saveAccount(model);
+        } catch (final IOException e) {
+            view.showError("Errore nel salvataggio dei dati");
+        }
+    }
 }

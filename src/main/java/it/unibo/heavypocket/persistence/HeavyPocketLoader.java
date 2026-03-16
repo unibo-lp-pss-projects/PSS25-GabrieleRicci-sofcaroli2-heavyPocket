@@ -1,26 +1,27 @@
 package it.unibo.heavypocket.persistence;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.Set;
 import java.util.stream.Collectors;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import com.google.gson.Gson;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.impl.TransactionImpl;
 import it.unibo.heavypocket.mvc.model.impl.TagEnumImpl;
-import it.unibo.heavypocket.mvc.model.Account;
-import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
 import it.unibo.heavypocket.mvc.model.TransactionType;
+import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
+import it.unibo.heavypocket.mvc.model.Account;
+import it.unibo.heavypocket.mvc.model.Tag;
 
 //@TODO: mettere il builder?
+
 public final class HeavyPocketLoader {
 
         private static final String DATA_PATH = "/persistence/data.json";
@@ -42,8 +43,7 @@ public final class HeavyPocketLoader {
                                         BigDecimal.ZERO,
                                         BigDecimal.ZERO,
                                         BigDecimal.ZERO,
-                                        Arrays.stream(TagEnumImpl.values())
-                                                        .collect(Collectors.toSet()));
+                                        Collections.emptySet());
                 }
 
                 return new HeavyPocketLoader(is).loadHeavyPocket();
@@ -65,8 +65,7 @@ public final class HeavyPocketLoader {
                                 data.balance(),
                                 data.budget(),
                                 data.savingTarget(),
-                                Arrays.stream(TagEnumImpl.values())
-                                                .collect(Collectors.toSet()));
+                                Set.of(TagEnumImpl.values()));
         }
 
         private Transaction createTransaction(final TransactionJsonData data) {
@@ -79,6 +78,7 @@ public final class HeavyPocketLoader {
                                 TagEnumImpl.valueOf(data.tag()));
         }
 
+        //@TODO: cavare da una delle due parti i record e dove posizionareli
         private record AccountJsonData(
                         List<TransactionJsonData> transactions,
                         BigDecimal balance,
