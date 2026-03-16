@@ -25,8 +25,6 @@ import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 
 public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
-    private static final String SELECT_TAG = "Select Tag";
-
     private final VBox rootPanel = new VBox();
     private final Label typeLabel = new Label("Type:");
     private final ChoiceBox<TransactionType> typeField = new ChoiceBox<>();
@@ -38,7 +36,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     private final ComboBox<Tag> filterTag = new ComboBox<>();
     private final Button addButton = new Button();
     private final Button resetButton = new Button();
-    private UUID editTransactionId = null;
+    private UUID editTransactionId;
     private Consumer<TransactionDTO> addListener;
     private BiConsumer<UUID, TransactionDTO> editListener;
 

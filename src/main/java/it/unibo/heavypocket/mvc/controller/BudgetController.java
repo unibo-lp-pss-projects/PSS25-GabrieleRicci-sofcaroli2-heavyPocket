@@ -8,10 +8,5 @@ public interface BudgetController {
 
     BigDecimal getCurrentSpent();
 
-    void addExpense(BigDecimal amount);
-
-    void updateBudgetLimit(BigDecimal newLimit);
-
     boolean isBudgetExceeded();
-
 }
