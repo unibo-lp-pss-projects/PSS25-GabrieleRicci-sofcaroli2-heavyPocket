@@ -123,7 +123,7 @@ public final class AccountViewImpl extends Application implements AccountView {
     public void showAverage(final String expenses, final String incomes) {
         statisticsBalancePanel.setAverageValue(expenses, incomes);
     }
-    
+
     @Override
     public void showPieChartData(final Map<Tag, BigDecimal> expenseByTag) {
         final ObservableList<PieChart.Data> pieChartData = expenseByTag.entrySet().stream()

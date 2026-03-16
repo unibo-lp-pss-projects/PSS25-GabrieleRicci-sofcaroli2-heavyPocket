@@ -1,11 +1,5 @@
 package it.unibo.heavypocket.mvc.controller;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Map;
-
-import it.unibo.heavypocket.mvc.model.Tag;
-
 public interface StatisticsController {
 
     void setAverageValue(); // --> si usa una Label, quind cast a String

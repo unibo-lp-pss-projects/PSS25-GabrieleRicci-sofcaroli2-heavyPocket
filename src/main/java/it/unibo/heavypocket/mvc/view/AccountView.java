@@ -19,7 +19,7 @@ public interface AccountView {
     void showTransactionList(List<Transaction> transactions); // mostra la lista di transazioni
 
     void showTagList(List<Tag> tags); // mostra la lista di tag
-    
+
     void showBalance(String balance);
 
     void showEditTransaction(UUID id, TransactionDTO transactionDTO); // mostra il dialog

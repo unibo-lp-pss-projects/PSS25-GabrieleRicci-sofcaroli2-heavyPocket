@@ -1,26 +1,23 @@
 package it.unibo.heavypocket.mvc.view.panels.impl;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 
-import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
 
-public class StatisticsBalancePanelImpl implements StatisticsBalancePanel {
+public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel {
 
     private final VBox rootPanel = new VBox();
     private final Text balanceText = new Text();
     private final Text averageText = new Text();
 
-    private final Text yourBalance = new Text ("Your balance:");
+    private final Text yourBalance = new Text("Your balance:");
 
     public StatisticsBalancePanelImpl() {
         rootPanel.setSpacing(7);
@@ -37,7 +34,7 @@ public class StatisticsBalancePanelImpl implements StatisticsBalancePanel {
     }
 
     @Override
-    public void setAverageValue(String averageExpense, String averageIncome) {
+    public void setAverageValue(final String averageExpense, final String averageIncome) {
         final Month todayDate = LocalDate.now().getMonth(); // data di oggi per sapere il mese corrente
         this.averageText.setText(todayDate + " average income: " + averageIncome + "\n" + todayDate
                 + " average expense: " + averageExpense);

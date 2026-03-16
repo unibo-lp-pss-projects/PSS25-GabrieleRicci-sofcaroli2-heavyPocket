@@ -23,7 +23,8 @@ public final class StatisticsImpl implements Statistics {
         final BigDecimal averageTransactions = transactions.stream()
                 .map(Transaction::getAmount) // so già che sono tutte negative, quindi non serve signedAmout
                 .reduce(BigDecimal.ZERO, BigDecimal::add) // somma tutti i valori insieme
-                .divide(transactionsCount, 2, RoundingMode.HALF_UP); // dividi per il numero di spese per ottenere la media
+                .divide(transactionsCount, 2, RoundingMode.HALF_UP);
+        // dividi per il numero di spese per ottenere la media
         return averageTransactions;
     }
 
@@ -52,14 +53,16 @@ public final class StatisticsImpl implements Statistics {
     }
 
     @Override
-    public List<Transaction> getExpenses(final List<Transaction> transactions) { // ritorna una lista di expense, riutilizzabile per gli altri metodi
+    public List<Transaction> getExpenses(final List<Transaction> transactions) {
+        // ritorna una lista di expense, riutilizzabile per gli altri metodi
         return transactions.stream()
                 .filter(t -> t.getType() == TransactionType.EXPENSE)
                 .toList();
     }
 
     @Override
-    public List<Transaction> getIncomes(final List<Transaction> transactions) { // ritorna una lista di income
+    public List<Transaction> getIncomes(final List<Transaction> transactions) {
+        // ritorna una lista di income
         return transactions.stream()
                 .filter(t -> t.getType() == TransactionType.INCOME)
                 .toList();

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
@@ -60,7 +61,7 @@ public final class AccountImpl implements Account {
 
     @Override
     public void editTransaction(final UUID id, final Transaction newTransaction) {
-        int index = java.util.stream.IntStream.range(0, transactions.size())
+        final int index = IntStream.range(0, transactions.size())
                 .filter(i -> transactions.get(i).getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ERROR_CRUD));

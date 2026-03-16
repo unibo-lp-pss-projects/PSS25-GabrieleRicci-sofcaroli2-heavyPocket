@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 
 public interface GraphsPanel extends Panel {
-    
+
     void setPieChartData(ObservableList<PieChart.Data> pieChartData); 
 
     void setLineChartData();

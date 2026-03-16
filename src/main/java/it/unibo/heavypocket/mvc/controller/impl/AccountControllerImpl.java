@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
@@ -17,8 +16,6 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.mvc.controller.StatisticsController;
-import it.unibo.heavypocket.mvc.model.TransactionType;
-import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
 
 public final class AccountControllerImpl implements AccountController, StatisticsController {
 
@@ -190,7 +187,7 @@ public final class AccountControllerImpl implements AccountController, Statistic
     public void setPieChartData() {
         final List<Transaction> expenses = statistics.getExpenses(model.getTransactions());
         final Map<Tag, BigDecimal> expenseByTag = this.statistics.getExpenseByTag(expenses);
-        this.view.showPieChartData(expenseByTag);           
+        this.view.showPieChartData(expenseByTag);
     }
 
     // @Override
