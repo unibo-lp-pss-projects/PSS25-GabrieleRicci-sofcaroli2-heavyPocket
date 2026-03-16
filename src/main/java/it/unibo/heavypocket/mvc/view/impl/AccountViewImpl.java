@@ -1,5 +1,7 @@
 package it.unibo.heavypocket.mvc.view.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,16 +12,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.Map;
 
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.mvc.controller.AccountController;
+import it.unibo.heavypocket.mvc.controller.BudgetController;
 import it.unibo.heavypocket.mvc.controller.impl.AccountControllerImpl;
+import it.unibo.heavypocket.mvc.controller.impl.BudgetControllerImpl;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
@@ -27,13 +28,20 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
+import it.unibo.heavypocket.mvc.model.TransactionType;
+import it.unibo.heavypocket.mvc.model.Transaction;
+import it.unibo.heavypocket.mvc.model.Tag;
+import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
+import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
+import it.unibo.heavypocket.mvc.view.panels.impl.BudgetPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.impl.AddTransactionPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.impl.StatisticsBalancePanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
 import it.unibo.heavypocket.mvc.view.panels.impl.GraphsPanelImpl;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
+import it.unibo.heavypocket.mvc.model.impl.BudgetImpl;
 import it.unibo.heavypocket.persistence.HeavyPocketLoader;
 import it.unibo.heavypocket.persistence.AccountJsonData;
 import it.unibo.heavypocket.persistence.Saver;
@@ -44,10 +52,12 @@ import it.unibo.heavypocket.mvc.model.TransactionType;
 public final class AccountViewImpl extends Application implements AccountView {
 
     private AccountController controller;
+    private BudgetController budgetController;
     private TransactionListPanel transactionListPanel;
     private AddTransactionPanel addTransactionPanel;
     private StatisticsBalancePanel statisticsBalancePanel;
     private GraphsPanel graphsPanel;
+    private BudgetPanel budgetPanel;
 
     @Override
     public void start(final Stage primaryStage) {
@@ -60,6 +70,7 @@ public final class AccountViewImpl extends Application implements AccountView {
         this.addTransactionPanel = new AddTransactionPanelImpl();
         this.statisticsBalancePanel = new StatisticsBalancePanelImpl();
         this.graphsPanel = new GraphsPanelImpl();
+        this.budgetPanel = new BudgetPanelImpl();
 
         final VBox root = new VBox();
         root.setSpacing(10);
@@ -69,14 +80,19 @@ public final class AccountViewImpl extends Application implements AccountView {
                 statisticsBalancePanel.getRoot(),
                 transactionListPanel.getRoot(),
                 addTransactionPanel.getRoot(),
-                graphsPanel.getRoot());
+                graphsPanel.getRoot(),
+                budgetPanel.getRoot()
+            );
 
         this.controller = new AccountControllerImpl(model, this, statistics, saver);
+        this.budgetController = new BudgetControllerImpl(new BudgetImpl(getValidBudgetLimit(model.getBudgetLimit())));
+
         transactionListPanel.setOnSearch(controller::search);
         transactionListPanel.setOnDelete(controller::deleteTransaction);
         transactionListPanel.setOnEdit(controller::callToEditTransaction);
         addTransactionPanel.setOnAdd(controller::addTransaction);
         addTransactionPanel.setOnEdit(controller::editTransaction);
+        budgetPanel.setOnUpdateLimit(this::updateBudgetLimit);
 
         final Scene scene = new Scene(root, 850, 1000);
         primaryStage.setTitle("HeavyPocket");
@@ -97,6 +113,7 @@ public final class AccountViewImpl extends Application implements AccountView {
     @Override
     public void showTransactionList(final List<Transaction> transactions) {
         transactionListPanel.setTransactions(transactions);
+        refreshBudgetCurrentSpent();
     }
 
     @Override
@@ -137,5 +154,43 @@ public final class AccountViewImpl extends Application implements AccountView {
                         entry.getValue().doubleValue()))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
         graphsPanel.setPieChartData(pieChartData);
+    }
+
+    private void initializeCurrentSpentFromTransactions(final List<Transaction> transactions) {
+        for (final Transaction transaction : transactions) {
+            if (transaction.getType() == TransactionType.EXPENSE) {
+                this.budgetController.addExpense(transaction.getAmount());
+            }
+        }
+    }
+
+    private void updateBudgetLimit(final BigDecimal newLimit) {
+        try {
+            this.budgetController.updateBudgetLimit(newLimit);
+            updateBudgetPanelStatus();
+        } catch (final IllegalArgumentException ex) {
+            showError(ex.getMessage());
+        }
+    }
+
+    private void updateBudgetPanelStatus() {
+        this.budgetPanel.setBudgetStatus(
+                this.budgetController.getBudgetLimit(),
+                this.budgetController.getCurrentSpent(),
+                this.budgetController.isBudgetExceeded());
+    }
+
+    private void refreshBudgetCurrentSpent() {
+        final BigDecimal budgetLimit = this.budgetController.getBudgetLimit();
+        this.budgetController = new BudgetControllerImpl(new BudgetImpl(budgetLimit));
+        initializeCurrentSpentFromTransactions(this.model.getTransactions());
+        updateBudgetPanelStatus();
+    }
+
+    private BigDecimal getValidBudgetLimit(final BigDecimal budgetLimit) {
+        if (budgetLimit != null && budgetLimit.compareTo(BigDecimal.ZERO) > 0) {
+            return budgetLimit;
+        }
+        return BigDecimal.ONE;
     }
 }

@@ -15,6 +15,8 @@ public interface Account {
 
     BigDecimal getTotalBalance();
 
+    BigDecimal getBudgetLimit();
+
     void addTransaction(Transaction transaction);
 
     void editTransaction(UUID id, Transaction newTransaction);

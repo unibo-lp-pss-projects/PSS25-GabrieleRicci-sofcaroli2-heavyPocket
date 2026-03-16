@@ -55,6 +55,11 @@ public final class AccountImpl implements Account {
     }
 
     @Override
+    public BigDecimal getBudgetLimit() {
+        return this.budget;
+    }
+
+    @Override
     public void addTransaction(final Transaction transaction) {
         this.transactions.add(transaction);
     }
