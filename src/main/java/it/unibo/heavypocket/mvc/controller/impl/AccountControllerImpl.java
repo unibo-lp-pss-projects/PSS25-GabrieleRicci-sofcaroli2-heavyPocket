@@ -18,9 +18,9 @@ import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.mvc.controller.StatisticsController;
+import it.unibo.heavypocket.mvc.controller.BudgetController;
 
-
-public final class AccountControllerImpl implements AccountController, StatisticsController {
+public final class AccountControllerImpl implements AccountController, StatisticsController, BudgetController {
 
     private static final String ERROR_CRUD = "Transaction not found";
     private static final String ERROR_AMOUNT = "Amount must be greater than zero";
@@ -213,5 +213,30 @@ public final class AccountControllerImpl implements AccountController, Statistic
         } catch (final IOException e) {
             view.showError("Errore nel salvataggio dei dati");
         }
+    }
+
+    @Override
+    public BigDecimal getBudgetLimit() {
+        return this.model.getBudget().getLimit();
+    }
+
+    // @TODO implementare qui non nel model 
+    @Override
+    public BigDecimal getCurrentSpent() {
+        return null;
+        //@TODO da fare
+    }
+
+    // @TODO implementare qui non nel model 
+    @Override
+    public boolean isBudgetExceeded() {
+        return true;
+        //@TODO da fare
+    }
+
+    @Override
+    public void updateBudgetLimit(final BigDecimal newLimit) {
+        this.model.getBudget().setLimit(newLimit);
+        //@TODO mostrare il  nuovo limite nella view => ShowBudget(newLimit);
     }
 }

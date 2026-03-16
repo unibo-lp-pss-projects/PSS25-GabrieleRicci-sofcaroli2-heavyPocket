@@ -11,6 +11,8 @@ import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.persistence.AccountJsonData;
 import it.unibo.heavypocket.persistence.Saver;
+import it.unibo.heavypocket.mvc.model.Budget;
+import it.unibo.heavypocket.mvc.model.impl.BudgetImpl;
 
 public final class SaverImpl implements Saver {
 
@@ -38,14 +40,12 @@ public final class SaverImpl implements Saver {
         final List<TransactionJsonData> transactions = account.getTransactions().stream()
                 .map(this::toJsonData)
                 .toList();
-
         return new AccountJsonData(
                 transactions,
                 account.getTotalBalance(),
-                BigDecimal.ZERO,
+                account.getBudget().getLimit(),
                 BigDecimal.ZERO);
-                // account.getBudget(),
-                // account.getSavingTarget()
+        // account.getSavingTarget()
     }
 
     private TransactionJsonData toJsonData(final Transaction transaction) {

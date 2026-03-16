@@ -1,17 +1,18 @@
 package it.unibo.heavypocket.mvc.controller;
 
 import java.util.UUID;
+import java.math.BigDecimal;
 
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
 public interface AccountController {
 
-        void showTransactions(); // chiamato dalla view per mostrare la lista di transaction
+        void showTransactions();
 
-        void showTags(); // chiamato dalla view per mostrare la lista di tag
+        void showTags();
 
-        void showTotalBalance(); // chiamato dalla view per mostrare il bilancio totale
+        void showTotalBalance();
 
         void addTransaction(TransactionDTO transactionDTO);
 
@@ -20,6 +21,8 @@ public interface AccountController {
         void editTransaction(UUID id, TransactionDTO transactionDTO);
 
         void deleteTransaction(UUID id);
+
+        void updateBudgetLimit(BigDecimal newLimit);
 
         void search(FiltersDTO filters);
 }

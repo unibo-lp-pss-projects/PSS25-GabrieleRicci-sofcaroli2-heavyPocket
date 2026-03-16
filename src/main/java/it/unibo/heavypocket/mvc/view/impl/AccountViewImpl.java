@@ -1,7 +1,5 @@
 package it.unibo.heavypocket.mvc.view.impl;
 
-import java.math.BigDecimal;
-import java.util.List;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,23 +10,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.Map;
 
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.mvc.controller.AccountController;
-import it.unibo.heavypocket.mvc.controller.BudgetController;
 import it.unibo.heavypocket.mvc.controller.impl.AccountControllerImpl;
-import it.unibo.heavypocket.mvc.controller.impl.BudgetControllerImpl;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
-import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.model.Tag;
-import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
-import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
@@ -47,12 +42,10 @@ import it.unibo.heavypocket.persistence.AccountJsonData;
 import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.persistence.impl.SaverImpl;
 import it.unibo.heavypocket.persistence.impl.TransactionJsonData;
-import it.unibo.heavypocket.mvc.model.TransactionType;
 
 public final class AccountViewImpl extends Application implements AccountView {
 
     private AccountController controller;
-    private BudgetController budgetController;
     private TransactionListPanel transactionListPanel;
     private AddTransactionPanel addTransactionPanel;
     private StatisticsBalancePanel statisticsBalancePanel;
@@ -81,18 +74,16 @@ public final class AccountViewImpl extends Application implements AccountView {
                 transactionListPanel.getRoot(),
                 addTransactionPanel.getRoot(),
                 graphsPanel.getRoot(),
-                budgetPanel.getRoot()
-            );
+                budgetPanel.getRoot());
 
         this.controller = new AccountControllerImpl(model, this, statistics, saver);
-        this.budgetController = new BudgetControllerImpl(new BudgetImpl(getValidBudgetLimit(model.getBudgetLimit())));
 
         transactionListPanel.setOnSearch(controller::search);
         transactionListPanel.setOnDelete(controller::deleteTransaction);
         transactionListPanel.setOnEdit(controller::callToEditTransaction);
         addTransactionPanel.setOnAdd(controller::addTransaction);
         addTransactionPanel.setOnEdit(controller::editTransaction);
-        budgetPanel.setOnUpdateLimit(this::updateBudgetLimit);
+        budgetPanel.setOnUpdateLimit(controller::updateBudgetLimit);
 
         final Scene scene = new Scene(root, 850, 1000);
         primaryStage.setTitle("HeavyPocket");
@@ -113,7 +104,7 @@ public final class AccountViewImpl extends Application implements AccountView {
     @Override
     public void showTransactionList(final List<Transaction> transactions) {
         transactionListPanel.setTransactions(transactions);
-        refreshBudgetCurrentSpent();
+        // refreshBudgetCurrentSpent();
     }
 
     @Override
@@ -133,15 +124,6 @@ public final class AccountViewImpl extends Application implements AccountView {
     }
 
     @Override
-    public void showError(final String error) {
-        final Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Warning");
-        alert.setHeaderText(null);
-        alert.setContentText(error);
-        alert.showAndWait();
-    }
-
-    @Override
     public void showAverage(final String expenses, final String incomes) {
         statisticsBalancePanel.setAverageValue(expenses, incomes);
     }
@@ -156,41 +138,52 @@ public final class AccountViewImpl extends Application implements AccountView {
         graphsPanel.setPieChartData(pieChartData);
     }
 
-    private void initializeCurrentSpentFromTransactions(final List<Transaction> transactions) {
-        for (final Transaction transaction : transactions) {
-            if (transaction.getType() == TransactionType.EXPENSE) {
-                this.budgetController.addExpense(transaction.getAmount());
-            }
-        }
-    }
+    // private void initializeCurrentSpentFromTransactions(final List<Transaction>
+    // transactions) {
+    // for (final Transaction transaction : transactions) {
+    // if (transaction.getType() == TransactionType.EXPENSE) {
+    // this.budgetController.addExpense(transaction.getAmount());
+    // }
+    // }
+    // }
 
-    private void updateBudgetLimit(final BigDecimal newLimit) {
-        try {
-            this.budgetController.updateBudgetLimit(newLimit);
-            updateBudgetPanelStatus();
-        } catch (final IllegalArgumentException ex) {
-            showError(ex.getMessage());
-        }
-    }
+    // private void updateBudgetLimit(final BigDecimal newLimit) {
+    // try {
+    // this.budgetController.updateBudgetLimit(newLimit);
+    // updateBudgetPanelStatus();
+    // } catch (final IllegalArgumentException ex) {
+    // showError(ex.getMessage());
+    // }
+    // }
 
-    private void updateBudgetPanelStatus() {
-        this.budgetPanel.setBudgetStatus(
-                this.budgetController.getBudgetLimit(),
-                this.budgetController.getCurrentSpent(),
-                this.budgetController.isBudgetExceeded());
-    }
+    // private void updateBudgetPanelStatus() {
+    // this.budgetPanel.setBudgetStatus(
+    // this.budgetController.getBudgetLimit(),
+    // this.budgetController.getCurrentSpent(),
+    // this.budgetController.isBudgetExceeded());
+    // }
 
-    private void refreshBudgetCurrentSpent() {
-        final BigDecimal budgetLimit = this.budgetController.getBudgetLimit();
-        this.budgetController = new BudgetControllerImpl(new BudgetImpl(budgetLimit));
-        initializeCurrentSpentFromTransactions(this.model.getTransactions());
-        updateBudgetPanelStatus();
-    }
+    // private void refreshBudgetCurrentSpent() {
+    // final BigDecimal budgetLimit = this.budgetController.getBudgetLimit();
+    // this.budgetController = new BudgetControllerImpl(new
+    // BudgetImpl(budgetLimit));
+    // initializeCurrentSpentFromTransactions(this.model.getTransactions());
+    // updateBudgetPanelStatus();
+    // }
 
-    private BigDecimal getValidBudgetLimit(final BigDecimal budgetLimit) {
-        if (budgetLimit != null && budgetLimit.compareTo(BigDecimal.ZERO) > 0) {
-            return budgetLimit;
-        }
-        return BigDecimal.ONE;
+    // private BigDecimal getValidBudgetLimit(final BigDecimal budgetLimit) {
+    // if (budgetLimit != null && budgetLimit.compareTo(BigDecimal.ZERO) > 0) {
+    // return budgetLimit;
+    // }
+    // return BigDecimal.ONE;
+    // }
+
+    @Override
+    public void showError(final String error) {
+        final Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(null);
+        alert.setContentText(error);
+        alert.showAndWait();
     }
 }

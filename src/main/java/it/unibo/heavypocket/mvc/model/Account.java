@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.Optional;
 
+import it.unibo.heavypocket.mvc.model.Budget;
+
 public interface Account {
 
     List<Transaction> getTransactions();
@@ -15,7 +17,7 @@ public interface Account {
 
     BigDecimal getTotalBalance();
 
-    BigDecimal getBudgetLimit();
+    Budget getBudget();
 
     void addTransaction(Transaction transaction);
 

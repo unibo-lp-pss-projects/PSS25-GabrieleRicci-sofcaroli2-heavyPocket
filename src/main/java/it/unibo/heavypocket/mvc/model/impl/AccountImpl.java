@@ -12,6 +12,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.TransactionType;
+import it.unibo.heavypocket.mvc.model.Budget;
 
 //@TODO controllare le eccezioni se sono da lanciare o no, se si quali
 public final class AccountImpl implements Account {
@@ -20,14 +21,14 @@ public final class AccountImpl implements Account {
 
     private List<Transaction> transactions;
     private BigDecimal balance;
-    private BigDecimal budget;
+    private Budget budget;
     private BigDecimal savingTarget;
     private Set<Tag> tags;
 
     public AccountImpl(
             final List<Transaction> transactions,
             final BigDecimal balance,
-            final BigDecimal budget,
+            final Budget budget,
             final BigDecimal savingTarget,
             final Set<Tag> tags) {
         this.transactions = transactions;
@@ -55,7 +56,7 @@ public final class AccountImpl implements Account {
     }
 
     @Override
-    public BigDecimal getBudgetLimit() {
+    public Budget getBudget() {
         return this.budget;
     }
 

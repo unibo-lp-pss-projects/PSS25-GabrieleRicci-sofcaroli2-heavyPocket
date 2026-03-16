@@ -6,12 +6,11 @@ public interface Budget {
 
     BigDecimal getLimit();
 
-    BigDecimal getCurrentSpent();
-
-    void addExpense(BigDecimal amount);
-
     void setLimit(BigDecimal newLimit);
+    
+    // BigDecimal getCurrentSpent();
 
-    boolean isExceeded();
+    // void addExpense(BigDecimal amount);
 
+    // boolean isExceeded();
 }

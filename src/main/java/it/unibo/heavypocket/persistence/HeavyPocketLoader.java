@@ -19,79 +19,80 @@ import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Tag;
+import it.unibo.heavypocket.mvc.model.Budget;
+import it.unibo.heavypocket.mvc.model.impl.BudgetImpl;
 
 //@TODO: mettere il builder?
-
 public final class HeavyPocketLoader {
 
-        private static final String DATA_PATH = "/persistence/data.json";
+    private static final String DATA_PATH = "/persistence/data.json";
 
-        private final InputStream inputStream;
+    private final InputStream inputStream;
 
-        public HeavyPocketLoader(final InputStream inputStream) {
-                this.inputStream = Objects.requireNonNull(inputStream, "Input stream cannot be null");
+    public HeavyPocketLoader(final InputStream inputStream) {
+        this.inputStream = Objects.requireNonNull(inputStream, "Input stream cannot be null");
+    }
+
+    public static Account loadData() {
+
+        final InputStream is = HeavyPocketLoader.class.getResourceAsStream(DATA_PATH);
+        final Budget budget = new BudgetImpl(BigDecimal.ONE);
+        if (is == null) {
+            System.err.println("Cannot find data.json");
+            return new AccountImpl(
+                    Collections.emptyList(),
+                    BigDecimal.ZERO,
+                    budget,
+                    BigDecimal.ZERO,
+                    Collections.emptySet());
         }
 
-        public static Account loadData() {
+        return new HeavyPocketLoader(is).loadHeavyPocket();
+    }
 
-                final InputStream is = HeavyPocketLoader.class.getResourceAsStream(DATA_PATH);
+    public Account loadHeavyPocket() {
 
-                if (is == null) {
-                        System.err.println("Cannot find data.json");
-                        return new AccountImpl(
-                                        Collections.emptyList(),
-                                        BigDecimal.ZERO,
-                                        BigDecimal.ZERO,
-                                        BigDecimal.ZERO,
-                                        Collections.emptySet());
-                }
+        final Gson gson = new Gson();
 
-                return new HeavyPocketLoader(is).loadHeavyPocket();
-        }
+        final AccountJsonData data = gson.fromJson(new InputStreamReader(this.inputStream),
+                AccountJsonData.class);
 
-        public Account loadHeavyPocket() {
+        final List<Transaction> transactions = data.transactions().stream()
+                .map(t -> createTransaction(t))
+                .collect(Collectors.toList());
+        final Budget budget = new BudgetImpl(data.budget());
+        return new AccountImpl(
+                transactions,
+                data.balance(),
+                budget,
+                data.savingTarget(),
+                Set.of(TagEnumImpl.values()));
+    }
 
-                final Gson gson = new Gson();
+    private Transaction createTransaction(final TransactionJsonData data) {
+        return new TransactionImpl(
+                UUID.fromString(data.id()),
+                data.amount(),
+                LocalDate.parse(data.date()),
+                data.description(),
+                data.type(),
+                TagEnumImpl.valueOf(data.tag()));
+    }
 
-                final AccountJsonData data = gson.fromJson(new InputStreamReader(this.inputStream),
-                                AccountJsonData.class);
+    // @TODO: cavare da una delle due parti i record e dove posizionarli
+    private record AccountJsonData(
+            List<TransactionJsonData> transactions,
+            BigDecimal balance,
+            BigDecimal budget,
+            BigDecimal savingTarget) {
+    }
 
-                final List<Transaction> transactions = data.transactions().stream()
-                                .map(t -> createTransaction(t))
-                                .collect(Collectors.toList());
-
-                return new AccountImpl(
-                                transactions,
-                                data.balance(),
-                                data.budget(),
-                                data.savingTarget(),
-                                Set.of(TagEnumImpl.values()));
-        }
-
-        private Transaction createTransaction(final TransactionJsonData data) {
-                return new TransactionImpl(
-                                UUID.fromString(data.id()),
-                                data.amount(),
-                                LocalDate.parse(data.date()),
-                                data.description(),
-                                data.type(),
-                                TagEnumImpl.valueOf(data.tag()));
-        }
-
-        //@TODO: cavare da una delle due parti i record e dove posizionareli
-        private record AccountJsonData(
-                        List<TransactionJsonData> transactions,
-                        BigDecimal balance,
-                        BigDecimal budget,
-                        BigDecimal savingTarget) {
-        }
-
-        private record TransactionJsonData(
-                        String id,
-                        BigDecimal amount,
-                        String date,
-                        String description,
-                        TransactionType type,
-                        String tag) {
-        }
+    private record TransactionJsonData(
+            String id,
+            BigDecimal amount,
+            String date,
+            String description,
+            TransactionType type,
+            String tag) {
+    }
 }
