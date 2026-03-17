@@ -28,9 +28,7 @@ public interface AccountView {
 
     void showAverage(String averageExpense, String averageIncome);
 
-    void showPieChartData(Map<Tag, BigDecimal> pieChartData);
-
-    // void showLineChartData(Map<LocalDate, BigDecimal> data);
+    void showPieChartData(Map<Tag, BigDecimal> pieChartExpense, Map<Tag, BigDecimal> pieChartIncome);
 
     void showBudgetElements(String limit, String spent);
 

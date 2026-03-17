@@ -227,8 +227,10 @@ public final class AccountControllerImpl implements AccountController, Statistic
     @Override
     public void setPieChartData() {
         final List<Transaction> expenses = statistics.getExpenses(model.getTransactions());
-        final Map<Tag, BigDecimal> expenseByTag = this.statistics.getExpenseByTag(expenses);
-        this.view.showPieChartData(expenseByTag);
+        final List<Transaction> incomes = statistics.getIncomes(model.getTransactions());
+        final Map<Tag, BigDecimal> expenseByTag = this.statistics.getAverageByTag(expenses);
+        final Map<Tag, BigDecimal> incomesByTag = this.statistics.getAverageByTag(incomes);
+        this.view.showPieChartData(expenseByTag, incomesByTag);
     }
 
     // @Override

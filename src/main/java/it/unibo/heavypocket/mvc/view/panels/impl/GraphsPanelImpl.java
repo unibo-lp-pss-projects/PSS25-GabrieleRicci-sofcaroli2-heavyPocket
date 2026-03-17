@@ -11,13 +11,15 @@ import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
 public final class GraphsPanelImpl implements GraphsPanel {
 
     private final HBox rootPanel = new HBox();
-    private final PieChart pieChart = new PieChart();
+    private final PieChart pieChartE = new PieChart();
+    private final PieChart pieChartI = new PieChart();
 
     public GraphsPanelImpl() {
         rootPanel.setSpacing(7);
         rootPanel.setAlignment(Pos.CENTER);
         rootPanel.getChildren().addAll(
-                pieChart
+                pieChartE,
+                pieChartI
             );
         setLineChartData();
     }
@@ -27,8 +29,9 @@ public final class GraphsPanelImpl implements GraphsPanel {
         return this.rootPanel;
     }
 
-    public void setPieChartData(final ObservableList<PieChart.Data> pieChartData) {
-        this.pieChart.setData(pieChartData);
+    public void setPieChartData(ObservableList<PieChart.Data> pieChartExpense, ObservableList<PieChart.Data> pieChartIncome) {
+        this.pieChartE.setData(pieChartExpense);
+        this.pieChartI.setData(pieChartIncome);
     }
 
     public void setLineChartData() {
