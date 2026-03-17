@@ -94,6 +94,9 @@ public final class AccountControllerImpl implements AccountController, Statistic
             persistState();
             isBudgetExceeded();
             showBudgetElements();
+            setAverageValue();
+            showTotalBalance();
+            setPieChartData();
         } catch (final IllegalArgumentException | NullPointerException e) {
             view.showError(e.getMessage());
         }
@@ -132,6 +135,9 @@ public final class AccountControllerImpl implements AccountController, Statistic
             persistState();
             isBudgetExceeded();
             showBudgetElements();
+            setAverageValue();
+            setPieChartData();
+            showTotalBalance();
         } catch (final IllegalArgumentException | NullPointerException e) {
             view.showError(e.getMessage());
         }
@@ -146,6 +152,9 @@ public final class AccountControllerImpl implements AccountController, Statistic
         persistState();
         isBudgetExceeded();
         showBudgetElements();
+        setAverageValue();
+        setPieChartData();
+        showTotalBalance();
     }
 
     @Override
@@ -206,6 +215,10 @@ public final class AccountControllerImpl implements AccountController, Statistic
         final List<Transaction> transactionsOfMonth = getTransactionsByCurrentMonth();
         final List<Transaction> expenses = statistics.getExpenses(transactionsOfMonth);
         final List<Transaction> incomes = statistics.getIncomes(transactionsOfMonth);
+        if (expenses.isEmpty() || incomes.isEmpty()) {
+            this.view.showAverage("0.00", "0.00");
+            return;
+        }
         final String avarageExpense = statistics.getAverage(expenses).toString();
         final String avarageIncome = statistics.getAverage(incomes).toString();
         this.view.showAverage(avarageExpense, avarageIncome);
