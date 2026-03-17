@@ -17,51 +17,53 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.Map;
 
-import it.unibo.heavypocket.mvc.view.AccountView;
-import it.unibo.heavypocket.mvc.controller.AccountController;
-import it.unibo.heavypocket.mvc.controller.impl.AccountControllerImpl;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
-import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
-import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
+import it.unibo.heavypocket.mvc.model.Transaction;
+import it.unibo.heavypocket.mvc.controller.AccountController;
+import it.unibo.heavypocket.mvc.controller.impl.AccountControllerImpl;
+import it.unibo.heavypocket.mvc.view.AccountView;
+import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
+import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
-import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
-import it.unibo.heavypocket.mvc.view.panels.impl.BudgetPanelImpl;
-import it.unibo.heavypocket.mvc.view.panels.impl.AddTransactionPanelImpl;
-import it.unibo.heavypocket.mvc.view.panels.impl.StatisticsBalancePanelImpl;
-import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
+import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
+import it.unibo.heavypocket.mvc.view.panels.impl.StatisticsBalancePanelImpl;
+import it.unibo.heavypocket.mvc.view.panels.impl.AddTransactionPanelImpl;
+import it.unibo.heavypocket.mvc.view.panels.impl.BudgetPanelImpl;
 import it.unibo.heavypocket.mvc.view.panels.impl.GraphsPanelImpl;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
-import it.unibo.heavypocket.persistence.HeavyPocketLoader;
 import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.persistence.impl.SaverImpl;
+import it.unibo.heavypocket.persistence.impl.Loader;
 
 public final class AccountViewImpl extends Application implements AccountView {
 
     private AccountController controller;
     private TransactionListPanel transactionListPanel;
-    private AddTransactionPanel addTransactionPanel;
     private StatisticsBalancePanel statisticsBalancePanel;
-    private GraphsPanel graphsPanel;
+    private AddTransactionPanel addTransactionPanel;
     private BudgetPanel budgetPanel;
+    private GraphsPanel graphsPanel;
+
+    public AccountViewImpl(
+            TransactionListPanel transactionListPanel,
+            StatisticsBalancePanel statisticsBalancePanel,
+            AddTransactionPanel addTransactionPanel,
+            BudgetPanel budgetPanel,
+            GraphsPanel graphsPanel) {
+        this.transactionListPanel = transactionListPanel;
+        this.statisticsBalancePanel = statisticsBalancePanel;
+        this.addTransactionPanel = addTransactionPanel;
+        this.budgetPanel = budgetPanel;
+        this.graphsPanel = graphsPanel;
+    }
 
     @Override
     public void start(final Stage primaryStage) {
-        final Account model = HeavyPocketLoader.loadData();
-        final Statistics statistics = new StatisticsImpl();
-        final Saver saver = new SaverImpl();
-
-        // inizializzazione pannelli
-        this.transactionListPanel = new TransactionListPanelImpl();
-        this.addTransactionPanel = new AddTransactionPanelImpl();
-        this.statisticsBalancePanel = new StatisticsBalancePanelImpl();
-        this.graphsPanel = new GraphsPanelImpl();
-        this.budgetPanel = new BudgetPanelImpl();
-
         final VBox root = new VBox();
         root.setSpacing(10);
         root.setPadding(new Insets(10));
@@ -72,8 +74,6 @@ public final class AccountViewImpl extends Application implements AccountView {
                 budgetPanel.getRoot(),
                 addTransactionPanel.getRoot(),
                 graphsPanel.getRoot());
-
-        this.controller = new AccountControllerImpl(model, this, statistics, saver);
 
         transactionListPanel.setOnSearch(controller::search);
         transactionListPanel.setOnDelete(controller::deleteTransaction);
@@ -99,6 +99,11 @@ public final class AccountViewImpl extends Application implements AccountView {
     }
 
     @Override
+    public void showBalance(final String balance) {
+        statisticsBalancePanel.setBalance(balance);
+    }
+
+    @Override
     public void showTransactionList(final List<Transaction> transactions) {
         transactionListPanel.setTransactions(transactions);
     }
@@ -115,8 +120,13 @@ public final class AccountViewImpl extends Application implements AccountView {
     }
 
     @Override
-    public void showBalance(final String balance) {
-        statisticsBalancePanel.setBalance(balance);
+    public void showBudgetElements(final String limit, final String spent) {
+        budgetPanel.setBudgetElements(limit, spent);
+    }
+
+    @Override
+    public void showLimitExceeded(final boolean isExceeded) {
+        budgetPanel.showLimitExceeded(isExceeded);
     }
 
     @Override
@@ -137,21 +147,6 @@ public final class AccountViewImpl extends Application implements AccountView {
                         entry.getValue().doubleValue()))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
         graphsPanel.setPieChartData(pieChartExpense, pieChartIncome);
-    }
-
-    @Override
-    public void showBudgetElements(final String limit, final String spent) {
-        budgetPanel.setBudgetElements(limit, spent);
-    }
-
-    @Override
-    public void showLimitExceeded() {
-        budgetPanel.showLimitExceeded();
-    }
-
-    @Override
-    public void showLimitNotExceeded() {
-        budgetPanel.showLimitNotExceeded();
     }
 
     @Override

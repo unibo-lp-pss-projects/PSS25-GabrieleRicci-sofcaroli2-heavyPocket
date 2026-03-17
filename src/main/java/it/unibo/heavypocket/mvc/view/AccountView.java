@@ -1,5 +1,7 @@
 package it.unibo.heavypocket.mvc.view;
 
+import javafx.stage.Stage;
+
 import java.util.List;
 import java.util.UUID;
 import java.math.BigDecimal;
@@ -12,19 +14,21 @@ import it.unibo.heavypocket.mvc.model.Tag;
 
 public interface AccountView {
 
+    void start(Stage primaryStage);
+
     void setController(AccountController controller);
 
     AccountController getController();
 
-    void showTransactionList(List<Transaction> transactions); // mostra la lista di transazioni
+    void showTransactionList(List<Transaction> transactions);
 
-    void showTagList(List<Tag> tags); // mostra la lista di tag
+    void showTagList(List<Tag> tags);
 
     void showBalance(String balance);
 
-    void showEditTransaction(UUID id, TransactionDTO transactionDTO); // mostra il dialog
+    void showEditTransaction(UUID id, TransactionDTO transactionDTO);
 
-    void showError(String error); // mostra gli errori
+    void showError(String error);
 
     void showAverage(String averageExpense, String averageIncome);
 
@@ -32,7 +36,5 @@ public interface AccountView {
 
     void showBudgetElements(String limit, String spent);
 
-    void showLimitExceeded();
-
-    void showLimitNotExceeded();
+    void showLimitExceeded(final boolean isExceeded);
 }
