@@ -1,9 +1,6 @@
- package it.unibo.heavypocket.mvc.controller;
+package it.unibo.heavypocket.mvc.controller;
 
-import java.util.List;
 import java.util.UUID;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
@@ -29,5 +26,5 @@ public interface AccountController {
 
         void search(FiltersDTO filters);
 
-        void updateBudgetLimit(final String newLimit);
+        void updateBudgetLimit(String newLimit);
 }

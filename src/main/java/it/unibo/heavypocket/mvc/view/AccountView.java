@@ -26,7 +26,7 @@ public interface AccountView {
 
     void showError(String error); // mostra gli errori
 
-    void showAverage(String averageExpense, String averageIncome); 
+    void showAverage(String averageExpense, String averageIncome);
 
     void showPieChartData(Map<Tag, BigDecimal> pieChartData);
 
@@ -35,6 +35,6 @@ public interface AccountView {
     void showBudgetElements(String limit, String spent);
 
     void showLimitExceeded();
-    
+
     void showLimitNotExceeded();
 }

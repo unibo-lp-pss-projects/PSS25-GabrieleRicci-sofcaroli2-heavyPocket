@@ -1,15 +1,11 @@
 package it.unibo.heavypocket.mvc.view.panels.impl;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.paint.Color; 
+import javafx.scene.paint.Color;
 
 import java.util.function.Consumer;
 
@@ -49,19 +45,19 @@ public final class BudgetPanelImpl implements BudgetPanel {
     }
 
     @Override
-    public void setBudgetElements(String limit, String spent){
+    public void setBudgetElements(final String limit, final String spent) {
         this.limitLabel.setText(limit);
         this.currentSpentLabel.setText(spent);
     }
-    
+
     @Override
-    public void showLimitExceeded(){
+    public void showLimitExceeded() {
         this.budgetStatusLabel.setText("Budget limit exceeded!");
         this.budgetStatusLabel.setFill(Color.RED);
     }
 
     @Override
-    public void showLimitNotExceeded(){
+    public void showLimitNotExceeded() {
         this.budgetStatusLabel.setText("You are within the budget limit");
         this.budgetStatusLabel.setFill(Color.GREEN);
     }
