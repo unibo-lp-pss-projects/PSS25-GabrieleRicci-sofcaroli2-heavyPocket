@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.Set;
 import java.util.stream.Collectors;
 import com.google.gson.Gson;
+import java.util.ArrayList;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.impl.TransactionImpl;
@@ -20,8 +21,9 @@ import it.unibo.heavypocket.mvc.model.impl.AccountImpl;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Budget;
 import it.unibo.heavypocket.mvc.model.impl.BudgetImpl;
+import it.unibo.heavypocket.persistence.impl.SaverImpl;
+import it.unibo.heavypocket.persistence.Saver;
 
-//@TODO: mettere il builder?
 public final class HeavyPocketLoader {
 
     private static final String DATA_PATH = "/persistence/data.json";
@@ -33,19 +35,22 @@ public final class HeavyPocketLoader {
     }
 
     public static Account loadData() {
-
         final InputStream is = HeavyPocketLoader.class.getResourceAsStream(DATA_PATH);
         final Budget budget = new BudgetImpl(BigDecimal.ONE);
         if (is == null) {
-            System.err.println("Cannot find data.json");
-            return new AccountImpl(
-                    Collections.emptyList(),
+            final Account account = new AccountImpl(
+                    new ArrayList<>(),
                     BigDecimal.ZERO,
                     budget,
-                    BigDecimal.ZERO,
-                    Collections.emptySet());
+                    Set.of(TagEnumImpl.values()));
+            final Saver saver = new SaverImpl();
+            try {
+                saver.saveAccount(account);
+            } catch (final Exception e) {
+                throw new RuntimeException("Failed to save initial account data");
+            }
+            return account;
         }
-
         return new HeavyPocketLoader(is).loadHeavyPocket();
     }
 
@@ -64,26 +69,25 @@ public final class HeavyPocketLoader {
                 transactions,
                 data.balance(),
                 budget,
-                data.savingTarget(),
                 Set.of(TagEnumImpl.values()));
     }
 
     private Transaction createTransaction(final TransactionJsonData data) {
-        return new TransactionImpl(
-                UUID.fromString(data.id()),
-                data.amount(),
-                LocalDate.parse(data.date()),
-                data.description(),
-                data.type(),
-                TagEnumImpl.valueOf(data.tag()));
+        return Transaction.builder()
+                .withId(UUID.fromString(data.id()))
+                .withAmount(data.amount())
+                .withDate(LocalDate.parse(data.date()))
+                .withDescription(data.description())
+                .withType(data.type())
+                .withTag(TagEnumImpl.valueOf(data.tag()))
+                .build();
     }
 
     // @TODO: cavare da una delle due parti i record e dove posizionarli
     private record AccountJsonData(
             List<TransactionJsonData> transactions,
             BigDecimal balance,
-            BigDecimal budget,
-            BigDecimal savingTarget) {
+            BigDecimal budget) {
     }
 
     private record TransactionJsonData(

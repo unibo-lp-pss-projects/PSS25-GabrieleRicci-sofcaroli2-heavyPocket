@@ -42,9 +42,7 @@ public final class SaverImpl implements Saver {
         return new AccountJsonData(
                 transactions,
                 account.getTotalBalance(),
-                account.getBudget().getLimit(),
-                BigDecimal.ZERO);
-        // account.getSavingTarget()
+                account.getBudget().getLimit());
     }
 
     private TransactionJsonData toJsonData(final Transaction transaction) {

@@ -21,19 +21,16 @@ public final class AccountImpl implements Account {
     private List<Transaction> transactions;
     private BigDecimal balance;
     private Budget budget;
-    private BigDecimal savingTarget;
     private Set<Tag> tags;
 
     public AccountImpl(
             final List<Transaction> transactions,
             final BigDecimal balance,
             final Budget budget,
-            final BigDecimal savingTarget,
             final Set<Tag> tags) {
         this.transactions = transactions;
         this.balance = balance;
         this.budget = budget;
-        this.savingTarget = savingTarget;
         this.tags = tags;
     }
 

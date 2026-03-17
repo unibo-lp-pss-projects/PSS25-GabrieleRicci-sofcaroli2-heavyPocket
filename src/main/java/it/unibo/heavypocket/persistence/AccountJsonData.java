@@ -6,6 +6,5 @@ import java.util.List;
 public record AccountJsonData(
         List<TransactionJsonData> transactions,
         BigDecimal balance,
-        BigDecimal budget,
-        BigDecimal savingTarget) {
+        BigDecimal budget) {
 }
