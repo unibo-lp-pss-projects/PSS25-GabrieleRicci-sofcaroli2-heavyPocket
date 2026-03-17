@@ -46,7 +46,7 @@ public final class BudgetPanelImpl implements BudgetPanel {
 
     @Override
     public void showLimitExceeded(final boolean isExceeded) {
-        if(isExceeded) {
+        if (isExceeded) {
             this.budgetStatus.setText("Budget limit exceeded!");
             this.budgetStatus.setTextFill(javafx.scene.paint.Color.RED);
         } else {

@@ -1,20 +1,19 @@
 package it.unibo.heavypocket.mvc.controller.validation;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
-public class Validation {
+public final class Validation {
 
     private static final String ERROR_AMOUNT = "Amount must be greater than zero";
     private static final String ERROR_FIELDS = "Please fill in all fields";
     private static final String ERROR_AMOUNT_FORMAT = "Invalid amount format";
 
-    public Validation() {
+    private Validation() {
         throw new AssertionError("Utility class should not be instantiated");
     }
-    
+
     public static void validateTransactionDTO(final TransactionDTO transactionDTO) {
         if (transactionDTO == null
                 || transactionDTO.type() == null

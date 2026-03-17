@@ -31,7 +31,7 @@ public final class Loader {
     private static final String INPUT_STREAM_ERROR = "Failed to load data from input stream";
     private static final String ACCOUNT_DATA_ERROR = "Failed to save initial account data";
     private static final String TRANSACTION_DATA_ERROR = "Failed to parse transaction data";
-    private static final Set<Tag> tags = Set.of(TagEnumImpl.values());
+    private static final Set<Tag> TAGS = Set.of(TagEnumImpl.values());
 
     private final InputStream inputStream;
 
@@ -46,12 +46,12 @@ public final class Loader {
             final Account account = new AccountImpl(
                     BigDecimal.ZERO,
                     new ArrayList<>(),
-                    tags,
+                    TAGS,
                     budget);
             final Saver saver = new SaverImpl();
             try {
                 saver.saveAccount(account);
-            } catch (final Exception e) {
+            } catch (final IOException e) {
                 throw new RuntimeException(ACCOUNT_DATA_ERROR, e);
             }
             return account;
@@ -61,7 +61,7 @@ public final class Loader {
 
     public Account loadHeavyPocket() {
         final Gson gson = new Gson();
-        try (final InputStreamReader reader = new InputStreamReader(this.inputStream)) {
+        try (InputStreamReader reader = new InputStreamReader(this.inputStream)) {
             final AccountJsonData data = gson.fromJson(reader, AccountJsonData.class);
             final List<Transaction> transactions = data.transactions().stream()
                     .map(this::createTransaction)
@@ -70,7 +70,7 @@ public final class Loader {
             return new AccountImpl(
                     data.balance(),
                     transactions,
-                    tags,
+                    TAGS,
                     budget);
 
         } catch (final IOException e) {

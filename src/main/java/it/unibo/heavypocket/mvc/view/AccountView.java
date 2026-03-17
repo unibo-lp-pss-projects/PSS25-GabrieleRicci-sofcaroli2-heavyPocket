@@ -36,5 +36,5 @@ public interface AccountView {
 
     void showBudgetElements(String limit, String spent);
 
-    void showLimitExceeded(final boolean isExceeded);
+    void showLimitExceeded(boolean isExceeded);
 }

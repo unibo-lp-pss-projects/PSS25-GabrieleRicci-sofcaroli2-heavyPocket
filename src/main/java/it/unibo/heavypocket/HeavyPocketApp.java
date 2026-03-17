@@ -3,20 +3,10 @@ package it.unibo.heavypocket;
 import javafx.stage.Stage;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
-import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.controller.impl.AccountControllerImpl;
 import it.unibo.heavypocket.mvc.view.AccountView;
@@ -36,6 +26,9 @@ import it.unibo.heavypocket.persistence.impl.Loader;
 import it.unibo.heavypocket.mvc.view.impl.AccountViewImpl;
 
 public final class HeavyPocketApp {
+
+    private HeavyPocketApp() {
+    }
 
     public static void main(final String... args) {
         Application.launch(HeavyPocketFxApp.class, args);

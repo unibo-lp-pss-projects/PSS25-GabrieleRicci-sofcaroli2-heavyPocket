@@ -1,6 +1,5 @@
 package it.unibo.heavypocket.mvc.view.impl;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -17,30 +16,18 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.Map;
 
-import it.unibo.heavypocket.mvc.model.Account;
-import it.unibo.heavypocket.mvc.model.Statistics;
-import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.controller.AccountController;
-import it.unibo.heavypocket.mvc.controller.impl.AccountControllerImpl;
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
 import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
-import it.unibo.heavypocket.mvc.view.panels.impl.TransactionListPanelImpl;
-import it.unibo.heavypocket.mvc.view.panels.impl.StatisticsBalancePanelImpl;
-import it.unibo.heavypocket.mvc.view.panels.impl.AddTransactionPanelImpl;
-import it.unibo.heavypocket.mvc.view.panels.impl.BudgetPanelImpl;
-import it.unibo.heavypocket.mvc.view.panels.impl.GraphsPanelImpl;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
-import it.unibo.heavypocket.persistence.Saver;
-import it.unibo.heavypocket.persistence.impl.SaverImpl;
-import it.unibo.heavypocket.persistence.impl.Loader;
 
-public final class AccountViewImpl extends Application implements AccountView {
+public final class AccountViewImpl implements AccountView {
 
     private AccountController controller;
     private TransactionListPanel transactionListPanel;
@@ -50,11 +37,11 @@ public final class AccountViewImpl extends Application implements AccountView {
     private GraphsPanel graphsPanel;
 
     public AccountViewImpl(
-            TransactionListPanel transactionListPanel,
-            StatisticsBalancePanel statisticsBalancePanel,
-            AddTransactionPanel addTransactionPanel,
-            BudgetPanel budgetPanel,
-            GraphsPanel graphsPanel) {
+            final TransactionListPanel transactionListPanel,
+            final StatisticsBalancePanel statisticsBalancePanel,
+            final AddTransactionPanel addTransactionPanel,
+            final BudgetPanel budgetPanel,
+            final GraphsPanel graphsPanel) {
         this.transactionListPanel = transactionListPanel;
         this.statisticsBalancePanel = statisticsBalancePanel;
         this.addTransactionPanel = addTransactionPanel;
