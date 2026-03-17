@@ -35,7 +35,7 @@ public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel 
 
     @Override
     public void setAverageValue(final String averageExpense, final String averageIncome) {
-        final Month todayDate = LocalDate.now().getMonth(); // data di oggi per sapere il mese corrente
+        final Month todayDate = LocalDate.now().getMonth();
         this.averageText.setText(todayDate + " average income: " + averageIncome + "\n" + todayDate
                 + " average expense: " + averageExpense);
     }

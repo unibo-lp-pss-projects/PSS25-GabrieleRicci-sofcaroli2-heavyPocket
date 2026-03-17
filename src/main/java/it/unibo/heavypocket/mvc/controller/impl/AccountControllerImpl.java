@@ -162,13 +162,8 @@ public final class AccountControllerImpl implements AccountController {
         final BigDecimal budgetLimit = this.model.getBudget().getLimit();
         final BigDecimal currentSpent = calculateMonthlyExpenses();
         final boolean isExceeded = currentSpent.compareTo(budgetLimit) > 0;
-        // @TODO se il budgetLimit è 0 o negaticvo lanciare un'errore nella view o se è
-        // null
-        if (isExceeded) {
-            this.view.showLimitExceeded();
-        } else {
-            this.view.showLimitNotExceeded();
-        }
+        // @TODO se il budgetLimit è >= 0 lanciare un'errore nella view o se è null
+        view.showLimitExceeded(isExceeded);
     }
 
     @Override

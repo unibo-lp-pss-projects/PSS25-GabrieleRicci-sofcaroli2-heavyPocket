@@ -113,7 +113,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         if (addListener != null) {
             addListener.accept(
                     new TransactionDTO(
-                        typeField.getValue(),
+                            typeField.getValue(),
                             amountField.getText(),
                             datePicker.getValue(),
                             descriptionField.getText(),
@@ -125,7 +125,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         if (editListener != null) {
             editListener.accept(id,
                     new TransactionDTO(
-                        typeField.getValue(),
+                            typeField.getValue(),
                             amountField.getText(),
                             datePicker.getValue(),
                             descriptionField.getText(),

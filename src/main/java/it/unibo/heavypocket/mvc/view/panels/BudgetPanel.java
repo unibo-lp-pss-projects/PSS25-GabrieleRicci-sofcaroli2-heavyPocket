@@ -6,9 +6,7 @@ public interface BudgetPanel extends Panel {
 
     void setBudgetElements(String limit, String spent);
 
-    void showLimitExceeded();
-
-    void showLimitNotExceeded();
+    void showLimitExceeded(boolean isExceeded);
 
     void setOnUpdateLimit(Consumer<String> listener);
 }

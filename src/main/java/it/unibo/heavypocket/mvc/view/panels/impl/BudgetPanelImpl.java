@@ -45,15 +45,14 @@ public final class BudgetPanelImpl implements BudgetPanel {
     }
 
     @Override
-    public void showLimitExceeded() {
-        this.budgetStatus.setText("Budget limit exceeded!");
-        this.budgetStatus.setTextFill(javafx.scene.paint.Color.RED);
-    }
-
-    @Override
-    public void showLimitNotExceeded() {
-        this.budgetStatus.setText("You are within the budget limit");
-        this.budgetStatus.setTextFill(javafx.scene.paint.Color.GREEN);
+    public void showLimitExceeded(final boolean isExceeded) {
+        if(isExceeded) {
+            this.budgetStatus.setText("Budget limit exceeded!");
+            this.budgetStatus.setTextFill(javafx.scene.paint.Color.RED);
+        } else {
+            this.budgetStatus.setText("You are within the budget limit");
+            this.budgetStatus.setTextFill(javafx.scene.paint.Color.GREEN);
+        }
     }
 
     private void handleUpdateBudget() {
