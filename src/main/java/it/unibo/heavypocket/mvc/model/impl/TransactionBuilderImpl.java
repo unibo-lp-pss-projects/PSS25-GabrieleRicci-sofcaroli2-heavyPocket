@@ -1,13 +1,13 @@
 package it.unibo.heavypocket.mvc.model.impl;
 
+import java.util.UUID;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
+import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.TransactionBuilder;
 import it.unibo.heavypocket.mvc.model.Tag;
-import it.unibo.heavypocket.mvc.model.Transaction;
 
 public final class TransactionBuilderImpl implements TransactionBuilder {
 

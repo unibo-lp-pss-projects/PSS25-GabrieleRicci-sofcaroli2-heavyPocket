@@ -1,27 +1,21 @@
 package it.unibo.heavypocket.mvc.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
 import java.util.UUID;
+import java.util.Set;
 import java.util.Optional;
 
 public interface Account {
 
-    List<Transaction> getTransactions();
+    BigDecimal getTotalBalance();
 
     Set<Tag> getTags();
 
-    BigDecimal getTotalBalance();
-
     Budget getBudget();
 
-    void addTransaction(Transaction transaction);
-
-    void editTransaction(UUID id, Transaction newTransaction);
-
-    void deleteTransaction(Transaction transaction);
+    Optional<Transaction> getTransactionById(UUID id);
 
     List<Transaction> searchByType(TransactionType type);
 
@@ -29,5 +23,11 @@ public interface Account {
 
     List<Transaction> searchByTag(Tag tag);
 
-    Optional<Transaction> getTransactionById(UUID id);
+    List<Transaction> getTransactions();
+
+    void addTransaction(Transaction transaction);
+
+    void editTransaction(UUID id, Transaction newTransaction);
+
+    void deleteTransaction(Transaction transaction);
 }

@@ -1,8 +1,8 @@
 package it.unibo.heavypocket.mvc.model.impl;
 
+import java.util.UUID;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 import static java.util.Objects.requireNonNull;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
@@ -11,8 +11,6 @@ import it.unibo.heavypocket.mvc.model.Tag;
 
 public final class TransactionImpl implements Transaction {
 
-    // @TODO ha veramnete senso lanciare eccezioni così dettafliarte se pooi nel
-    // controller ne uso solo una?
     private static final String ID_ERROR_MESSAGE = "ID cannot be null";
     private static final String NULL_AMOUNT_ERROR_MESSAGE = "Amount cannot be null";
     private static final String NEGATIVE_AMOUNT_ERROR_MESSAGE = "Amount must be positive and non-zero";

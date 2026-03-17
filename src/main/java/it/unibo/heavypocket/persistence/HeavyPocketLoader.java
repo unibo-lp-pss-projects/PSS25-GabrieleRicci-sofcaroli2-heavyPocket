@@ -39,10 +39,10 @@ public final class HeavyPocketLoader {
         final Budget budget = new BudgetImpl(BigDecimal.ONE);
         if (is == null) {
             final Account account = new AccountImpl(
-                    new ArrayList<>(),
                     BigDecimal.ZERO,
-                    budget,
-                    Set.of(TagEnumImpl.values()));
+                    new ArrayList<>(),
+                    Set.of(TagEnumImpl.values()),
+                    budget);
             final Saver saver = new SaverImpl();
             try {
                 saver.saveAccount(account);
@@ -66,10 +66,10 @@ public final class HeavyPocketLoader {
                 .collect(Collectors.toList());
         final Budget budget = new BudgetImpl(data.budget());
         return new AccountImpl(
-                transactions,
                 data.balance(),
-                budget,
-                Set.of(TagEnumImpl.values()));
+                transactions,
+                Set.of(TagEnumImpl.values()),
+                budget);
     }
 
     private Transaction createTransaction(final TransactionJsonData data) {

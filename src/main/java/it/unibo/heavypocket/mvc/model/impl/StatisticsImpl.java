@@ -1,15 +1,15 @@
 package it.unibo.heavypocket.mvc.model.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
-import java.math.RoundingMode;
 import java.util.stream.Collectors;
 
-import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
+import it.unibo.heavypocket.mvc.model.Tag;
 
 public final class StatisticsImpl implements Statistics {
 
@@ -20,10 +20,9 @@ public final class StatisticsImpl implements Statistics {
     public BigDecimal getAverage(final List<Transaction> transactions) {
         final BigDecimal transactionsCount = new BigDecimal(transactions.size());
         final BigDecimal averageTransactions = transactions.stream()
-                .map(Transaction::getAmount) // so già che sono tutte negative, quindi non serve signedAmout
-                .reduce(BigDecimal.ZERO, BigDecimal::add) // somma tutti i valori insieme
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .divide(transactionsCount, 2, RoundingMode.HALF_UP);
-        // dividi per il numero di spese per ottenere la media
         return averageTransactions;
     }
 
@@ -39,7 +38,6 @@ public final class StatisticsImpl implements Statistics {
 
     @Override
     public List<Transaction> getExpenses(final List<Transaction> transactions) {
-        // ritorna una lista di expense, riutilizzabile per gli altri metodi
         return transactions.stream()
                 .filter(t -> t.getType() == TransactionType.EXPENSE)
                 .toList();
@@ -47,7 +45,6 @@ public final class StatisticsImpl implements Statistics {
 
     @Override
     public List<Transaction> getIncomes(final List<Transaction> transactions) {
-        // ritorna una lista di income
         return transactions.stream()
                 .filter(t -> t.getType() == TransactionType.INCOME)
                 .toList();

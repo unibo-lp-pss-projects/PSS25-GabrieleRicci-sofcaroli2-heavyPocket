@@ -7,5 +7,4 @@ public interface Budget {
     BigDecimal getLimit();
 
     void setLimit(BigDecimal newLimit);
-
 }
