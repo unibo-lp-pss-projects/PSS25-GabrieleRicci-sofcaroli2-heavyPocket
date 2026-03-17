@@ -38,9 +38,9 @@ public final class AccountControllerImpl implements AccountController {
             final Saver saver) {
         this.model = model;
         this.view = view;
-        this.view.setController(this);
         this.statistics = statistics;
         this.saver = saver;
+        this.view.setController(this);
         updateView();
         showTags();
     }

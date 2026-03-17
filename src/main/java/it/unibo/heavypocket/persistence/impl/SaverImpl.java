@@ -1,16 +1,14 @@
 package it.unibo.heavypocket.persistence.impl;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.util.List;
 
-import java.math.BigDecimal;
-
+import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.persistence.AccountJsonData;
-import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.persistence.TransactionJsonData;
 
 public final class SaverImpl implements Saver {
@@ -48,10 +46,10 @@ public final class SaverImpl implements Saver {
     private TransactionJsonData toJsonData(final Transaction transaction) {
         return new TransactionJsonData(
                 transaction.getId().toString(),
+                transaction.getType(),
                 transaction.getAmount(),
                 transaction.getDate().toString(),
                 transaction.getDescription(),
-                transaction.getType(),
                 transaction.getTag().getName());
     }
 }

@@ -6,9 +6,9 @@ import it.unibo.heavypocket.mvc.model.TransactionType;
 
 public record TransactionJsonData(
         String id,
+        TransactionType type,
         BigDecimal amount,
         String date,
         String description,
-        TransactionType type,
         String tag) {
 }
