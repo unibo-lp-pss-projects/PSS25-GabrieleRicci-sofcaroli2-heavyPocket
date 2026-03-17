@@ -10,8 +10,8 @@ public enum TagEnumImpl implements Tag {
     HOME("#33FFF5", TagType.EXPENSE),
     INVESTMENT("#FFD700", TagType.EXPENSE),
     HEALTHCARE("#FF0000", TagType.EXPENSE),
-    GIFT("#FF69B4", TagType.INCOME), 
-    SALARY("#33FF57", TagType.INCOME); 
+    GIFT("#FF69B4", TagType.INCOME),
+    SALARY("#33FF57", TagType.INCOME);
 
     private final String color;
     private final TagType type;

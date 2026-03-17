@@ -7,29 +7,29 @@ import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
 public interface AccountController {
 
-        void showTransactions();
+    void showTransactions();
 
-        void showTags();
+    void showTags();
 
-        void showTotalBalance();
+    void showTotalBalance();
 
-        void showBudgetElements();
+    void showBudgetElements();
 
-        void addTransaction(TransactionDTO transactionDTO);
+    void addTransaction(TransactionDTO transactionDTO);
 
-        void callToEditTransaction(UUID id);
+    void callToEditTransaction(UUID id);
 
-        void editTransaction(UUID id, TransactionDTO transactionDTO);
+    void editTransaction(UUID id, TransactionDTO transactionDTO);
 
-        void deleteTransaction(UUID id);
+    void deleteTransaction(UUID id);
 
-        void search(FiltersDTO filters);
+    void search(FiltersDTO filters);
 
-        void updateBudgetLimit(String newLimit);
+    void updateBudgetLimit(String newLimit);
 
-        void isBudgetExceeded();
+    void isBudgetExceeded();
 
-        void setAverageValue();
+    void setAverageValue();
 
-        void setPieChartData();
+    void setPieChartData();
 }
