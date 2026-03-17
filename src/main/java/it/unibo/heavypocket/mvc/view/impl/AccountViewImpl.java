@@ -125,13 +125,18 @@ public final class AccountViewImpl extends Application implements AccountView {
     }
 
     @Override
-    public void showPieChartData(final Map<Tag, BigDecimal> expenseByTag) {
-        final ObservableList<PieChart.Data> pieChartData = expenseByTag.entrySet().stream()
+    public void showPieChartData(final Map<Tag, BigDecimal> expensesByTag, final Map<Tag, BigDecimal> incomesByTag) {
+        final ObservableList<PieChart.Data> pieChartExpense = expensesByTag.entrySet().stream()
                 .map(entry -> new PieChart.Data(
                         entry.getKey().getName(),
                         entry.getValue().doubleValue()))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
-        graphsPanel.setPieChartData(pieChartData);
+        final ObservableList<PieChart.Data> pieChartIncome = incomesByTag.entrySet().stream()
+                .map(entry -> new PieChart.Data(
+                        entry.getKey().getName(),
+                        entry.getValue().doubleValue()))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        graphsPanel.setPieChartData(pieChartExpense, pieChartIncome);
     }
 
     @Override

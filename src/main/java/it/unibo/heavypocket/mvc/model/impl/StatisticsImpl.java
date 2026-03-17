@@ -29,27 +29,13 @@ public final class StatisticsImpl implements Statistics {
     }
 
     @Override
-    public Map<Tag, BigDecimal> getExpenseByTag(final List<Transaction> expenses) {
-        final Map<Tag, BigDecimal> expenseByTag = expenses.stream()
+    public Map<Tag, BigDecimal> getAverageByTag(final List<Transaction> transactions) {
+        final Map<Tag, BigDecimal> transactionsByTag = transactions.stream()
                 .collect(Collectors.toMap(
                         Transaction::getTag,
                         Transaction::getAmount,
                         BigDecimal::add));
-        return expenseByTag;
-    }
-
-    @Override
-    public Map<LocalDate, BigDecimal> getStatisticsByMonth(final List<Transaction> transactions) {
-        final LocalDate todayDate = LocalDate.now(); // data di oggi per sapere il mese corrente
-        final Map<LocalDate, BigDecimal> statisticsByMonth = transactions.stream()
-                .filter(t -> t.getDate().getMonth() == todayDate.getMonth()
-                        && t.getDate().getYear() == todayDate.getYear())
-                // filtra solo le tranzazioni che sono nel mese e anno della data corrente;
-                .collect(Collectors.toMap(
-                        Transaction::getDate,
-                        Transaction::getAmount,
-                        BigDecimal::add));
-        return statisticsByMonth;
+        return transactionsByTag;
     }
 
     @Override
