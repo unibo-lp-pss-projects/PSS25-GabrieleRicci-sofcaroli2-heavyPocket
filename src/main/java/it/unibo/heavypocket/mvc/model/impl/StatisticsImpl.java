@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import it.unibo.heavypocket.mvc.model.Tag;
