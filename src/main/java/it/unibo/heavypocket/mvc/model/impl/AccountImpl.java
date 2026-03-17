@@ -14,7 +14,6 @@ import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Budget;
 
-//@TODO controllare le eccezioni se sono da lanciare o no, se si quali
 public final class AccountImpl implements Account {
 
     private static final String ERROR_CRUD = "Transaction not found";

@@ -1,11 +1,14 @@
 package it.unibo.heavypocket.mvc.view.panels;
 
-import java.math.BigDecimal;
 import java.util.function.Consumer;
 
 public interface BudgetPanel extends Panel {
 
-    void setBudgetStatus(BigDecimal limit, BigDecimal spent, boolean exceeded);
+    void setBudgetElements(String limit, String spent);
+    
+    void showLimitExceeded();
 
-    void setOnUpdateLimit(Consumer<BigDecimal> listener);
+    void showLimitNotExceeded();
+    
+    void setOnUpdateLimit(Consumer<String> listener);
 }

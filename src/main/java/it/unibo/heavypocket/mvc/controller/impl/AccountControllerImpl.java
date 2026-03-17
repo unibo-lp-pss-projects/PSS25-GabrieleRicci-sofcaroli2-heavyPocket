@@ -20,12 +20,15 @@ import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.mvc.controller.StatisticsController;
 import it.unibo.heavypocket.mvc.controller.BudgetController;
 
+// @TODO ripulire tutto il controller, cercare ripetizioni nei metodi, 
+// capire cosa può diventare un campo e cosa ha senso spostare in un file di utilità
 public final class AccountControllerImpl implements AccountController, StatisticsController, BudgetController {
 
     private static final String ERROR_CRUD = "Transaction not found";
     private static final String ERROR_AMOUNT = "Amount must be greater than zero";
     private static final String ERROR_FIELDS = "Please fill in all fields";
     private static final String ERROR_AMOUNT_FORMAT = "Invalid amount format";
+    private static final BigDecimal BUDGET_DEFULT_LIMIT = new BigDecimal("1000.00");
 
     private final Account model;
     private final AccountView view;
@@ -33,8 +36,8 @@ public final class AccountControllerImpl implements AccountController, Statistic
     private final Saver saver;
 
     public AccountControllerImpl(
-            final Account model, 
-            final AccountView view, 
+            final Account model,
+            final AccountView view,
             final Statistics statistics,
             final Saver saver) {
         this.model = model;
@@ -45,8 +48,10 @@ public final class AccountControllerImpl implements AccountController, Statistic
         showTransactions();
         showTags();
         showTotalBalance();
+        showBudgetElements();
         setAverageValue();
         setPieChartData();
+        isBudgetExceeded();
     }
 
     @Override
@@ -87,6 +92,8 @@ public final class AccountControllerImpl implements AccountController, Statistic
             model.addTransaction(transaction);
             showTransactions();
             persistState();
+            isBudgetExceeded();
+            showBudgetElements();
         } catch (final IllegalArgumentException | NullPointerException e) {
             view.showError(e.getMessage());
         }
@@ -123,6 +130,8 @@ public final class AccountControllerImpl implements AccountController, Statistic
             model.editTransaction(id, transaction);
             showTransactions();
             persistState();
+            isBudgetExceeded();
+            showBudgetElements();
         } catch (final IllegalArgumentException | NullPointerException e) {
             view.showError(e.getMessage());
         }
@@ -135,6 +144,8 @@ public final class AccountControllerImpl implements AccountController, Statistic
                 () -> view.showError(ERROR_CRUD));
         showTransactions();
         persistState();
+        isBudgetExceeded();
+        showBudgetElements();
     }
 
     @Override
@@ -181,15 +192,20 @@ public final class AccountControllerImpl implements AccountController, Statistic
         return finalAmount;
     }
 
+    // metodo che filtra le transazioni del mese corrente
+    private List<Transaction> getTransactionsByCurrentMonth() {
+        final LocalDate today = LocalDate.now();
+        return model.getTransactions().stream()
+                .filter(t -> t.getDate().getMonth() == today.getMonth()
+                        && t.getDate().getYear() == today.getYear())
+                .toList();
+    }
+
     @Override
     public void setAverageValue() {
-        final LocalDate todayDate = LocalDate.now(); // data di oggi per sapere il mese corrente
-        final List<Transaction> transactionsFiltered = model.getTransactions().stream()
-                .filter(t -> t.getDate().getMonth() == todayDate.getMonth()
-                        && t.getDate().getYear() == todayDate.getYear())
-                .toList();
-        final List<Transaction> expenses = statistics.getExpenses(transactionsFiltered);
-        final List<Transaction> incomes = statistics.getIncomes(transactionsFiltered);
+        final List<Transaction> transactionsOfMonth = getTransactionsByCurrentMonth();
+        final List<Transaction> expenses = statistics.getExpenses(transactionsOfMonth);
+        final List<Transaction> incomes = statistics.getIncomes(transactionsOfMonth);
         final String avarageExpense = statistics.getAverage(expenses).toString();
         final String avarageIncome = statistics.getAverage(incomes).toString();
         this.view.showAverage(avarageExpense, avarageIncome);
@@ -216,27 +232,42 @@ public final class AccountControllerImpl implements AccountController, Statistic
     }
 
     @Override
-    public BigDecimal getBudgetLimit() {
-        return this.model.getBudget().getLimit();
+    public void updateBudgetLimit(final String newLimit) {
+        // @TODO valudazione dati in input e controllo che possa essre un bigdecimal
+        final BigDecimal newLimitValue = validateAmount(newLimit);
+        this.model.getBudget().setLimit(newLimitValue);
+        this.view.showBudgetElements(newLimitValue.toString(), calcualteMonthlyExpenses().toString());
+        isBudgetExceeded();
     }
 
-    // @TODO implementare qui non nel model 
+    // @TODO capire dove è meglio impostare un valore di deafault per il budget per
+    // evitare che sia null
     @Override
-    public BigDecimal getCurrentSpent() {
-        return null;
-        //@TODO da fare
+    public void showBudgetElements() {
+        BigDecimal budgetLimit = this.model.getBudget().getLimit();
+        if (budgetLimit == null) {
+            budgetLimit = BUDGET_DEFULT_LIMIT;
+        }
+        final BigDecimal currentSpent = calcualteMonthlyExpenses();
+        this.view.showBudgetElements(budgetLimit.toString(), currentSpent.toString());
     }
 
-    // @TODO implementare qui non nel model 
     @Override
-    public boolean isBudgetExceeded() {
-        return true;
-        //@TODO da fare
+    public void isBudgetExceeded() {
+        final BigDecimal budgetLimit = this.model.getBudget().getLimit();
+        final BigDecimal currentSpent = calcualteMonthlyExpenses();
+        final boolean isExceeded = currentSpent.compareTo(budgetLimit) > 0;
+        if (isExceeded) {
+            this.view.showLimitExceeded();
+        } else {
+            this.view.showLimitNotExceeded();
+        }
     }
 
-    @Override
-    public void updateBudgetLimit(final BigDecimal newLimit) {
-        this.model.getBudget().setLimit(newLimit);
-        //@TODO mostrare il  nuovo limite nella view => ShowBudget(newLimit);
+    private BigDecimal calcualteMonthlyExpenses() {
+        final List<Transaction> expenses = statistics.getExpenses(getTransactionsByCurrentMonth());
+        return expenses.stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

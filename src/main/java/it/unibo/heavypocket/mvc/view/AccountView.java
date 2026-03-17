@@ -32,4 +32,9 @@ public interface AccountView {
 
     // void showLineChartData(Map<LocalDate, BigDecimal> data);
 
+    void showBudgetElements(String limit, String spent);
+
+    void showLimitExceeded();
+    
+    void showLimitNotExceeded();
 }

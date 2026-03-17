@@ -8,9 +8,4 @@ public interface Budget {
 
     void setLimit(BigDecimal newLimit);
 
-    // BigDecimal getCurrentSpent();
-
-    // void addExpense(BigDecimal amount);
-
-    // boolean isExceeded();
 }

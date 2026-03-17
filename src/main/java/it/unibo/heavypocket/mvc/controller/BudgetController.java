@@ -4,9 +4,5 @@ import java.math.BigDecimal;
 
 public interface BudgetController {
 
-    BigDecimal getBudgetLimit();
-
-    BigDecimal getCurrentSpent();
-
-    boolean isBudgetExceeded();
+    void isBudgetExceeded();
 }

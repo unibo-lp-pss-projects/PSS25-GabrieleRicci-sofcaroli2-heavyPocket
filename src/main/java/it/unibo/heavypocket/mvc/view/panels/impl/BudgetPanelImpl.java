@@ -1,8 +1,5 @@
 package it.unibo.heavypocket.mvc.view.panels.impl;
 
-import java.math.BigDecimal;
-import java.util.function.Consumer;
-
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,26 +7,35 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color; 
+
+import java.util.function.Consumer;
 
 import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
 
 public final class BudgetPanelImpl implements BudgetPanel {
 
-    private static final String EURO_SUFFIX = " €";
-    private static final String STATUS_EXCEEDED = "Budget exceeded";
-    private static final String STATUS_OK = "Budget respected";
-    private static final String STATUS_INVALID_INPUT = "Invalid budget value";
-
     private final VBox rootPanel = new VBox();
-    private final Label budgetLimitLabel = new Label();
-    private final Label currentSpentLabel = new Label();
-    private final Label budgetStatusLabel = new Label();
-    private final TextField newBudgetField = new TextField();
+    private final TextField budgetField = new TextField();
     private final Button updateButton = new Button("Update budget");
-    private Consumer<BigDecimal> updateLimitListener;
+    private final Text currentSpentLabel = new Text();
+    private final Text limitLabel = new Text();
+    private final Text separator = new Text(" / ");
+    private final Text budgetStatusLabel = new Text();
+    private Consumer<String> updateLimitListener;
 
     public BudgetPanelImpl() {
         this.initializeBudgetPanel();
+
+        this.rootPanel.getChildren().addAll(
+                budgetField,
+                updateButton,
+                currentSpentLabel,
+                separator,
+                limitLabel,
+                budgetStatusLabel);
     }
 
     @Override
@@ -38,48 +44,37 @@ public final class BudgetPanelImpl implements BudgetPanel {
     }
 
     @Override
-    public void setBudgetStatus(final BigDecimal limit, final BigDecimal spent, final boolean exceeded) {
-        this.budgetLimitLabel.setText("Monthly limit: " + limit + EURO_SUFFIX);
-        this.currentSpentLabel.setText("Current spent: " + spent + EURO_SUFFIX);
-        this.budgetStatusLabel.setText(exceeded ? STATUS_EXCEEDED : STATUS_OK);
-    }
-
-    @Override
-    public void setOnUpdateLimit(final Consumer<BigDecimal> listener) {
+    public void setOnUpdateLimit(final Consumer<String> listener) {
         this.updateLimitListener = listener;
     }
 
+    @Override
+    public void setBudgetElements(String limit, String spent){
+        this.limitLabel.setText(limit);
+        this.currentSpentLabel.setText(spent);
+    }
+    
+    @Override
+    public void showLimitExceeded(){
+        this.budgetStatusLabel.setText("Budget limit exceeded!");
+        this.budgetStatusLabel.setFill(Color.RED);
+    }
+
+    @Override
+    public void showLimitNotExceeded(){
+        this.budgetStatusLabel.setText("You are within the budget limit");
+        this.budgetStatusLabel.setFill(Color.GREEN);
+    }
+
     private void initializeBudgetPanel() {
-        this.rootPanel.setSpacing(8);
-        this.rootPanel.setPadding(new Insets(10));
-        this.newBudgetField.setPromptText("New monthly budget (e.g. 500.00)");
-
-        final HBox updateBudgetBox = new HBox();
-        updateBudgetBox.setSpacing(8);
-        updateBudgetBox.getChildren().addAll(this.newBudgetField, this.updateButton);
-
+        this.rootPanel.setSpacing(10);
+        this.budgetField.setPromptText("Enter new monthly budget");
         this.updateButton.setOnAction(event -> this.handleUpdateBudget());
-
-        this.rootPanel.getChildren().addAll(
-                this.budgetLimitLabel,
-                this.currentSpentLabel,
-                this.budgetStatusLabel,
-                updateBudgetBox);
     }
 
     private void handleUpdateBudget() {
-        if (this.updateLimitListener == null) {
-            return;
-        }
-        try {
-            final BigDecimal newLimit = new BigDecimal(this.newBudgetField.getText().trim());
-            if (newLimit.compareTo(BigDecimal.ZERO) <= 0) {
-                throw new NumberFormatException("Budget value must be positive");
-            }
-            this.updateLimitListener.accept(newLimit);
-            this.newBudgetField.clear();
-        } catch (final NumberFormatException ex) {
-            this.budgetStatusLabel.setText(STATUS_INVALID_INPUT);
+        if (this.updateLimitListener != null) {
+            this.updateLimitListener.accept(budgetField.getText());
         }
     }
 }

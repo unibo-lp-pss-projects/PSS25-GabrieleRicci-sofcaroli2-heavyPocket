@@ -69,9 +69,9 @@ public final class AccountViewImpl extends Application implements AccountView {
         root.getChildren().addAll(
                 statisticsBalancePanel.getRoot(),
                 transactionListPanel.getRoot(),
+                budgetPanel.getRoot(),
                 addTransactionPanel.getRoot(),
-                graphsPanel.getRoot(),
-                budgetPanel.getRoot());
+                graphsPanel.getRoot());
 
         this.controller = new AccountControllerImpl(model, this, statistics, saver);
 
@@ -82,7 +82,7 @@ public final class AccountViewImpl extends Application implements AccountView {
         addTransactionPanel.setOnEdit(controller::editTransaction);
         budgetPanel.setOnUpdateLimit(controller::updateBudgetLimit);
 
-        final Scene scene = new Scene(root, 850, 1000);
+        final Scene scene = new Scene(root, 800, 600);
         primaryStage.setTitle("HeavyPocket");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -101,7 +101,6 @@ public final class AccountViewImpl extends Application implements AccountView {
     @Override
     public void showTransactionList(final List<Transaction> transactions) {
         transactionListPanel.setTransactions(transactions);
-        // refreshBudgetCurrentSpent();
     }
 
     @Override
@@ -135,45 +134,20 @@ public final class AccountViewImpl extends Application implements AccountView {
         graphsPanel.setPieChartData(pieChartData);
     }
 
-    // private void initializeCurrentSpentFromTransactions(final List<Transaction>
-    // transactions) {
-    // for (final Transaction transaction : transactions) {
-    // if (transaction.getType() == TransactionType.EXPENSE) {
-    // this.budgetController.addExpense(transaction.getAmount());
-    // }
-    // }
-    // }
+    @Override
+    public void showBudgetElements(final String limit, final String spent) {
+        budgetPanel.setBudgetElements(limit, spent);
+    }
 
-    // private void updateBudgetLimit(final BigDecimal newLimit) {
-    // try {
-    // this.budgetController.updateBudgetLimit(newLimit);
-    // updateBudgetPanelStatus();
-    // } catch (final IllegalArgumentException ex) {
-    // showError(ex.getMessage());
-    // }
-    // }
+    @Override
+    public void showLimitExceeded() {
+        budgetPanel.showLimitExceeded();
+    }
 
-    // private void updateBudgetPanelStatus() {
-    // this.budgetPanel.setBudgetStatus(
-    // this.budgetController.getBudgetLimit(),
-    // this.budgetController.getCurrentSpent(),
-    // this.budgetController.isBudgetExceeded());
-    // }
-
-    // private void refreshBudgetCurrentSpent() {
-    // final BigDecimal budgetLimit = this.budgetController.getBudgetLimit();
-    // this.budgetController = new BudgetControllerImpl(new
-    // BudgetImpl(budgetLimit));
-    // initializeCurrentSpentFromTransactions(this.model.getTransactions());
-    // updateBudgetPanelStatus();
-    // }
-
-    // private BigDecimal getValidBudgetLimit(final BigDecimal budgetLimit) {
-    // if (budgetLimit != null && budgetLimit.compareTo(BigDecimal.ZERO) > 0) {
-    // return budgetLimit;
-    // }
-    // return BigDecimal.ONE;
-    // }
+    @Override
+    public void showLimitNotExceeded() {
+        budgetPanel.showLimitNotExceeded();
+    }
 
     @Override
     public void showError(final String error) {
