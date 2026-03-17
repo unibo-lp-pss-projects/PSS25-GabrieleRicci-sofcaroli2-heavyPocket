@@ -29,7 +29,7 @@ public final class GraphsPanelImpl implements GraphsPanel {
         return this.rootPanel;
     }
 
-    public void setPieChartData(ObservableList<PieChart.Data> pieChartExpense, ObservableList<PieChart.Data> pieChartIncome) {
+    public void setPieChartData(final ObservableList<PieChart.Data> pieChartExpense, final ObservableList<PieChart.Data> pieChartIncome) {
         this.pieChartE.setData(pieChartExpense);
         this.pieChartI.setData(pieChartIncome);
     }
