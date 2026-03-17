@@ -5,7 +5,6 @@ import java.util.UUID;
 import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
-//@TODO capire se ha senso avere le altre interfacce se alla fine hanno 2/3 metodi l'una
 public interface AccountController {
 
         void showTransactions();
@@ -27,4 +26,10 @@ public interface AccountController {
         void search(FiltersDTO filters);
 
         void updateBudgetLimit(String newLimit);
+
+        void isBudgetExceeded();
+
+        void setAverageValue();
+
+        void setPieChartData();
 }

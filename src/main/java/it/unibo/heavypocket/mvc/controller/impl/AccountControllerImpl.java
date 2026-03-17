@@ -17,12 +17,10 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.view.AccountView;
 import it.unibo.heavypocket.persistence.Saver;
-import it.unibo.heavypocket.mvc.controller.StatisticsController;
-import it.unibo.heavypocket.mvc.controller.BudgetController;
 
 // @TODO ripulire tutto il controller, cercare ripetizioni nei metodi, 
 // capire cosa può diventare un campo e cosa ha senso spostare in un file di utilità
-public final class AccountControllerImpl implements AccountController, StatisticsController, BudgetController {
+public final class AccountControllerImpl implements AccountController {
 
     private static final String ERROR_CRUD = "Transaction not found";
     private static final String ERROR_AMOUNT = "Amount must be greater than zero";
