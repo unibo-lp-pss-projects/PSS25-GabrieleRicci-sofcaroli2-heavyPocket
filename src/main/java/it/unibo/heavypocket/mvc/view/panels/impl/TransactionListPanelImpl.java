@@ -162,8 +162,8 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
         if (searchListener != null) {
             searchListener.accept(
                     new FiltersDTO(
-                            filterDate.getValue(),
                             filterType.getValue(),
+                            filterDate.getValue(),
                             filterTag.getValue()));
         }
     }

@@ -6,7 +6,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 
 public record FiltersDTO(
-        LocalDate date,
         TransactionType type,
+        LocalDate date,
         Tag tag) {
 }

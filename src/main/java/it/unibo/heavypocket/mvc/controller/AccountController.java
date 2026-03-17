@@ -7,13 +7,13 @@ import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
 public interface AccountController {
 
+    void showTotalBalance();
+
     void showTransactions();
 
     void showTags();
 
-    void showTotalBalance();
-
-    void showBudgetElements();
+    void search(FiltersDTO filters);
 
     void addTransaction(TransactionDTO transactionDTO);
 
@@ -23,7 +23,7 @@ public interface AccountController {
 
     void deleteTransaction(UUID id);
 
-    void search(FiltersDTO filters);
+    void showBudgetElements();
 
     void updateBudgetLimit(String newLimit);
 

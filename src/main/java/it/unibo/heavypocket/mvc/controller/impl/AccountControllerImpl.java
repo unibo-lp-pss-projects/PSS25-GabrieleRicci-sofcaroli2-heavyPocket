@@ -101,10 +101,10 @@ public final class AccountControllerImpl implements AccountController {
         model.getTransactionById(id).ifPresentOrElse(
                 transaction -> {
                     final TransactionDTO transactionDTO = new TransactionDTO(
+                            transaction.getType(),
                             String.valueOf(transaction.getAmount()),
                             transaction.getDate(),
                             transaction.getDescription(),
-                            transaction.getType(),
                             transaction.getTag());
                     view.showEditTransaction(id, transactionDTO);
                 },
