@@ -168,17 +168,9 @@ public final class AccountControllerImpl implements AccountController {
         final List<Transaction> transactionsOfMonth = getTransactionsByCurrentMonth();
         final List<Transaction> expenses = this.model.getStatistics().getExpenses(transactionsOfMonth);
         final List<Transaction> incomes = this.model.getStatistics().getIncomes(transactionsOfMonth);
-        if (expenses.isEmpty()) {
-            final String averageIncome = this.model.getStatistics().getAverage(incomes).toString();
-            this.view.showAverage("0.00", averageIncome);
-        } else if (incomes.isEmpty()){
         final String averageExpense = this.model.getStatistics().getAverage(expenses).toString();
-            this.view.showAverage(averageExpense, "0.00");
-        } else {
-            final String averageExpense = this.model.getStatistics().getAverage(expenses).toString();
-            final String averageIncome = this.model.getStatistics().getAverage(incomes).toString();
-            this.view.showAverage(averageExpense, averageIncome);
-        }
+        final String averageIncome = this.model.getStatistics().getAverage(incomes).toString();
+        this.view.showAverage(averageExpense, averageIncome);
     }
 
     @Override

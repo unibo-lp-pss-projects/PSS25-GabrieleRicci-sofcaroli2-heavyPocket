@@ -18,6 +18,9 @@ public final class StatisticsImpl implements Statistics {
 
     @Override
     public BigDecimal getAverage(final List<Transaction> transactions) {
+        if (transactions.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
         final BigDecimal transactionsCount = new BigDecimal(transactions.size());
         final BigDecimal averageTransactions = transactions.stream()
                 .map(Transaction::getAmount)
