@@ -15,6 +15,8 @@ import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
  */
 public final class BudgetPanelImpl implements BudgetPanel {
 
+    private static final int WIDTH = 110;
+
     private final Label budgetInfo = new Label();
     private final Label budgetStatus = new Label();
     private final TextField newBudgetField = new TextField();
@@ -31,7 +33,7 @@ public final class BudgetPanelImpl implements BudgetPanel {
         budgetRow.setAlignment(Pos.CENTER);
         editRow.setAlignment(Pos.CENTER);
         newBudgetField.setPromptText("Enter new budget");
-        newBudgetField.setPrefWidth(110);
+        newBudgetField.setPrefWidth(WIDTH);
         updateButton.setOnAction(e -> handleUpdateBudget());
     }
 

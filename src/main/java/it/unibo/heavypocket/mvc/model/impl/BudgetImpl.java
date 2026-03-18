@@ -15,9 +15,10 @@ public final class BudgetImpl implements Budget {
 
     /**
      * Creates a budget with the given limit.
+     * 
      * @param limit the initial budget limit
      * @throws IllegalArgumentException if limit is less than or equal to zero
-     * @throws NullPointerException if limit is null
+     * @throws NullPointerException     if limit is null
      */
     public BudgetImpl(final BigDecimal limit) {
         if (limit.compareTo(BigDecimal.ZERO) <= 0) {
@@ -33,9 +34,10 @@ public final class BudgetImpl implements Budget {
 
     /**
      * Sets the budget limit.
+     * 
      * @param newLimit the new budget limit
      * @throws IllegalArgumentException if newLimit is less than or equal to zero
-     * @throws NullPointerException if newLimit is null
+     * @throws NullPointerException     if newLimit is null
      */
     @Override
     public void setLimit(final BigDecimal newLimit) {

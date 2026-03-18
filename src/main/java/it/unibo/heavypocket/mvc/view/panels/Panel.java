@@ -9,6 +9,7 @@ public interface Panel {
 
     /**
      * Gets the root region to mount.
+     * 
      * @return the panel root region
      */
     Region getRoot();

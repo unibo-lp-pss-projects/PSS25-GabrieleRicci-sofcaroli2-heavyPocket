@@ -42,6 +42,7 @@ public final class Loader {
 
     /**
      * Creates a loader reading from the provided stream.
+     * 
      * @param inputStream source stream containing account JSON data
      * @throws NullPointerException if inputStream is null
      */
@@ -52,8 +53,10 @@ public final class Loader {
     /**
      * Loads account data from the default persistence path.
      * If no file is found, it creates and persists a default account.
+     * 
      * @return the loaded account instance
-     * @throws RuntimeException if default account initialization cannot be persisted
+     * @throws RuntimeException if default account initialization cannot be
+     *                          persisted
      */
     public static Account loadData() {
         final InputStream is = Loader.class.getResourceAsStream(DATA_PATH);
@@ -65,8 +68,7 @@ public final class Loader {
                     new ArrayList<>(),
                     TAGS,
                     budget,
-                    statistics
-                );
+                    statistics);
             final Saver saver = new SaverImpl();
             try {
                 saver.saveAccount(account);
@@ -80,6 +82,7 @@ public final class Loader {
 
     /**
      * Deserializes account data from this loader input stream.
+     * 
      * @return the reconstructed account
      * @throws UncheckedIOException if the stream cannot be read
      */
@@ -97,8 +100,7 @@ public final class Loader {
                     transactions,
                     TAGS,
                     budget,
-                    statistics
-                );
+                    statistics);
 
         } catch (final IOException e) {
             throw new UncheckedIOException(TRANSACTION_DATA_ERROR, e);

@@ -11,6 +11,7 @@ public interface Saver {
 
     /**
      * Saves the provided account state.
+     * 
      * @param account the account to persist
      * @throws IOException if an I/O error occurs while saving
      */
