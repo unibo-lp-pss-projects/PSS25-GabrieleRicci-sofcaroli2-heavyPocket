@@ -11,7 +11,6 @@ import java.io.IOException;
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
-import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.controller.validation.Validation;
 import it.unibo.heavypocket.mvc.view.AccountView;

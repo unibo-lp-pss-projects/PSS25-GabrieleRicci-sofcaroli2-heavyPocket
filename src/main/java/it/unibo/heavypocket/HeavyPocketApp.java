@@ -5,8 +5,6 @@ import javafx.stage.Stage;
 import javafx.application.Application;
 
 import it.unibo.heavypocket.mvc.model.Account;
-import it.unibo.heavypocket.mvc.model.Statistics;
-import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.controller.impl.AccountControllerImpl;
 import it.unibo.heavypocket.mvc.view.AccountView;
