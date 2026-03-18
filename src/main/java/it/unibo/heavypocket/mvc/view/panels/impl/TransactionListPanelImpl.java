@@ -26,10 +26,14 @@ import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 
+/**
+ * Implementation of the TransactionListPanel interface.
+ */
 public final class TransactionListPanelImpl implements TransactionListPanel {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
     private static final String DATE_FORMAT = "DD/MM/YYYY";
+    private static final int SPACING = 10;
 
     private final VBox rootPanel = new VBox();
     private final ListView<Transaction> transactionList = new ListView<>();
@@ -44,6 +48,10 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     private Consumer<UUID> editListener;
     private Consumer<UUID> deleteListener;
 
+    /**
+     * Constructor for TransactionListPanelImpl. It initializes the search bar, the
+     * transaction list, and creates the layout of the panel.
+     */
     public TransactionListPanelImpl() {
         initializeSearchBar();
         initializeTransactionList();
@@ -132,12 +140,12 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
                 deleteListener.accept(transactionId);
             }
         });
-        return new HBox(5, editButton, deleteButton);
+        return new HBox(SPACING, editButton, deleteButton);
     }
 
     private HBox populateSearchBar() {
         final HBox searchBar = new HBox();
-        searchBar.setSpacing(10);
+        searchBar.setSpacing(SPACING);
         searchBar.setAlignment(Pos.CENTER);
         searchBar.getChildren().addAll(
                 filterTypeLabel,
@@ -169,7 +177,7 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
     }
 
     private void createLayout() {
-        rootPanel.setSpacing(10);
+        rootPanel.setSpacing(SPACING);
         rootPanel.setAlignment(Pos.CENTER);
         rootPanel.getChildren().addAll(populateSearchBar(), transactionList);
     }

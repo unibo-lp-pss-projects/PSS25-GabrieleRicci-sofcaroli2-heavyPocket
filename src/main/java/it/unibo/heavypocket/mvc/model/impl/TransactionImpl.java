@@ -9,6 +9,10 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Tag;
 
+/**
+ * Implementation of the Transaction interface. It includes amount, date,
+ * description, type, and tag.
+ */
 public final class TransactionImpl implements Transaction {
 
     private static final String ID_ERROR_MESSAGE = "ID cannot be null";
@@ -27,6 +31,16 @@ public final class TransactionImpl implements Transaction {
     private final TransactionType type;
     private final Tag tag;
 
+    /**
+     * Constructor for TransactionImpl.
+     *
+     * @param id the unique identifier of the transaction.
+     * @param amount the amount of the transaction.
+     * @param date the date of the transaction.
+     * @param description the description of the transaction.
+     * @param type the type of the transaction.
+     * @param tag the tag of the transaction.
+     */
     public TransactionImpl(
             final UUID id,
             final BigDecimal amount,

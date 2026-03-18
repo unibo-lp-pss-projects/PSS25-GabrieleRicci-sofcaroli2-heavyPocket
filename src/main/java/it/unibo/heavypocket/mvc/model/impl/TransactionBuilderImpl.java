@@ -9,6 +9,11 @@ import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.TransactionBuilder;
 import it.unibo.heavypocket.mvc.model.Tag;
 
+/**
+ * Implementation of the TransactionBuilder interface. It provides methods to
+ * set the properties of a Transaction and a build method to instance a
+ * Transaction.
+ */
 public final class TransactionBuilderImpl implements TransactionBuilder {
 
     private UUID id;
@@ -18,6 +23,9 @@ public final class TransactionBuilderImpl implements TransactionBuilder {
     private TransactionType type;
     private Tag tag;
 
+    /**
+     * Default constructor for TransactionBuilderImpl.
+     */
     public TransactionBuilderImpl() {
     }
 

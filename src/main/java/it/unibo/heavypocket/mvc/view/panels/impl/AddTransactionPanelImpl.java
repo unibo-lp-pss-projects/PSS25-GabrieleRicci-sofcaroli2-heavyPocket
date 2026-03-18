@@ -23,7 +23,12 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 
+/**
+ * Implementation of the AddTransactionPanel interface.
+ */
 public final class AddTransactionPanelImpl implements AddTransactionPanel {
+
+    private static final int SPACING = 10;
 
     private final VBox rootPanel = new VBox();
     private final Label typeLabel = new Label("Type:");
@@ -40,6 +45,10 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     private Consumer<TransactionDTO> addListener;
     private BiConsumer<UUID, TransactionDTO> editListener;
 
+    /**
+     * Constructor for AddTransactionPanelImpl. It initializes the fields and
+     * creates the layout of the panel.
+     */
     public AddTransactionPanelImpl() {
         initializeFields();
         createLayout();
@@ -134,15 +143,15 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     }
 
     private void createLayout() {
-        rootPanel.setSpacing(5);
+        rootPanel.setSpacing(SPACING);
         rootPanel.setAlignment(Pos.CENTER);
-        final HBox typeAmountRow = new HBox(10, typeLabel, typeField, amountField, currency);
+        final HBox typeAmountRow = new HBox(SPACING, typeLabel, typeField, amountField, currency);
         typeAmountRow.setAlignment(Pos.CENTER);
-        final HBox dateTagRow = new HBox(10, datePicker, tagLabel, filterTag);
+        final HBox dateTagRow = new HBox(SPACING, datePicker, tagLabel, filterTag);
         dateTagRow.setAlignment(Pos.CENTER);
-        final HBox descriptionRow = new HBox(10, descriptionField);
+        final HBox descriptionRow = new HBox(SPACING, descriptionField);
         descriptionRow.setAlignment(Pos.CENTER);
-        final HBox buttonRow = new HBox(10, addButton, resetButton);
+        final HBox buttonRow = new HBox(SPACING, addButton, resetButton);
         buttonRow.setAlignment(Pos.CENTER);
         rootPanel.getChildren().addAll(typeAmountRow, dateTagRow, descriptionRow, buttonRow);
     }

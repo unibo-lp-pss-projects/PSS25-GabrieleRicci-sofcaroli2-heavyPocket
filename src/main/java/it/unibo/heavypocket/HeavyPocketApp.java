@@ -23,15 +23,27 @@ import it.unibo.heavypocket.persistence.impl.SaverImpl;
 import it.unibo.heavypocket.persistence.impl.Loader;
 import it.unibo.heavypocket.mvc.view.impl.AccountViewImpl;
 
+/**
+ * Main class of the application. It launches the JavaFX application.
+ */
 public final class HeavyPocketApp {
 
     private HeavyPocketApp() {
     }
 
+    /**
+     * Main method of the application. It launches the JavaFX application.
+     * 
+     * @param args the command line arguments
+     */
     public static void main(final String... args) {
         Application.launch(HeavyPocketFxApp.class, args);
     }
 
+    /**
+     * Inner class representing the JavaFX application. It initializes the model,
+     * the view and the controller, and starts the application.
+     */
     public static final class HeavyPocketFxApp extends Application {
         @Override
         public void start(final Stage primaryStage) {

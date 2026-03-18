@@ -20,6 +20,9 @@ import it.unibo.heavypocket.persistence.Saver;
 
 // @TODO ripulire tutto il controller, cercare ripetizioni nei metodi,
 // capire cosa può diventare un campo e cosa ha senso spostare in un file di utilità
+/**
+ * Implementation of the AccountController interface.
+ */
 public final class AccountControllerImpl implements AccountController {
 
     private static final String ERROR_CRUD = "Transaction not found";
@@ -29,6 +32,15 @@ public final class AccountControllerImpl implements AccountController {
     private final AccountView view;
     private final Saver saver;
 
+    /**
+     * Constructor for AccountControllerImpl. It initializes the model, the view and
+     * the saver, and sets the controller for the view. It also updates the view
+     * with the current state of the model and shows the tags.
+     * 
+     * @param model the model of the app.
+     * @param view the view of the app.
+     * @param saver service to save data into json.
+     */
     public AccountControllerImpl(
             final Account model,
             final AccountView view,
