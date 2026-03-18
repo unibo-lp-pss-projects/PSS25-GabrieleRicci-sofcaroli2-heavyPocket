@@ -10,6 +10,9 @@ import javafx.scene.layout.VBox;
 import java.util.function.Consumer;
 import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
 
+/**
+ * JavaFX implementation of BudgetPanel with budget display and update controls.
+ */
 public final class BudgetPanelImpl implements BudgetPanel {
 
     private final Label budgetInfo = new Label();
@@ -21,6 +24,9 @@ public final class BudgetPanelImpl implements BudgetPanel {
     private final HBox editRow = new HBox(8, newBudgetField, updateButton);
     private final VBox rootPanel = new VBox(6, budgetRow, editRow);
 
+    /**
+     * Builds the panel UI and connects the update action handler.
+     */
     public BudgetPanelImpl() {
         budgetRow.setAlignment(Pos.CENTER);
         editRow.setAlignment(Pos.CENTER);

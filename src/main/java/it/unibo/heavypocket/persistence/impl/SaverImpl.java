@@ -11,22 +11,38 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.persistence.AccountJsonData;
 import it.unibo.heavypocket.persistence.TransactionJsonData;
 
+/**
+ * Implementation of Saver.
+ */
 public final class SaverImpl implements Saver {
 
     private static final String FILE_PATH = "src/main/resources/persistence/data.json";
 
     private final Gson gson;
 
+    /**
+     * Creates a saver using a default Gson serializer.
+     */
     public SaverImpl() {
         this.gson = new Gson();
     }
 
+    /**
+     * Saves the account by converting it into a serializable payload.
+     * @param account the account to persist
+     * @throws IOException if writing to persistence fails
+     */
     @Override
     public void saveAccount(final Account account) throws IOException {
         final AccountJsonData data = toJsonData(account);
         saveData(data);
     }
 
+    /**
+     * Writes the provided payload to the persistence file.
+     * @param data serialized account payload
+     * @throws IOException if writing to persistence fails
+     */
     public void saveData(final AccountJsonData data) throws IOException {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             this.gson.toJson(data, writer);

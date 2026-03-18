@@ -27,6 +27,9 @@ import it.unibo.heavypocket.persistence.Saver;
 import it.unibo.heavypocket.mvc.model.Statistics;
 import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
 
+/**
+ * Loads account state from JSON persistence.
+ */
 public final class Loader {
 
     private static final String DATA_PATH = "/persistence/data.json";
@@ -37,10 +40,21 @@ public final class Loader {
 
     private final InputStream inputStream;
 
+    /**
+     * Creates a loader reading from the provided stream.
+     * @param inputStream source stream containing account JSON data
+     * @throws NullPointerException if inputStream is null
+     */
     public Loader(final InputStream inputStream) {
         this.inputStream = Objects.requireNonNull(inputStream, INPUT_STREAM_ERROR);
     }
 
+    /**
+     * Loads account data from the default persistence path.
+     * If no file is found, it creates and persists a default account.
+     * @return the loaded account instance
+     * @throws RuntimeException if default account initialization cannot be persisted
+     */
     public static Account loadData() {
         final InputStream is = Loader.class.getResourceAsStream(DATA_PATH);
         final Budget budget = new BudgetImpl(BigDecimal.ONE);
@@ -64,6 +78,11 @@ public final class Loader {
         return new Loader(is).loadHeavyPocket();
     }
 
+    /**
+     * Deserializes account data from this loader input stream.
+     * @return the reconstructed account
+     * @throws UncheckedIOException if the stream cannot be read
+     */
     public Account loadHeavyPocket() {
         final Gson gson = new Gson();
         try (InputStreamReader reader = new InputStreamReader(this.inputStream)) {
