@@ -38,7 +38,6 @@ public final class HeavyPocketApp {
         @Override
         public void start(final Stage primaryStage) {
             final Account model = Loader.loadData();
-            final Statistics statistics = new StatisticsImpl();
             final Saver saver = new SaverImpl();
             final TransactionListPanel transactionListPanel = new TransactionListPanelImpl();
             final StatisticsBalancePanel statisticsBalancePanel = new StatisticsBalancePanelImpl();
@@ -51,7 +50,7 @@ public final class HeavyPocketApp {
                     addTransactionPanel,
                     budgetPanel,
                     graphsPanel);
-            final AccountController controller = new AccountControllerImpl(model, view, statistics, saver);
+            final AccountController controller = new AccountControllerImpl(model, view, saver);
             view.start(primaryStage);
         }
     }

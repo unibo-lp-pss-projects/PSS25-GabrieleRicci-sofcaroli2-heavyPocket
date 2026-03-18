@@ -24,6 +24,8 @@ import it.unibo.heavypocket.mvc.model.impl.BudgetImpl;
 import it.unibo.heavypocket.persistence.AccountJsonData;
 import it.unibo.heavypocket.persistence.TransactionJsonData;
 import it.unibo.heavypocket.persistence.Saver;
+import it.unibo.heavypocket.mvc.model.Statistics;
+import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
 
 public final class Loader {
 
@@ -42,12 +44,15 @@ public final class Loader {
     public static Account loadData() {
         final InputStream is = Loader.class.getResourceAsStream(DATA_PATH);
         final Budget budget = new BudgetImpl(BigDecimal.ONE);
+        final Statistics statistics = new StatisticsImpl();
         if (is == null) {
             final Account account = new AccountImpl(
                     BigDecimal.ZERO,
                     new ArrayList<>(),
                     TAGS,
-                    budget);
+                    budget,
+                    statistics
+                );
             final Saver saver = new SaverImpl();
             try {
                 saver.saveAccount(account);
@@ -67,11 +72,14 @@ public final class Loader {
                     .map(this::createTransaction)
                     .collect(Collectors.toList());
             final Budget budget = new BudgetImpl(data.budget());
+            final Statistics statistics = new StatisticsImpl();
             return new AccountImpl(
                     data.balance(),
                     transactions,
                     TAGS,
-                    budget);
+                    budget,
+                    statistics
+                );
 
         } catch (final IOException e) {
             throw new UncheckedIOException(TRANSACTION_DATA_ERROR, e);

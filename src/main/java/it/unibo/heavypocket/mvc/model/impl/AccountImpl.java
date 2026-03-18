@@ -13,6 +13,7 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Budget;
+import it.unibo.heavypocket.mvc.model.Statistics;
 
 public final class AccountImpl implements Account {
 
@@ -22,16 +23,19 @@ public final class AccountImpl implements Account {
     private List<Transaction> transactions;
     private Set<Tag> tags;
     private Budget budget;
+    private Statistics statistics;
 
     public AccountImpl(
             final BigDecimal balance,
             final List<Transaction> transactions,
             final Set<Tag> tags,
-            final Budget budget) {
+            final Budget budget,
+            final Statistics statistics) {
         this.balance = balance;
         this.transactions = transactions;
         this.tags = tags;
         this.budget = budget;
+        this.statistics = statistics;
     }
 
     @Override
@@ -54,6 +58,10 @@ public final class AccountImpl implements Account {
     @Override
     public Budget getBudget() {
         return this.budget;
+    }
+
+    public Statistics getStatistics() {
+        return this.statistics;
     }
 
     @Override

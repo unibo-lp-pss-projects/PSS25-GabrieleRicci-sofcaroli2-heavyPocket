@@ -15,6 +15,8 @@ public interface Account {
 
     Budget getBudget();
 
+    Statistics getStatistics();
+
     Optional<Transaction> getTransactionById(UUID id);
 
     List<Transaction> searchByType(TransactionType type);
