@@ -12,5 +12,5 @@ public interface Statistics {
 
     List<Transaction> getIncomes(List<Transaction> transactions);
 
-    Map<Tag, BigDecimal> getAverageByTag(List<Transaction> transactions);
+    Map<Tag, BigDecimal> getAmountByTag(List<Transaction> transactions);
 }

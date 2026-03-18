@@ -30,7 +30,7 @@ public final class StatisticsImpl implements Statistics {
     }
 
     @Override
-    public Map<Tag, BigDecimal> getAverageByTag(final List<Transaction> transactions) {
+    public Map<Tag, BigDecimal> getAmountByTag(final List<Transaction> transactions) {
         final Map<Tag, BigDecimal> transactionsByTag = transactions.stream()
                 .collect(Collectors.toMap(
                         Transaction::getTag,

@@ -177,8 +177,8 @@ public final class AccountControllerImpl implements AccountController {
         final List<Transaction> transactions = model.getTransactions();
         final List<Transaction> expenses = this.model.getStatistics().getExpenses(transactions);
         final List<Transaction> incomes = this.model.getStatistics().getIncomes(transactions);
-        final Map<Tag, BigDecimal> expenseByTag = this.model.getStatistics().getAverageByTag(expenses);
-        final Map<Tag, BigDecimal> incomesByTag = this.model.getStatistics().getAverageByTag(incomes);
+        final Map<Tag, BigDecimal> expenseByTag = this.model.getStatistics().getAmountByTag(expenses);
+        final Map<Tag, BigDecimal> incomesByTag = this.model.getStatistics().getAmountByTag(incomes);
         this.view.showPieChartData(expenseByTag, incomesByTag);
     }
 
