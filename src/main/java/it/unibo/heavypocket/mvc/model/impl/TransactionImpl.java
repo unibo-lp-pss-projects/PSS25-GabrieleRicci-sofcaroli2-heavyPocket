@@ -8,7 +8,6 @@ import static java.util.Objects.requireNonNull;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Tag;
-import java.util.Objects;
 
 /**
  * Implementation of the Transaction interface. It includes amount, date,
