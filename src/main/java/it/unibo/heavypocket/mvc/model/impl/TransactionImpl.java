@@ -8,7 +8,6 @@ import static java.util.Objects.requireNonNull;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Tag;
-import java.util.Objects;
 
 /**
  * Implementation of the Transaction interface. It includes amount, date,
@@ -35,12 +34,12 @@ public final class TransactionImpl implements Transaction {
     /**
      * Constructor for TransactionImpl.
      *
-     * @param id the unique identifier of the transaction.
-     * @param amount the amount of the transaction.
-     * @param date the date of the transaction.
+     * @param id          the unique identifier of the transaction.
+     * @param amount      the amount of the transaction.
+     * @param date        the date of the transaction.
      * @param description the description of the transaction.
-     * @param type the type of the transaction.
-     * @param tag the tag of the transaction.
+     * @param type        the type of the transaction.
+     * @param tag         the tag of the transaction.
      */
     public TransactionImpl(
             final UUID id,
@@ -110,19 +109,24 @@ public final class TransactionImpl implements Transaction {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        TransactionImpl other = (TransactionImpl) obj;
+        }
+        final TransactionImpl other = (TransactionImpl) obj;
         if (id == null) {
-            if (other.id != null)
+            if (other.id != null) {
                 return false;
-        } else if (!id.equals(other.id))
+            }
+        } else if (!id.equals(other.id)) {
             return false;
+        }
         return true;
     }
 

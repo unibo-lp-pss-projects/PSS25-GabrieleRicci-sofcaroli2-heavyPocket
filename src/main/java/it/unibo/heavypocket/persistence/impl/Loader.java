@@ -57,11 +57,12 @@ public final class Loader {
      * Loads account data from the default persistence path.
      * If no file is found, it creates and persists a default account.
      * 
+     * @param saver the saver used to persist the default account if needed
      * @return the loaded account instance
      * @throws RuntimeException if default account initialization cannot be
      *                          persisted
      */
-    public static Account loadData() {
+    public static Account loadData(final Saver saver) {
         final Path filePath = Path.of(DATA_PATH);
         if (Files.notExists(filePath)) {
             final Budget budget = new BudgetImpl(BigDecimal.ONE);
@@ -71,7 +72,6 @@ public final class Loader {
                     TAGS,
                     budget,
                     statistics);
-            final Saver saver = new SaverImpl();
             try {
                 saver.saveAccount(account);
             } catch (final IOException e) {

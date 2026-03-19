@@ -94,11 +94,6 @@ public final class AccountViewImpl implements AccountView {
     }
 
     @Override
-    public AccountController getController() {
-        return controller;
-    }
-
-    @Override
     public void showBalance(final String balance) {
         statisticsBalancePanel.setBalance(balance);
     }
