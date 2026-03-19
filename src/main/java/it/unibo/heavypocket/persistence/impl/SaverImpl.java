@@ -57,7 +57,6 @@ public final class SaverImpl implements Saver {
                 .toList();
         return new AccountJsonData(
                 transactions,
-                account.getTotalBalance(),
                 account.getBudget().getLimit());
     }
 

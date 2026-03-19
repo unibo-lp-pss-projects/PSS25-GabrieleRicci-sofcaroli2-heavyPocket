@@ -64,7 +64,6 @@ public final class Loader {
         final Statistics statistics = new StatisticsImpl();
         if (is == null) {
             final Account account = new AccountImpl(
-                    BigDecimal.ZERO,
                     new ArrayList<>(),
                     TAGS,
                     budget,
@@ -96,7 +95,6 @@ public final class Loader {
             final Budget budget = new BudgetImpl(data.budget());
             final Statistics statistics = new StatisticsImpl();
             return new AccountImpl(
-                    data.balance(),
                     transactions,
                     TAGS,
                     budget,

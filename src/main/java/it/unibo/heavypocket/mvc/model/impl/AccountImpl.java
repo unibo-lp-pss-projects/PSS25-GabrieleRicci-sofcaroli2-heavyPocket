@@ -19,19 +19,16 @@ public final class AccountImpl implements Account {
 
     private static final String ERROR_CRUD = "Transaction not found";
 
-    private BigDecimal balance;
     private List<Transaction> transactions;
     private Set<Tag> tags;
     private Budget budget;
     private Statistics statistics;
 
     public AccountImpl(
-            final BigDecimal balance,
             final List<Transaction> transactions,
             final Set<Tag> tags,
             final Budget budget,
             final Statistics statistics) {
-        this.balance = balance;
         this.transactions = transactions;
         this.tags = tags;
         this.budget = budget;
