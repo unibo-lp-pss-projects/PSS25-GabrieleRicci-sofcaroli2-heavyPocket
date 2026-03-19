@@ -46,8 +46,8 @@ public final class HeavyPocketApp {
     public static final class HeavyPocketFxApp extends Application {
         @Override
         public void start(final Stage primaryStage) {
-            final Account model = Loader.loadData();
             final Saver saver = new SaverImpl();
+            final Account model = Loader.loadData(saver);
             final TransactionListPanel transactionListPanel = new TransactionListPanelImpl();
             final StatisticsBalancePanel statisticsBalancePanel = new StatisticsBalancePanelImpl();
             final AddTransactionPanel addTransactionPanel = new AddTransactionPanelImpl();

@@ -14,6 +14,9 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 
+/**
+ * Test class for TransactionImpl.
+ */
 public final class TransactionImplTest {
 
     private static final UUID ID_EXPENSE = UUID.randomUUID();
@@ -28,6 +31,9 @@ public final class TransactionImplTest {
     private Transaction income;
     private Transaction expense;
 
+    /**
+     * Sets up the test fixtures before each test method.
+     */
     @BeforeEach
     public void setUp() {
         this.income = Transaction.builder()
@@ -48,16 +54,25 @@ public final class TransactionImplTest {
                 .build();
     }
 
+    /**
+     * Tests the amount of an expense transaction.
+     */
     @Test
     public void testExpenseAmount() {
         assertEquals(NEGATIVE_AMOUNT, expense.getSignedAmount());
     }
 
+    /**
+     * Tests the amount of an income transaction.
+     */
     @Test
     public void testIncomeAmount() {
         assertEquals(AMOUNT, income.getSignedAmount());
     }
 
+    /**
+     * Tests the creation of a transaction.
+     */
     @Test
     public void testTransactionCreation() {
         assertNotNull(income);
@@ -70,6 +85,9 @@ public final class TransactionImplTest {
         assertEquals(TAG_INCOME, income.getTag());
     }
 
+    /**
+     * Tests that the transaction amount must be positive.
+     */
     @Test
     public void testTransactionAmountShouldBePositive() {
         assertThrows(IllegalArgumentException.class, () -> {
