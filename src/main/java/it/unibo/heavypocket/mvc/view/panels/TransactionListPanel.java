@@ -44,10 +44,9 @@ public interface TransactionListPanel extends Panel {
     void setOnEdit(Consumer<UUID> editListener);
 
     /**
-     * Sets the listener for the delete operation. It takes the ID of the
-     * transaction to delete as input.
+     * Sets the listener for the delete operation.
      * 
-     * @param deleteListener
+     * @param deleteListener id of the transaction to delete.
      */
     void setOnDelete(Consumer<UUID> deleteListener);
 

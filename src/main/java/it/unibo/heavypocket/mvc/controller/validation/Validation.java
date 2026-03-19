@@ -4,16 +4,28 @@ import java.math.BigDecimal;
 
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
+/**
+ * Utility class for Validation.
+ */
 public final class Validation {
 
     private static final String ERROR_AMOUNT = "Amount must be greater than zero";
     private static final String ERROR_FIELDS = "Please fill in all fields";
     private static final String ERROR_AMOUNT_FORMAT = "Invalid amount format";
 
+    /**
+     * Private constructor of the class Validation.
+     */
     private Validation() {
         throw new AssertionError("Utility class should not be instantiated");
     }
 
+    /**
+     * Checks if all required fields in a TransactionDTO are present and not empty.
+     * 
+     * @param transactionDTO the transaction data to check.
+     * @throws IllegalArgumentException if any field is null or blank.
+     */
     public static void validateTransactionDTO(final TransactionDTO transactionDTO) {
         if (transactionDTO == null
                 || transactionDTO.type() == null
@@ -27,6 +39,13 @@ public final class Validation {
         }
     }
 
+    /**
+     * Converts a string to a BigDecimal and checks if it is a positive value.
+     * 
+     * @param amountString the string to convert and validate.
+     * @return the validated amount.
+     * @throws IllegalArgumentException if the format is invalid or the value is 0/negative.
+     */
     public static BigDecimal validateAmount(final String amountString) {
         final String amount = amountString.trim().replace(',', '.');
         final BigDecimal finalAmount;

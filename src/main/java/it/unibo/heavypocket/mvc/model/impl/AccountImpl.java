@@ -28,13 +28,12 @@ public final class AccountImpl implements Account {
     private Statistics statistics;
 
     /**
-     * Constructor of the class StatisticsImpl.
+     * Constructor of the class AccountImpl.
      * 
-     * @param balance total balance
      * @param transactions list of transactions
-     * @param tags set of tags
-     * @param budget interface for budget
-     * @param statistics interface for statistics
+     * @param tags set of tags.
+     * @param budget reference for budget.
+     * @param statistics reference for statistics.
      */
     public AccountImpl(
             final List<Transaction> transactions,
