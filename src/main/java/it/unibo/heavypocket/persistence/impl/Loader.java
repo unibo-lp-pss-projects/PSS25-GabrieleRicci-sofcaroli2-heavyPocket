@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -32,7 +34,7 @@ import it.unibo.heavypocket.mvc.model.impl.StatisticsImpl;
  */
 public final class Loader {
 
-    private static final String DATA_PATH = "/persistence/data.json";
+    private static final String DATA_PATH = System.getProperty("user.home") + "/heavypocket.json";
     private static final String INPUT_STREAM_ERROR = "Failed to load data from input stream";
     private static final String ACCOUNT_DATA_ERROR = "Failed to save initial account data";
     private static final String TRANSACTION_DATA_ERROR = "Failed to parse transaction data";
@@ -59,8 +61,8 @@ public final class Loader {
      *                          persisted
      */
     public static Account loadData() {
-        final InputStream is = Loader.class.getResourceAsStream(DATA_PATH);
-        if (is == null) {
+        final Path filePath = Path.of(DATA_PATH);
+        if (Files.notExists(filePath)) {
             final Budget budget = new BudgetImpl(BigDecimal.ONE);
             final Statistics statistics = new StatisticsImpl();
             final Account account = new AccountImpl(
@@ -76,7 +78,11 @@ public final class Loader {
             }
             return account;
         }
-        return new Loader(is).loadHeavyPocket();
+        try {
+            return new Loader(Files.newInputStream(filePath)).loadHeavyPocket();
+        } catch (final IOException e) {
+            throw new UncheckedIOException(INPUT_STREAM_ERROR, e);
+        }
     }
 
     /**
@@ -85,7 +91,7 @@ public final class Loader {
      * @return the reconstructed account
      * @throws UncheckedIOException if the stream cannot be read
      */
-    public Account loadHeavyPocket() {
+    private Account loadHeavyPocket() {
         final Gson gson = new Gson();
         try (InputStreamReader reader = new InputStreamReader(inputStream)) {
             final AccountJsonData data = gson.fromJson(reader, AccountJsonData.class);
@@ -93,7 +99,7 @@ public final class Loader {
                 throw new UncheckedIOException(ACCOUNT_DATA_ERROR, new IOException(ACCOUNT_DATA_ERROR));
             }
             final List<Transaction> transactions = data.transactions().stream()
-                    .map(this::createTransaction)
+                    .map(Loader::createTransaction)
                     .collect(Collectors.toList());
             final Budget budget = new BudgetImpl(data.budget());
             final Statistics statistics = new StatisticsImpl();
@@ -108,7 +114,7 @@ public final class Loader {
         }
     }
 
-    private Transaction createTransaction(final TransactionJsonData data) {
+    private static Transaction createTransaction(final TransactionJsonData data) {
         return Transaction.builder()
                 .withId(UUID.fromString(data.id()))
                 .withAmount(data.amount())
