@@ -14,8 +14,8 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.controller.AccountController;
 import it.unibo.heavypocket.mvc.controller.validation.Validation;
 import it.unibo.heavypocket.mvc.view.AccountView;
-import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
-import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
+import it.unibo.heavypocket.mvc.dto.FiltersDTO;
+import it.unibo.heavypocket.mvc.dto.TransactionDTO;
 import it.unibo.heavypocket.persistence.Saver;
 
 /**

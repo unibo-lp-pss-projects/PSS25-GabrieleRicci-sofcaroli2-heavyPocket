@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
+import it.unibo.heavypocket.mvc.dto.TransactionDTO;
 import it.unibo.heavypocket.mvc.model.Tag;
 
 /**
@@ -23,7 +23,7 @@ public interface AddTransactionPanel extends Panel {
     void setTagList(List<Tag> tags);
 
     /**
-     * Sets the listener for the add operation. It takes a transaction DTO as input.
+     * Sets the listener for the add operation. It takes a transaction dto as input.
      * 
      * @param addListener the listener for the add operation.
      */
@@ -31,16 +31,16 @@ public interface AddTransactionPanel extends Panel {
 
     /**
      * Sets the listener for the edit operation. It takes the ID of the transaction
-     * to edit and a transaction DTO as input.
+     * to edit and a transaction dto as input.
      * 
-     * @param id the ID of the transaction to edit.
-     * @param transactionDTO the transaction DTO containing the updated information.
+     * @param id             the ID of the transaction to edit.
+     * @param transactionDTO the transaction dto containing the updated information.
      */
     void editTransaction(UUID id, TransactionDTO transactionDTO);
 
     /**
      * Sets the listener for the edit operation. It takes the ID of the transaction
-     * to edit and a transaction DTO as input.
+     * to edit and a transaction dto as input.
      * 
      * @param editListener the listener for the edit operation.
      */

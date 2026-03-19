@@ -74,7 +74,7 @@ public final class Loader {
             try {
                 saver.saveAccount(account);
             } catch (final IOException e) {
-                throw new RuntimeException(ACCOUNT_DATA_ERROR, e);
+                throw new IllegalStateException(ACCOUNT_DATA_ERROR, e);
             }
             return account;
         }

@@ -22,7 +22,7 @@ import java.util.UUID;
 
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
-import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
+import it.unibo.heavypocket.mvc.dto.FiltersDTO;
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.view.panels.TransactionListPanel;
 

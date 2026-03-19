@@ -2,8 +2,8 @@ package it.unibo.heavypocket.mvc.controller;
 
 import java.util.UUID;
 
-import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
-import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
+import it.unibo.heavypocket.mvc.dto.FiltersDTO;
+import it.unibo.heavypocket.mvc.dto.TransactionDTO;
 
 /**
  * The interface AccountController.
@@ -49,7 +49,7 @@ public interface AccountController {
     /**
      * Update the edited transaction with new data.
      * 
-     * @param id reference of transaction edited.
+     * @param id             reference of transaction edited.
      * @param transactionDTO the new data.
      */
     void editTransaction(UUID id, TransactionDTO transactionDTO);

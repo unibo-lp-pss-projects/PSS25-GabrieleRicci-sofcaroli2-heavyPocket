@@ -23,12 +23,6 @@ public final class TransactionBuilderImpl implements TransactionBuilder {
     private TransactionType type;
     private Tag tag;
 
-    /**
-     * Default constructor for TransactionBuilderImpl.
-     */
-    public TransactionBuilderImpl() {
-    }
-
     @Override
     public TransactionBuilder withId(final UUID id) {
         this.id = id;
@@ -67,13 +61,12 @@ public final class TransactionBuilderImpl implements TransactionBuilder {
 
     @Override
     public Transaction build() {
-        final Transaction transaction = new TransactionImpl(
+        return new TransactionImpl(
                 id,
                 amount,
                 date,
                 description,
                 type,
                 tag);
-        return transaction;
     }
 }
