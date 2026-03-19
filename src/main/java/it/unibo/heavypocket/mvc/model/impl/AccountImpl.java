@@ -17,6 +17,9 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Budget;
 import it.unibo.heavypocket.mvc.model.Statistics;
 
+/**
+ * Implementation of the Account's interface.
+ */
 public final class AccountImpl implements Account {
 
     private static final String ERROR_CRUD = "Transaction not found";
@@ -26,6 +29,15 @@ public final class AccountImpl implements Account {
     private final Budget budget;
     private final Statistics statistics;
 
+    /**
+     * Constructor of the class StatisticsImpl.
+     * 
+     * @param balance total balance
+     * @param transactions list of transactions
+     * @param tags set of tags
+     * @param budget interface for budget
+     * @param statistics interface for statistics
+     */
     public AccountImpl(
             final List<Transaction> transactions,
             final Set<Tag> tags,
@@ -59,6 +71,7 @@ public final class AccountImpl implements Account {
         return budget;
     }
 
+    @Override
     public Statistics getStatistics() {
         return statistics;
     }

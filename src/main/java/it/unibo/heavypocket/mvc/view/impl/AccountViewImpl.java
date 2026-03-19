@@ -27,6 +27,9 @@ import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
 import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 
+/**
+ * Implementation of the AccountView interface.
+ */
 public final class AccountViewImpl implements AccountView {
 
     private AccountController controller;
@@ -36,6 +39,16 @@ public final class AccountViewImpl implements AccountView {
     private BudgetPanel budgetPanel;
     private GraphsPanel graphsPanel;
 
+    /**
+     * Constructor for AccountViewImpl. It initializes the panels.
+     * 
+     * @param transactionListPanel   panel for transaction list.
+     * @param statisticsBalancePanel panel for monthly average (income/expense) and
+     *                               total balance.
+     * @param addTransactionPanel    panel to add transactions.
+     * @param budgetPanel            panel for budget.
+     * @param graphsPanel            panel for piechart.
+     */
     public AccountViewImpl(
             final TransactionListPanel transactionListPanel,
             final StatisticsBalancePanel statisticsBalancePanel,

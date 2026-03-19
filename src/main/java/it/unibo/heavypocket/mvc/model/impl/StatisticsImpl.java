@@ -11,8 +11,14 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Tag;
 
+/**
+ * Implementation of the Statistic's interface.
+ */
 public final class StatisticsImpl implements Statistics {
 
+    /**
+     * Constructor of the class StatisticsImpl.
+     */
     public StatisticsImpl() {
     }
 

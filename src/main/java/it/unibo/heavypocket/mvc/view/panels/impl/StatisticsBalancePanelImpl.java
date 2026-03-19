@@ -11,7 +11,13 @@ import javafx.scene.text.Font;
 
 import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
 
+/**
+ * Implementation of the StatisticsBalancePanel's interface.
+ */
 public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel {
+
+    private static final int FONT = 25;
+    private static final int SPACING = 7;
 
     private final VBox rootPanel = new VBox();
     private final Text balanceText = new Text();
@@ -19,8 +25,11 @@ public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel 
 
     private final Text yourBalance = new Text("Your balance:");
 
+    /**
+     * Constructor of the class StatisticsImpl.
+     */
     public StatisticsBalancePanelImpl() {
-        rootPanel.setSpacing(7);
+        rootPanel.setSpacing(SPACING);
         rootPanel.setAlignment(Pos.CENTER);
         rootPanel.getChildren().addAll(
                 yourBalance,
@@ -43,6 +52,6 @@ public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel 
     @Override
     public void setBalance(final String balance) {
         balanceText.setText(balance);
-        balanceText.setFont(new Font(25));
+        balanceText.setFont(new Font(FONT));
     }
 }
