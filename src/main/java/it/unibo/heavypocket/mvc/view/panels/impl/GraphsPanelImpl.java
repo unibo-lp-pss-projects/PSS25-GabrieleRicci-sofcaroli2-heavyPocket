@@ -10,6 +10,9 @@ import javafx.geometry.Pos;
 
 import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
 
+/**
+ * Implementation of the GraphsPanel's interface.
+ */
 public final class GraphsPanelImpl implements GraphsPanel {
 
     private final HBox rootPanel = new HBox();
@@ -20,6 +23,9 @@ public final class GraphsPanelImpl implements GraphsPanel {
     private final Text textE = new Text("Piechart for EXPENSE");
     private final Text textI = new Text("Piechart for INCOME");
 
+    /**
+     * Constructor of the class GraphsPanelImpl.
+     */
     public GraphsPanelImpl() {
         rootPanel.setSpacing(10);
         rootPanel.setAlignment(Pos.CENTER);
@@ -34,7 +40,6 @@ public final class GraphsPanelImpl implements GraphsPanel {
         rootPanel.getChildren().addAll(
                 vBox1,
                 vBox2);
-        setLineChartData();
     }
 
     @Override
@@ -42,12 +47,10 @@ public final class GraphsPanelImpl implements GraphsPanel {
         return this.rootPanel;
     }
 
+    @Override
     public void setPieChartData(final ObservableList<PieChart.Data> pieChartExpense,
             final ObservableList<PieChart.Data> pieChartIncome) {
         this.pieChartE.setData(pieChartExpense);
         this.pieChartI.setData(pieChartIncome);
-    }
-
-    public void setLineChartData() {
     }
 }
