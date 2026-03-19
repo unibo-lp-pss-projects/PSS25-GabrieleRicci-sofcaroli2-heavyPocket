@@ -37,6 +37,9 @@ public final class StatisticsImpl implements Statistics {
 
     @Override
     public Map<Tag, BigDecimal> getAmountByTag(final List<Transaction> transactions) {
+        if (transactions.isEmpty()) {
+            return Map.of();
+        }
         final Map<Tag, BigDecimal> transactionsByTag = transactions.stream()
                 .collect(Collectors.toMap(
                         Transaction::getTag,
