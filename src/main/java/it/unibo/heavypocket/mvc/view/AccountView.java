@@ -32,13 +32,6 @@ public interface AccountView {
     void setController(AccountController controller);
 
     /**
-     * Gets the controller.
-     * 
-     * @return the controller in view.
-     */
-    AccountController getController();
-
-    /**
      * Show transaction list.
      * 
      * @param transactions list of transaction to show.
