@@ -24,7 +24,7 @@ public final class SaverImpl implements Saver {
      * Creates a saver using a default Gson serializer.
      */
     public SaverImpl() {
-        this.gson = new Gson();
+        gson = new Gson();
     }
 
     /**
@@ -47,7 +47,7 @@ public final class SaverImpl implements Saver {
      */
     public void saveData(final AccountJsonData data) throws IOException {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
-            this.gson.toJson(data, writer);
+            gson.toJson(data, writer);
         }
     }
 

@@ -39,7 +39,7 @@ public final class BudgetPanelImpl implements BudgetPanel {
 
     @Override
     public Region getRoot() {
-        return this.rootPanel;
+        return rootPanel;
     }
 
     @Override
@@ -49,7 +49,7 @@ public final class BudgetPanelImpl implements BudgetPanel {
 
     @Override
     public void setBudgetElements(final String limit, final String spent) {
-        this.budgetInfo.setText(spent + " / " + limit);
+        budgetInfo.setText(spent + " / " + limit);
     }
 
     @Override

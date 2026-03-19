@@ -60,9 +60,9 @@ public final class Loader {
      */
     public static Account loadData() {
         final InputStream is = Loader.class.getResourceAsStream(DATA_PATH);
-        final Budget budget = new BudgetImpl(BigDecimal.ONE);
-        final Statistics statistics = new StatisticsImpl();
         if (is == null) {
+            final Budget budget = new BudgetImpl(BigDecimal.ONE);
+            final Statistics statistics = new StatisticsImpl();
             final Account account = new AccountImpl(
                     new ArrayList<>(),
                     TAGS,
@@ -87,8 +87,11 @@ public final class Loader {
      */
     public Account loadHeavyPocket() {
         final Gson gson = new Gson();
-        try (InputStreamReader reader = new InputStreamReader(this.inputStream)) {
+        try (InputStreamReader reader = new InputStreamReader(inputStream)) {
             final AccountJsonData data = gson.fromJson(reader, AccountJsonData.class);
+            if (data == null) {
+                throw new UncheckedIOException(ACCOUNT_DATA_ERROR, new IOException(ACCOUNT_DATA_ERROR));
+            }
             final List<Transaction> transactions = data.transactions().stream()
                     .map(this::createTransaction)
                     .collect(Collectors.toList());

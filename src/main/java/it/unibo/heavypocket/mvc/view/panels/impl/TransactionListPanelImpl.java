@@ -60,12 +60,12 @@ public final class TransactionListPanelImpl implements TransactionListPanel {
 
     @Override
     public Region getRoot() {
-        return this.rootPanel;
+        return rootPanel;
     }
 
     @Override
     public void setTransactions(final List<Transaction> transactions) {
-        this.transactionList.getItems().setAll(transactions);
+        transactionList.getItems().setAll(transactions);
     }
 
     @Override

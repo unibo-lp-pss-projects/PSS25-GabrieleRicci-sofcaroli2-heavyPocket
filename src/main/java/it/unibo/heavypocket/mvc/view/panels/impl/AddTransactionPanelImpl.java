@@ -56,7 +56,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     @Override
     public Region getRoot() {
-        return this.rootPanel;
+        return rootPanel;
     }
 
     @Override
@@ -72,12 +72,12 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
 
     @Override
     public void editTransaction(final UUID id, final TransactionDTO transactionDTO) {
-        this.editTransactionId = id;
-        this.amountField.setText(transactionDTO.amount());
-        this.datePicker.setValue(transactionDTO.date());
-        this.descriptionField.setText(transactionDTO.description());
-        this.typeField.setValue(transactionDTO.type());
-        this.filterTag.setValue(transactionDTO.tag());
+        editTransactionId = id;
+        amountField.setText(transactionDTO.amount());
+        datePicker.setValue(transactionDTO.date());
+        descriptionField.setText(transactionDTO.description());
+        typeField.setValue(transactionDTO.type());
+        filterTag.setValue(transactionDTO.tag());
     }
 
     @Override
@@ -92,7 +92,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         descriptionField.clear();
         typeField.setValue(null);
         filterTag.setValue(null);
-        this.editTransactionId = null;
+        editTransactionId = null;
     }
 
     private void initializeFields() {
@@ -109,9 +109,9 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     }
 
     private void handleAction() {
-        if (this.editTransactionId != null) {
-            handleEdit(this.editTransactionId);
-            this.editTransactionId = null;
+        if (editTransactionId != null) {
+            handleEdit(editTransactionId);
+            editTransactionId = null;
         } else {
             handleAdd();
         }

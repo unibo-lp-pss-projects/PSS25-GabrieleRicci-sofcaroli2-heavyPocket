@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.UUID;
 import java.util.Optional;
 import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Objects;
 
 import it.unibo.heavypocket.mvc.model.Account;
 import it.unibo.heavypocket.mvc.model.Transaction;
@@ -19,92 +21,92 @@ public final class AccountImpl implements Account {
 
     private static final String ERROR_CRUD = "Transaction not found";
 
-    private List<Transaction> transactions;
-    private Set<Tag> tags;
-    private Budget budget;
-    private Statistics statistics;
+    private final List<Transaction> transactions;
+    private final Set<Tag> tags;
+    private final Budget budget;
+    private final Statistics statistics;
 
     public AccountImpl(
             final List<Transaction> transactions,
             final Set<Tag> tags,
             final Budget budget,
             final Statistics statistics) {
-        this.transactions = transactions;
-        this.tags = tags;
-        this.budget = budget;
-        this.statistics = statistics;
+        this.transactions = new ArrayList<>(Objects.requireNonNull(transactions));
+        this.tags = Set.copyOf(Objects.requireNonNull(tags));
+        this.budget = Objects.requireNonNull(budget);
+        this.statistics = Objects.requireNonNull(statistics);
     }
 
     @Override
     public BigDecimal getTotalBalance() {
         return transactions.stream()
-            .map(Transaction::getSignedAmount)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(Transaction::getSignedAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
     public List<Transaction> getTransactions() {
-        return List.copyOf(this.transactions);
+        return List.copyOf(transactions);
     }
 
     @Override
     public Set<Tag> getTags() {
-        return Set.copyOf(this.tags);
+        return Set.copyOf(tags);
     }
 
     @Override
     public Budget getBudget() {
-        return this.budget;
+        return budget;
     }
 
     public Statistics getStatistics() {
-        return this.statistics;
+        return statistics;
     }
 
     @Override
     public Optional<Transaction> getTransactionById(final UUID id) {
-        return this.transactions.stream()
-            .filter(t -> t.getId().equals(id))
-            .findAny();
+        return transactions.stream()
+                .filter(t -> t.getId().equals(id))
+                .findAny();
     }
 
     @Override
     public List<Transaction> searchByType(final TransactionType type) {
-        return this.transactions.stream()
-            .filter(t -> type.matches(t))
-            .toList();
+        return transactions.stream()
+                .filter(t -> type.matches(t))
+                .toList();
     }
 
     @Override
     public List<Transaction> searchByDate(final LocalDate date) {
-        return this.transactions.stream()
-            .filter(t -> t.getDate().equals(date))
-            .toList();
+        return transactions.stream()
+                .filter(t -> t.getDate().equals(date))
+                .toList();
     }
 
     @Override
     public List<Transaction> searchByTag(final Tag tag) {
-        return this.transactions.stream()
-            .filter(t -> t.getTag().equals(tag))
-            .toList();
+        return transactions.stream()
+                .filter(t -> t.getTag().equals(tag))
+                .toList();
     }
 
     @Override
     public void addTransaction(final Transaction transaction) {
-        this.transactions.add(transaction);
+        transactions.add(transaction);
     }
 
     @Override
     public void editTransaction(final UUID id, final Transaction newTransaction) {
         final int index = IntStream.range(0, transactions.size())
-            .filter(i -> transactions.get(i).getId().equals(id))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(ERROR_CRUD));
-        this.transactions.set(index, newTransaction);
+                .filter(i -> transactions.get(i).getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(ERROR_CRUD));
+        transactions.set(index, newTransaction);
     }
 
     @Override
     public void deleteTransaction(final Transaction transaction) {
-        this.transactions.remove(transaction);
+        transactions.remove(transaction);
     }
 }

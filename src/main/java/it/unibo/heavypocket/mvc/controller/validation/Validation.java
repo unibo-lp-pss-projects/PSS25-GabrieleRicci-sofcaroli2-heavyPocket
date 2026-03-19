@@ -28,6 +28,9 @@ public final class Validation {
     }
 
     public static BigDecimal validateAmount(final String amountString) {
+        if (amountString == null || amountString.isBlank()) {
+            throw new IllegalArgumentException(ERROR_FIELDS);
+        }
         final String amount = amountString.trim().replace(',', '.');
         final BigDecimal finalAmount;
         try {

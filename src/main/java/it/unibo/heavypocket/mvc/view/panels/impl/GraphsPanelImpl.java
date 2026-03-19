@@ -39,13 +39,13 @@ public final class GraphsPanelImpl implements GraphsPanel {
 
     @Override
     public Region getRoot() {
-        return this.rootPanel;
+        return rootPanel;
     }
 
     public void setPieChartData(final ObservableList<PieChart.Data> pieChartExpense,
             final ObservableList<PieChart.Data> pieChartIncome) {
-        this.pieChartE.setData(pieChartExpense);
-        this.pieChartI.setData(pieChartIncome);
+        pieChartE.setData(pieChartExpense);
+        pieChartI.setData(pieChartIncome);
     }
 
     public void setLineChartData() {

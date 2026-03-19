@@ -18,8 +18,6 @@ import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
 import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 import it.unibo.heavypocket.persistence.Saver;
 
-// @TODO ripulire tutto il controller, cercare ripetizioni nei metodi,
-// capire cosa può diventare un campo e cosa ha senso spostare in un file di utilità
 /**
  * Implementation of the AccountController interface.
  */
@@ -27,6 +25,7 @@ public final class AccountControllerImpl implements AccountController {
 
     private static final String ERROR_CRUD = "Transaction not found";
     private static final String ERROR_PERSISTENCE = "Error saving data";
+    private static final String ERROR_BUDGET_LIMIT = "Budget limit cannot be empty";
 
     private final Account model;
     private final AccountView view;
@@ -38,7 +37,7 @@ public final class AccountControllerImpl implements AccountController {
      * with the current state of the model and shows the tags.
      * 
      * @param model the model of the app.
-     * @param view the view of the app.
+     * @param view  the view of the app.
      * @param saver service to save data into json.
      */
     public AccountControllerImpl(
@@ -48,7 +47,7 @@ public final class AccountControllerImpl implements AccountController {
         this.model = model;
         this.view = view;
         this.saver = saver;
-        this.view.setController(this);
+        view.setController(this);
         updateView();
         showTags();
     }
@@ -88,9 +87,6 @@ public final class AccountControllerImpl implements AccountController {
         view.showTransactionList(filteredTransactions);
     }
 
-    // @TODO il balance può andare in negativo?
-    // @TODO c'è una lunghezza massima nella descrizione?
-    // @TODO c'è un valore massimo per l'importo?
     @Override
     public void addTransaction(final TransactionDTO transactionDTO) {
         try {
@@ -145,53 +141,55 @@ public final class AccountControllerImpl implements AccountController {
                 });
     }
 
-    // @TODO capire dove è meglio impostare un valore di deafault per il budget per
-    // evitare che sia null
     @Override
     public void showBudgetElements() {
-        final BigDecimal budgetLimit = this.model.getBudget().getLimit();
-        // @TODO se il budgetLimit è 0 o negaticvo lanciare un'errore nella view o se è
-        // null
+        final BigDecimal budgetLimit = model.getBudget().getLimit();
         final BigDecimal currentSpent = calculateMonthlyExpenses();
-        this.view.showBudgetElements(budgetLimit.toString(), currentSpent.toString());
+        view.showBudgetElements(budgetLimit.toString(), currentSpent.toString());
     }
 
     @Override
     public void updateBudgetLimit(final String newLimit) {
-        // @TODO valudazione dati in input e controllo che possa essre un bigdecimal
-        final BigDecimal newLimitValue = Validation.validateAmount(newLimit);
-        this.model.getBudget().setLimit(newLimitValue);
-        this.view.showBudgetElements(newLimitValue.toString(), calculateMonthlyExpenses().toString());
-        isBudgetExceeded();
+        if (newLimit == null || newLimit.isBlank()) {
+            view.showError(ERROR_BUDGET_LIMIT);
+            return;
+        }
+        try {
+            final BigDecimal newLimitValue = Validation.validateAmount(newLimit);
+            model.getBudget().setLimit(newLimitValue);
+            view.showBudgetElements(newLimitValue.toString(), calculateMonthlyExpenses().toString());
+            isBudgetExceeded();
+        } catch (final IllegalArgumentException e) {
+            view.showError(e.getMessage());
+        }
     }
 
     @Override
     public void isBudgetExceeded() {
-        final BigDecimal budgetLimit = this.model.getBudget().getLimit();
+        final BigDecimal budgetLimit = model.getBudget().getLimit();
         final BigDecimal currentSpent = calculateMonthlyExpenses();
         final boolean isExceeded = currentSpent.compareTo(budgetLimit) > 0;
-        // @TODO se il budgetLimit è >= 0 lanciare un'errore nella view o se è null
         view.showLimitExceeded(isExceeded);
     }
 
     @Override
     public void setAverageValue() {
         final List<Transaction> transactionsOfMonth = getTransactionsByCurrentMonth();
-        final List<Transaction> expenses = this.model.getStatistics().getExpenses(transactionsOfMonth);
-        final List<Transaction> incomes = this.model.getStatistics().getIncomes(transactionsOfMonth);
-        final String averageExpense = this.model.getStatistics().getAverage(expenses).toString();
-        final String averageIncome = this.model.getStatistics().getAverage(incomes).toString();
-        this.view.showAverage(averageExpense, averageIncome);
+        final List<Transaction> expenses = model.getStatistics().getExpenses(transactionsOfMonth);
+        final List<Transaction> incomes = model.getStatistics().getIncomes(transactionsOfMonth);
+        final String averageExpense = model.getStatistics().getAverage(expenses).toString();
+        final String averageIncome = model.getStatistics().getAverage(incomes).toString();
+        view.showAverage(averageExpense, averageIncome);
     }
 
     @Override
     public void setPieChartData() {
         final List<Transaction> transactions = model.getTransactions();
-        final List<Transaction> expenses = this.model.getStatistics().getExpenses(transactions);
-        final List<Transaction> incomes = this.model.getStatistics().getIncomes(transactions);
-        final Map<Tag, BigDecimal> expenseByTag = this.model.getStatistics().getAmountByTag(expenses);
-        final Map<Tag, BigDecimal> incomesByTag = this.model.getStatistics().getAmountByTag(incomes);
-        this.view.showPieChartData(expenseByTag, incomesByTag);
+        final List<Transaction> expenses = model.getStatistics().getExpenses(transactions);
+        final List<Transaction> incomes = model.getStatistics().getIncomes(transactions);
+        final Map<Tag, BigDecimal> expenseByTag = model.getStatistics().getAmountByTag(expenses);
+        final Map<Tag, BigDecimal> incomesByTag = model.getStatistics().getAmountByTag(incomes);
+        view.showPieChartData(expenseByTag, incomesByTag);
     }
 
     private void updateView() {
@@ -215,7 +213,7 @@ public final class AccountControllerImpl implements AccountController {
     }
 
     private BigDecimal calculateMonthlyExpenses() {
-        final List<Transaction> expenses = this.model.getStatistics().getExpenses(getTransactionsByCurrentMonth());
+        final List<Transaction> expenses = model.getStatistics().getExpenses(getTransactionsByCurrentMonth());
         return expenses.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
