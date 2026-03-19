@@ -18,7 +18,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 /**
  * Class for testing the StatisticsImpl.
  */
-public final class StatisticsImplTest {
+final class StatisticsImplTest {
 
     private static final UUID ID_1 = UUID.randomUUID();
     private static final UUID ID_2 = UUID.randomUUID();
@@ -34,7 +34,7 @@ public final class StatisticsImplTest {
     private Transaction transaction2;
     private List<Transaction> transactionsList;
     private List<Transaction> transactionsListEmpty;
-    private Statistics statistics = new StatisticsImpl();
+    private final Statistics statistics = new StatisticsImpl();
 
     /**
      * Sets up the test environment before each test method.
@@ -65,7 +65,7 @@ public final class StatisticsImplTest {
      * Tests that the average is zero when the transaction list is empty.
      */
     @Test
-    public void testListEmpty() {
+    void testListEmpty() {
         assertEquals(BigDecimal.ZERO, statistics.getAverage(transactionsListEmpty));
     }
 
@@ -73,7 +73,7 @@ public final class StatisticsImplTest {
      * Tests that the average calculation is correct for a list of transactions.
      */
     @Test
-    public void testAverage() {
+    void testAverage() {
         assertEquals(AVERAGE, statistics.getAverage(transactionsList));
     }
 
@@ -81,7 +81,7 @@ public final class StatisticsImplTest {
      * Tests that the income filtering returns only transactions of type INCOME.
      */
     @Test
-    public void testgetIncomes() {
+    void testgetIncomes() {
         assertEquals(List.of(transaction1), statistics.getIncomes(transactionsList));
     }
 
@@ -89,7 +89,7 @@ public final class StatisticsImplTest {
      * Tests that the income filtering returns only transactions of type EXPENSE.
      */
     @Test
-    public void testgetExpense() {
+    void testgetExpense() {
         assertEquals(List.of(transaction2), statistics.getExpenses(transactionsList));
     }
 }
