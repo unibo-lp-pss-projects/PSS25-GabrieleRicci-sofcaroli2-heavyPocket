@@ -1,7 +1,6 @@
 package it.unibo.heavypocket.mvc.model.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,6 +15,9 @@ import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Tag;
 
+/**
+ * Class for testing the StatisticsImpl.
+ */
 public final class StatisticsImplTest {
 
     private static final UUID ID_1 = UUID.randomUUID();
@@ -34,6 +36,9 @@ public final class StatisticsImplTest {
     private List<Transaction> transactionsListEmpty;
     private Statistics statistics = new StatisticsImpl();
 
+    /**
+     * Sets up the test environment before each test method.
+     */
     @BeforeEach
     public void setUp() {
         this.transaction1 = Transaction.builder()
@@ -56,21 +61,33 @@ public final class StatisticsImplTest {
         this.transactionsListEmpty = List.of();
     }
 
+    /**
+     * Tests that the average is zero when the transaction list is empty.
+     */
     @Test
     public void testListEmpty() {
         assertEquals(BigDecimal.ZERO, statistics.getAverage(transactionsListEmpty));
     }
 
+    /**
+     * Tests that the average calculation is correct for a list of transactions.
+     */
     @Test
     public void testAverage() {
         assertEquals(AVERAGE, statistics.getAverage(transactionsList));
     }
 
+    /**
+     * Tests that the income filtering returns only transactions of type INCOME.
+     */
     @Test
     public void testgetIncomes() {
         assertEquals(List.of(transaction1), statistics.getIncomes(transactionsList));
     }
 
+    /**
+     * Tests that the income filtering returns only transactions of type EXPENSE.
+     */
     @Test
     public void testgetExpense() {
         assertEquals(List.of(transaction2), statistics.getExpenses(transactionsList));
