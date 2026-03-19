@@ -33,11 +33,11 @@ import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
 public final class AccountViewImpl implements AccountView {
 
     private AccountController controller;
-    private TransactionListPanel transactionListPanel;
-    private StatisticsBalancePanel statisticsBalancePanel;
-    private AddTransactionPanel addTransactionPanel;
-    private BudgetPanel budgetPanel;
-    private GraphsPanel graphsPanel;
+    private final TransactionListPanel transactionListPanel;
+    private final StatisticsBalancePanel statisticsBalancePanel;
+    private final AddTransactionPanel addTransactionPanel;
+    private final BudgetPanel budgetPanel;
+    private final GraphsPanel graphsPanel;
 
     /**
      * Constructor for AccountViewImpl. It initializes the panels.

@@ -45,22 +45,22 @@ public final class SaverImpl implements Saver {
      * @param data serialized account payload
      * @throws IOException if writing to persistence fails
      */
-    public void saveData(final AccountJsonData data) throws IOException {
+    private void saveData(final AccountJsonData data) throws IOException {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(data, writer);
         }
     }
 
-    private AccountJsonData toJsonData(final Account account) {
+    private static AccountJsonData toJsonData(final Account account) {
         final List<TransactionJsonData> transactions = account.getTransactions().stream()
-                .map(this::toJsonData)
+                .map(SaverImpl::toJsonData)
                 .toList();
         return new AccountJsonData(
                 transactions,
                 account.getBudget().getLimit());
     }
 
-    private TransactionJsonData toJsonData(final Transaction transaction) {
+    private static TransactionJsonData toJsonData(final Transaction transaction) {
         return new TransactionJsonData(
                 transaction.getId().toString(),
                 transaction.getType(),
