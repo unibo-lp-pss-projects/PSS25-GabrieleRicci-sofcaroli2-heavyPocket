@@ -95,7 +95,7 @@ public final class AccountViewImpl implements AccountView {
 
     @Override
     public AccountController getController() {
-        return this.controller;
+        return controller;
     }
 
     @Override

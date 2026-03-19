@@ -71,36 +71,36 @@ public final class TransactionImpl implements Transaction {
 
     @Override
     public UUID getId() {
-        return this.id;
+        return id;
     }
 
     @Override
     public BigDecimal getAmount() {
-        return this.amount;
+        return amount;
     }
 
     @Override
     public BigDecimal getSignedAmount() {
-        return this.type == TransactionType.EXPENSE ? this.amount.negate() : this.amount;
+        return type == TransactionType.EXPENSE ? amount.negate() : amount;
     }
 
     @Override
     public LocalDate getDate() {
-        return this.date;
+        return date;
     }
 
     @Override
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     @Override
     public TransactionType getType() {
-        return this.type;
+        return type;
     }
 
     @Override
     public Tag getTag() {
-        return this.tag;
+        return tag;
     }
 }

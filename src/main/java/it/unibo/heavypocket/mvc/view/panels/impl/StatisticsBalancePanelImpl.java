@@ -39,19 +39,19 @@ public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel 
 
     @Override
     public Region getRoot() {
-        return this.rootPanel;
+        return rootPanel;
     }
 
     @Override
     public void setAverageValue(final String averageExpense, final String averageIncome) {
         final Month todayDate = LocalDate.now().getMonth();
-        this.averageText.setText(todayDate + " average income: " + averageIncome + "\n" + todayDate
+        averageText.setText(todayDate + " average income: " + averageIncome + "\n" + todayDate
                 + " average expense: " + averageExpense);
     }
 
     @Override
     public void setBalance(final String balance) {
-        this.balanceText.setText(balance);
+        balanceText.setText(balance);
         balanceText.setFont(new Font(FONT));
     }
 }

@@ -24,6 +24,6 @@ public enum TagEnumImpl implements Tag {
 
     @Override
     public String getName() {
-        return this.name();
+        return name();
     }
 }

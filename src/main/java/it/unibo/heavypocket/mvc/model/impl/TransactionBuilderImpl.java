@@ -68,12 +68,12 @@ public final class TransactionBuilderImpl implements TransactionBuilder {
     @Override
     public Transaction build() {
         final Transaction transaction = new TransactionImpl(
-                this.id,
-                this.amount,
-                this.date,
-                this.description,
-                this.type,
-                this.tag);
+                id,
+                amount,
+                date,
+                description,
+                type,
+                tag);
         return transaction;
     }
 }

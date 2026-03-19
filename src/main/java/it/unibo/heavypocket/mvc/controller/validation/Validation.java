@@ -47,6 +47,9 @@ public final class Validation {
      * @throws IllegalArgumentException if the format is invalid or the value is 0/negative.
      */
     public static BigDecimal validateAmount(final String amountString) {
+        if (amountString == null || amountString.isBlank()) {
+            throw new IllegalArgumentException(ERROR_FIELDS);
+        }
         final String amount = amountString.trim().replace(',', '.');
         final BigDecimal finalAmount;
         try {

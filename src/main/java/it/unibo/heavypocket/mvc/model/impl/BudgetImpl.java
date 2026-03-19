@@ -29,7 +29,7 @@ public final class BudgetImpl implements Budget {
 
     @Override
     public BigDecimal getLimit() {
-        return this.limit;
+        return limit;
     }
 
     /**
