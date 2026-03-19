@@ -1,6 +1,7 @@
 package it.unibo.heavypocket.mvc.model.impl;
 
 import java.math.BigDecimal;
+import static java.util.Objects.requireNonNull;
 
 import it.unibo.heavypocket.mvc.model.Budget;
 
@@ -10,6 +11,7 @@ import it.unibo.heavypocket.mvc.model.Budget;
 public final class BudgetImpl implements Budget {
 
     private static final String INVALID_LIMIT_ERROR_MESSAGE = "Limit must be positive and greater than zero";
+    private static final String NULL_LIMIT_ERROR_MESSAGE = "Limit cannot be null";
 
     private BigDecimal limit;
 
@@ -21,6 +23,7 @@ public final class BudgetImpl implements Budget {
      * @throws NullPointerException     if limit is null
      */
     public BudgetImpl(final BigDecimal limit) {
+        requireNonNull(limit, NULL_LIMIT_ERROR_MESSAGE);
         if (limit.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException(INVALID_LIMIT_ERROR_MESSAGE);
         }
@@ -41,6 +44,7 @@ public final class BudgetImpl implements Budget {
      */
     @Override
     public void setLimit(final BigDecimal newLimit) {
+        requireNonNull(newLimit, NULL_LIMIT_ERROR_MESSAGE);
         if (newLimit.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException(INVALID_LIMIT_ERROR_MESSAGE);
         }

@@ -49,18 +49,14 @@ public final class TransactionImpl implements Transaction {
             final TransactionType type,
             final Tag tag) {
         this.id = requireNonNull(id, ID_ERROR_MESSAGE);
-        if (amount == null) {
-            throw new IllegalArgumentException(NULL_AMOUNT_ERROR_MESSAGE);
-        }
+        this.amount = requireNonNull(amount, NULL_AMOUNT_ERROR_MESSAGE);
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException(NEGATIVE_AMOUNT_ERROR_MESSAGE);
         }
-        this.amount = amount;
-        requireNonNull(date, DATE_ERROR_MESSAGE);
+        this.date = requireNonNull(date, DATE_ERROR_MESSAGE);
         if (date.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException(FUTURE_DATE_ERROR_MESSAGE);
         }
-        this.date = date;
         if (description == null || description.isBlank()) {
             throw new IllegalArgumentException(DESCRIPTION_ERROR_MESSAGE);
         }
