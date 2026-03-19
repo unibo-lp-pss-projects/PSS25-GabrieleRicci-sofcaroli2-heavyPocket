@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.UncheckedIOException;
@@ -93,7 +94,7 @@ public final class Loader {
      */
     private Account loadHeavyPocket() {
         final Gson gson = new Gson();
-        try (InputStreamReader reader = new InputStreamReader(inputStream)) {
+        try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
             final AccountJsonData data = gson.fromJson(reader, AccountJsonData.class);
             if (data == null) {
                 throw new UncheckedIOException(ACCOUNT_DATA_ERROR, new IOException(ACCOUNT_DATA_ERROR));

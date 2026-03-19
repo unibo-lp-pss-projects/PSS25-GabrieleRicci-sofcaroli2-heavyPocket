@@ -3,6 +3,7 @@ package it.unibo.heavypocket.persistence.impl;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import it.unibo.heavypocket.persistence.Saver;
@@ -46,7 +47,7 @@ public final class SaverImpl implements Saver {
      * @throws IOException if writing to persistence fails
      */
     private void saveData(final AccountJsonData data) throws IOException {
-        try (FileWriter writer = new FileWriter(FILE_PATH)) {
+        try (FileWriter writer = new FileWriter(FILE_PATH, StandardCharsets.UTF_8)) {
             gson.toJson(data, writer);
         }
     }
