@@ -2,7 +2,7 @@ package it.unibo.heavypocket.mvc.controller.validation;
 
 import java.math.BigDecimal;
 
-import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
+import it.unibo.heavypocket.mvc.dto.TransactionDTO;
 
 /**
  * Utility class for Validation.
@@ -44,7 +44,8 @@ public final class Validation {
      * 
      * @param amountString the string to convert and validate.
      * @return the validated amount.
-     * @throws IllegalArgumentException if the format is invalid or the value is 0/negative.
+     * @throws IllegalArgumentException if the format is invalid or the value is
+     *                                  0/negative.
      */
     public static BigDecimal validateAmount(final String amountString) {
         if (amountString == null || amountString.isBlank()) {
@@ -55,7 +56,7 @@ public final class Validation {
         try {
             finalAmount = new BigDecimal(amount);
         } catch (final NumberFormatException e) {
-            throw new IllegalArgumentException(ERROR_AMOUNT_FORMAT);
+            throw new IllegalArgumentException(ERROR_AMOUNT_FORMAT, e);
         }
         if (finalAmount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException(ERROR_AMOUNT);

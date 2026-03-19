@@ -25,7 +25,7 @@ import it.unibo.heavypocket.mvc.view.panels.StatisticsBalancePanel;
 import it.unibo.heavypocket.mvc.view.panels.AddTransactionPanel;
 import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
 import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
-import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
+import it.unibo.heavypocket.mvc.dto.TransactionDTO;
 
 /**
  * Implementation of the AccountView interface.

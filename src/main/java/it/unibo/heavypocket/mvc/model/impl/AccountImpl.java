@@ -85,7 +85,7 @@ public final class AccountImpl implements Account {
     @Override
     public List<Transaction> searchByType(final TransactionType type) {
         return transactions.stream()
-                .filter(t -> type.matches(t))
+                .filter(type::matches)
                 .toList();
     }
 

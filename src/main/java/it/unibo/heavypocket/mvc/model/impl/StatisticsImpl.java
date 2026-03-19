@@ -16,23 +16,16 @@ import it.unibo.heavypocket.mvc.model.Tag;
  */
 public final class StatisticsImpl implements Statistics {
 
-    /**
-     * Constructor of the class StatisticsImpl.
-     */
-    public StatisticsImpl() {
-    }
-
     @Override
     public BigDecimal getAverage(final List<Transaction> transactions) {
         if (transactions.isEmpty()) {
             return BigDecimal.ZERO;
         }
         final BigDecimal transactionsCount = new BigDecimal(transactions.size());
-        final BigDecimal averageTransactions = transactions.stream()
+        return transactions.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .divide(transactionsCount, 2, RoundingMode.HALF_UP);
-        return averageTransactions;
     }
 
     @Override
@@ -40,12 +33,11 @@ public final class StatisticsImpl implements Statistics {
         if (transactions.isEmpty()) {
             return Map.of();
         }
-        final Map<Tag, BigDecimal> transactionsByTag = transactions.stream()
+        return transactions.stream()
                 .collect(Collectors.toMap(
                         Transaction::getTag,
                         Transaction::getAmount,
                         BigDecimal::add));
-        return transactionsByTag;
     }
 
     @Override

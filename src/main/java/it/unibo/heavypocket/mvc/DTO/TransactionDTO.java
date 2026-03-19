@@ -1,4 +1,4 @@
-package it.unibo.heavypocket.mvc.DTO;
+package it.unibo.heavypocket.mvc.dto;
 
 import java.time.LocalDate;
 
@@ -6,7 +6,7 @@ import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Tag;
 
 /**
- * record representing the DTO for a transaction.
+ * record representing the dto for a transaction.
  * 
  * @param type the type of the transaction
  * @param amount the amount of the transaction

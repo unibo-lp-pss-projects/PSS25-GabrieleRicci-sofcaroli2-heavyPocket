@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import it.unibo.heavypocket.mvc.controller.AccountController;
-import it.unibo.heavypocket.mvc.DTO.TransactionDTO;
+import it.unibo.heavypocket.mvc.dto.TransactionDTO;
 import it.unibo.heavypocket.mvc.model.Transaction;
 import it.unibo.heavypocket.mvc.model.Tag;
 

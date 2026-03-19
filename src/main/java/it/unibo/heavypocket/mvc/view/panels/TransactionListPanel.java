@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.Transaction;
-import it.unibo.heavypocket.mvc.DTO.FiltersDTO;
+import it.unibo.heavypocket.mvc.dto.FiltersDTO;
 
 /**
  * Interface representing the panel that shows the list of transactions, delete
@@ -29,7 +29,7 @@ public interface TransactionListPanel extends Panel {
     void setTagList(List<Tag> tags);
 
     /**
-     * Sets the listener for the search operation. It takes filters DTO as input.
+     * Sets the listener for the search operation. It takes filters dto as input.
      * 
      * @param searchListener the listener for the search operation.
      */
