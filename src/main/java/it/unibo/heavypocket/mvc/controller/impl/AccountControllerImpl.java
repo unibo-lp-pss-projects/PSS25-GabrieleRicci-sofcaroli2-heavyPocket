@@ -159,6 +159,7 @@ public final class AccountControllerImpl implements AccountController {
             model.getBudget().setLimit(newLimitValue);
             view.showBudgetElements(newLimitValue.toString(), calculateMonthlyExpenses().toString());
             isBudgetExceeded();
+            persistState();
         } catch (final IllegalArgumentException e) {
             view.showError(e.getMessage());
         }

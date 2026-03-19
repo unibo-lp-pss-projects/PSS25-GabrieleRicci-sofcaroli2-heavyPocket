@@ -16,7 +16,7 @@ import it.unibo.heavypocket.persistence.TransactionJsonData;
  */
 public final class SaverImpl implements Saver {
 
-    private static final String FILE_PATH = "src/main/resources/persistence/data.json";
+    private static final String FILE_PATH = System.getProperty("user.home") + "/heavypocket.json";
 
     private final Gson gson;
 
