@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 
 /**
- * The interface GraphsPanel that exteds Panel.
+ * The interface GraphsPanel.
  */
 public interface GraphsPanel extends Panel {
 

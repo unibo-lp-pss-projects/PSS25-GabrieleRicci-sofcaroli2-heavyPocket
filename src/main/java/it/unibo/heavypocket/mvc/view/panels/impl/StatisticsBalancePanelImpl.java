@@ -1,8 +1,6 @@
 package it.unibo.heavypocket.mvc.view.panels.impl;
 
 import java.time.LocalDate;
-import java.time.Month;
-
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Region;
@@ -21,12 +19,12 @@ public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel 
 
     private final VBox rootPanel = new VBox();
     private final Text balanceText = new Text();
-    private final Text averageText = new Text();
-
+    private final Text averageText = new Text("Your avereges of " + LocalDate.now().getMonth());
     private final Text yourBalance = new Text("Your balance:");
+    private final Text averagesValue = new Text();
 
     /**
-     * Constructor of the class StatisticsImpl.
+     * Constructor of the class StatisticsBalancePanelImpl.
      */
     public StatisticsBalancePanelImpl() {
         rootPanel.setSpacing(SPACING);
@@ -34,7 +32,8 @@ public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel 
         rootPanel.getChildren().addAll(
                 yourBalance,
                 balanceText,
-                averageText);
+                averageText,
+                averagesValue);
     }
 
     @Override
@@ -44,9 +43,7 @@ public final class StatisticsBalancePanelImpl implements StatisticsBalancePanel 
 
     @Override
     public void setAverageValue(final String averageExpense, final String averageIncome) {
-        final Month todayDate = LocalDate.now().getMonth();
-        averageText.setText(todayDate + " average income: " + averageIncome + "\n" + todayDate
-                + " average expense: " + averageExpense);
+        averagesValue.setText("Average of incomes: " + averageIncome + "\n" + "Average of expenses: " + averageExpense);
     }
 
     @Override

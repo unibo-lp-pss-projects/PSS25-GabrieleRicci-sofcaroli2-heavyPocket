@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import javafx.scene.chart.PieChart;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
 
 import it.unibo.heavypocket.mvc.view.panels.GraphsPanel;
 
@@ -20,8 +21,8 @@ public final class GraphsPanelImpl implements GraphsPanel {
     private final VBox vBox2 = new VBox();
     private final PieChart pieChartE = new PieChart();
     private final PieChart pieChartI = new PieChart();
-    private final Text textE = new Text("Piechart for EXPENSE");
-    private final Text textI = new Text("Piechart for INCOME");
+    private final Text textE = new Text();
+    private final Text textI = new Text();
 
     /**
      * Constructor of the class GraphsPanelImpl.
@@ -50,6 +51,20 @@ public final class GraphsPanelImpl implements GraphsPanel {
     @Override
     public void setPieChartData(final ObservableList<PieChart.Data> pieChartExpense,
             final ObservableList<PieChart.Data> pieChartIncome) {
+        if (pieChartExpense.isEmpty()) {
+            textE.setText("No data for EXPENSE");
+            textE.setFill(Color.GREY);
+        } else {
+            textE.setText("Piechart for EXPENSE");
+            textE.setFill(Color.BLACK);
+        }
+        if (pieChartIncome.isEmpty()) {
+            textI.setText("No data for INCOME");
+            textI.setFill(Color.GREY);
+        } else {
+            textI.setText("Piechart for INCOME");
+            textI.setFill(Color.BLACK);
+        }
         pieChartE.setData(pieChartExpense);
         pieChartI.setData(pieChartIncome);
     }

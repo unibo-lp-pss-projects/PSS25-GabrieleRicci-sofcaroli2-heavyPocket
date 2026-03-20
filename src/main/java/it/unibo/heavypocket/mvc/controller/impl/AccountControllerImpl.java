@@ -82,7 +82,6 @@ public final class AccountControllerImpl implements AccountController {
                 .filter(t -> filters.type() == null || model.searchByType(filters.type()).contains(t))
                 .filter(t -> filters.date() == null || model.searchByDate(filters.date()).contains(t))
                 .filter(t -> filters.tag() == null || model.searchByTag(filters.tag()).contains(t))
-                .sorted(Comparator.comparing(Transaction::getDate).reversed())
                 .toList();
         view.showTransactionList(filteredTransactions);
     }

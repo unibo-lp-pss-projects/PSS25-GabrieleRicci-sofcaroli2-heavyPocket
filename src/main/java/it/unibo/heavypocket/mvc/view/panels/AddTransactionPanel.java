@@ -10,7 +10,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 
 /**
  * Interface representing the panel for adding transactions. It's also used for
- * editing transactions by filling the fields with the data of * the transaction
+ * editing transactions by filling the fields with the data of the transaction
  * to edit.
  */
 public interface AddTransactionPanel extends Panel {

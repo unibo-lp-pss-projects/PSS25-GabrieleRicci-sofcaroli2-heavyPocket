@@ -11,12 +11,12 @@ import java.util.function.Consumer;
 import it.unibo.heavypocket.mvc.view.panels.BudgetPanel;
 
 /**
- * JavaFX implementation of BudgetPanel with budget display and update controls.
+ * Implementation of the BudgetPanel's interface.
  */
 public final class BudgetPanelImpl implements BudgetPanel {
 
     private static final int WIDTH = 110;
-
+    private final Label budgetTitle = new Label("Your budget: ");
     private final Label budgetInfo = new Label();
     private final Label budgetStatus = new Label();
     private final TextField newBudgetField = new TextField();
@@ -24,7 +24,7 @@ public final class BudgetPanelImpl implements BudgetPanel {
     private Consumer<String> updateLimitListener;
     private final HBox budgetRow = new HBox(8, budgetInfo, budgetStatus);
     private final HBox editRow = new HBox(8, newBudgetField, updateButton);
-    private final VBox rootPanel = new VBox(6, budgetRow, editRow);
+    private final VBox rootPanel = new VBox(6, budgetTitle, budgetRow, editRow);
 
     /**
      * Builds the panel UI and connects the update action handler.
@@ -32,6 +32,7 @@ public final class BudgetPanelImpl implements BudgetPanel {
     public BudgetPanelImpl() {
         budgetRow.setAlignment(Pos.CENTER);
         editRow.setAlignment(Pos.CENTER);
+        rootPanel.setAlignment(Pos.CENTER);
         newBudgetField.setPromptText("Enter new budget");
         newBudgetField.setPrefWidth(WIDTH);
         updateButton.setOnAction(e -> handleUpdateBudget());

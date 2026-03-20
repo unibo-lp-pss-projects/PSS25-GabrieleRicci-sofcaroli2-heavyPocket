@@ -6,7 +6,7 @@ import it.unibo.heavypocket.mvc.model.TransactionType;
 import it.unibo.heavypocket.mvc.model.Tag;
 
 /**
- * record representing the dto for a transaction.
+ * Record representing the dto for a transaction.
  * 
  * @param type the type of the transaction
  * @param amount the amount of the transaction

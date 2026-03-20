@@ -41,7 +41,7 @@ public interface Account {
     Statistics getStatistics();
 
     /**
-     * Returns the list of transactions associated with the account.
+     * Returns a transaction that matches the ID.
      * 
      * @param id the ID of the transaction to search for.
      * @return an optional containing the transaction with the given ID, or an empty Optional if no such transaction is found.

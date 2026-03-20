@@ -1,6 +1,7 @@
 package it.unibo.heavypocket.mvc.controller.validation;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import it.unibo.heavypocket.mvc.dto.TransactionDTO;
 
@@ -54,7 +55,7 @@ public final class Validation {
         final String amount = amountString.trim().replace(',', '.');
         final BigDecimal finalAmount;
         try {
-            finalAmount = new BigDecimal(amount);
+            finalAmount = new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP);
         } catch (final NumberFormatException e) {
             throw new IllegalArgumentException(ERROR_AMOUNT_FORMAT, e);
         }

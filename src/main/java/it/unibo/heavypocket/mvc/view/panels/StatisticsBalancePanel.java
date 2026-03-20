@@ -16,7 +16,7 @@ public interface StatisticsBalancePanel extends Panel {
     /**
      * Sets the balance.
      * 
-     * @param balance list of transactions to calculate the average.
+     * @param balance balance of the account.
      */
     void setBalance(String balance);
 }

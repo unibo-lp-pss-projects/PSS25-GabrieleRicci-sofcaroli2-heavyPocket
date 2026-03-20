@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -47,7 +49,7 @@ public final class AccountViewImpl implements AccountView {
      *                               total balance.
      * @param addTransactionPanel    panel to add transactions.
      * @param budgetPanel            panel for budget.
-     * @param graphsPanel            panel for piechart.
+     * @param graphsPanel            panel for piecharts.
      */
     public AccountViewImpl(
             final TransactionListPanel transactionListPanel,
@@ -82,7 +84,8 @@ public final class AccountViewImpl implements AccountView {
         addTransactionPanel.setOnEdit(controller::editTransaction);
         budgetPanel.setOnUpdateLimit(controller::updateBudgetLimit);
 
-        final Scene scene = new Scene(root, 800, 600);
+        final Rectangle2D screen = Screen.getPrimary().getVisualBounds();
+        final Scene scene = new Scene(root, 800, screen.getHeight() * 0.9);
         primaryStage.setTitle("HeavyPocket");
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -31,6 +31,7 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
     private static final int SPACING = 10;
 
     private final VBox rootPanel = new VBox();
+    private final Label addTransactionTitle = new Label("Manage your transactions:");
     private final Label typeLabel = new Label("Type:");
     private final ChoiceBox<TransactionType> typeField = new ChoiceBox<>();
     private final TextField amountField = new TextField();
@@ -153,6 +154,6 @@ public final class AddTransactionPanelImpl implements AddTransactionPanel {
         descriptionRow.setAlignment(Pos.CENTER);
         final HBox buttonRow = new HBox(SPACING, addButton, resetButton);
         buttonRow.setAlignment(Pos.CENTER);
-        rootPanel.getChildren().addAll(typeAmountRow, dateTagRow, descriptionRow, buttonRow);
+        rootPanel.getChildren().addAll(addTransactionTitle, typeAmountRow, dateTagRow, descriptionRow, buttonRow);
     }
 }

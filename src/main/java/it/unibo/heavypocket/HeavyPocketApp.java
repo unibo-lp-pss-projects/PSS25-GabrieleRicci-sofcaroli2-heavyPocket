@@ -31,9 +31,9 @@ public final class HeavyPocketApp {
     }
 
     /**
-     * Main method of the application. It launches the JavaFX application.
+     * Main method of the application.
      * 
-     * @param args the command line arguments
+     * @param args the command line arguments.
      */
     public static void main(final String... args) {
         Application.launch(HeavyPocketFxApp.class, args);

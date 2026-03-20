@@ -46,8 +46,8 @@ public final class Loader {
     /**
      * Creates a loader reading from the provided stream.
      * 
-     * @param inputStream source stream containing account JSON data
-     * @throws NullPointerException if inputStream is null
+     * @param inputStream source stream containing account JSON data.
+     * @throws NullPointerException if inputStream is null.
      */
     public Loader(final InputStream inputStream) {
         this.inputStream = Objects.requireNonNull(inputStream, INPUT_STREAM_ERROR);
@@ -57,10 +57,10 @@ public final class Loader {
      * Loads account data from the default persistence path.
      * If no file is found, it creates and persists a default account.
      * 
-     * @param saver the saver used to persist the default account if needed
-     * @return the loaded account instance
+     * @param saver the saver used to persist the default account if needed.
+     * @return the loaded account instance.
      * @throws RuntimeException if default account initialization cannot be
-     *                          persisted
+     *                          persisted.
      */
     public static Account loadData(final Saver saver) {
         final Path filePath = Path.of(DATA_PATH);
@@ -89,8 +89,8 @@ public final class Loader {
     /**
      * Deserializes account data from this loader input stream.
      * 
-     * @return the reconstructed account
-     * @throws UncheckedIOException if the stream cannot be read
+     * @return the reconstructed account.
+     * @throws UncheckedIOException if the stream cannot be read.
      */
     private Account loadHeavyPocket() {
         final Gson gson = new Gson();

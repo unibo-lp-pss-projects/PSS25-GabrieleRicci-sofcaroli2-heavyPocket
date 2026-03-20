@@ -39,9 +39,9 @@ public interface AccountView {
     void showTransactionList(List<Transaction> transactions);
 
     /**
-     * Allows to search on transactions by type, date and tag.
+     * Show list of tags.
      * 
-     * @param tags search criteria
+     * @param tags to show.
      */
     void showTagList(List<Tag> tags);
 
@@ -53,10 +53,10 @@ public interface AccountView {
     void showBalance(String balance);
 
     /**
-     * Opens the edit mode for a specific transaction in the input panel.
+     * Opens the edit mode for a specific transaction in the add panel.
      * 
-     * @param id             reference of transaction to delete.
-     * @param transactionDTO the new data.
+     * @param id             reference of transaction to edit.
+     * @param transactionDTO the transaction to edit.
      */
     void showEditTransaction(UUID id, TransactionDTO transactionDTO);
 
@@ -78,8 +78,8 @@ public interface AccountView {
     /**
      * Converts map into JavaFX PieChart data and updates the graph panel.
      * 
-     * @param pieChartExpense search criteria
-     * @param pieChartIncome  search criteria
+     * @param pieChartExpense map of data for expenses.
+     * @param pieChartIncome map of data for incomes.
      */
     void showPieChartData(Map<Tag, BigDecimal> pieChartExpense, Map<Tag, BigDecimal> pieChartIncome);
 

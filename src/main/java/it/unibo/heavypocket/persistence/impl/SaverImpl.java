@@ -31,8 +31,8 @@ public final class SaverImpl implements Saver {
     /**
      * Saves the account by converting it into a serializable payload.
      * 
-     * @param account the account to persist
-     * @throws IOException if writing to persistence fails
+     * @param account the account to persist.
+     * @throws IOException if writing to persistence fails.
      */
     @Override
     public void saveAccount(final Account account) throws IOException {
@@ -43,8 +43,8 @@ public final class SaverImpl implements Saver {
     /**
      * Writes the provided payload to the persistence file.
      * 
-     * @param data serialized account payload
-     * @throws IOException if writing to persistence fails
+     * @param data serialized account payload.
+     * @throws IOException if writing to persistence fails.
      */
     private void saveData(final AccountJsonData data) throws IOException {
         try (FileWriter writer = new FileWriter(FILE_PATH, StandardCharsets.UTF_8)) {

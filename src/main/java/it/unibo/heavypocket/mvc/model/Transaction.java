@@ -28,9 +28,9 @@ public interface Transaction {
     BigDecimal getAmount();
 
     /**
-     * Returns the date of the transaction.
+     * Returns the signed amount of the transaction.
      * 
-     * @return the date of the transaction.
+     * @return the signed amount of the transaction.
      */
     BigDecimal getSignedAmount();
 

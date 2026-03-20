@@ -6,7 +6,7 @@ import it.unibo.heavypocket.mvc.model.Tag;
 import it.unibo.heavypocket.mvc.model.TransactionType;
 
 /**
- * record representing the dto for the filters of the transactions.
+ * Record representing the dto for the filters of the transactions.
  * 
  * @param type the type of the transaction
  * @param date the date of the transaction
