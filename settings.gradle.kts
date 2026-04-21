@@ -1,4 +1,4 @@
-rootProject.name = "heavyPocket"
+rootProject.name = "pss-25-sofcaroli2/heavyPocket"
 plugins {
     id("com.gradle.develocity") version "4.3.2"
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
